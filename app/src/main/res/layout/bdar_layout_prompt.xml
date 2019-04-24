@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <com.aier.ardemo.view.PointsView
+            android:id="@+id/bdar_gui_point_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+    <!-- 返回按钮 -->
+    <ImageView
+            android:id="@+id/bdar_titlebar_back"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_margin="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/bdar_drawable_btn_back_selector"/>
+
+
+    <!-- 闪光灯开关 -->
+    <ImageView
+            android:id="@+id/bdar_titlebar_flash"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/bdar_drawable_btn_flash_disable_selector"/>
+
+
+    <RelativeLayout
+            android:id="@+id/bdar_id_plugin_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/bdar_titlebar_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/bdar_titlebar_flash"
+            android:layout_marginRight="15dp"
+            android:textColor="@android:color/holo_blue_bright"/>
+    <!-- 加载提示界面 -->
+
+    <com.aier.ardemo.view.LoadingView
+            android:id="@+id/lv_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+</RelativeLayout>

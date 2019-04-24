@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/view_black"
+    android:orientation="vertical">
+    <com.aier.ardemo.weight.banner.BannerView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bvAspectRatio="0.533333"
+        app:bvBarColor="#80000000"
+        app:bvBarPaddingBottom="@dimen/dp05"
+        app:bvBarPaddingLeft="@dimen/dp15"
+        app:bvBarPaddingTop="@dimen/dp05"
+        app:bvIndicatorColorSelected="@color/colorAccent"
+        app:bvIndicatorGravity="right"
+        app:bvIndicatorVisible="2"
+        app:bvIsLoop="true"
+        app:bvTitleSize="@dimen/sp16"
+        app:bvTitleVisible="true">
+
+    </com.aier.ardemo.weight.banner.BannerView>
+</LinearLayout>
