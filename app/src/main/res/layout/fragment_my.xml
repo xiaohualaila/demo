@@ -14,18 +14,20 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="30dp"/>
     <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/my_photo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/text_"
         android:text="梦的秋千"/>
     <LinearLayout
         android:id="@+id/ll_moddle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,14 +35,16 @@
         android:orientation="vertical"
         >
         <RelativeLayout
+            android:id="@+id/rl_order"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/dp60"
             android:background="@color/white"
             android:gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:textColor="@color/text_"
                 android:text="我的订单"/>
 
             <ImageView
@@ -51,8 +55,9 @@
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_address"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/dp60"
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:gravity="center_vertical">
@@ -60,7 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="关于我们"/>
+                android:textColor="@color/text_"
+                android:text="收获地址"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -70,8 +76,9 @@
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/rl_vr"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/dp60"
             android:background="@color/white"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical">
@@ -79,7 +86,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="清除缓存"/>
+                android:textColor="@color/text_"
+                android:text="VR全景"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -88,19 +96,42 @@
                 android:padding="10dp"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_account"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp60"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="我的账户"
+                android:textColor="@color/text_" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="10dp"
+                android:src="@drawable/right" />
+        </RelativeLayout>
     </LinearLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ll_moddle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginLeft="@dimen/dp40"
-        android:layout_marginRight="@dimen/dp40"
-        android:textColor="@color/white"
-        android:background="#C80001"
-        android:text="退出登录"/>
+    <!--<Button-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/ll_moddle"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--android:layout_marginLeft="@dimen/dp40"-->
+        <!--android:layout_marginRight="@dimen/dp40"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:background="#C80001"-->
+        <!--android:text="退出登录"/>-->
 
 </android.support.constraint.ConstraintLayout>

@@ -15,7 +15,7 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
     private ImageView home,my;
     private int before_state = 1;
     private BottomCallBack bottomCallBack;
-
+    private LinearLayout ll_home,ll_my;
     public void setBottomCallBack(BottomCallBack bottomCallBack) {
         this.bottomCallBack = bottomCallBack;
     }
@@ -27,39 +27,37 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
     public BottomView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
       View view = LayoutInflater.from(context).inflate(R.layout.bottom_view, this);
+
+        ll_home = view.findViewById(R.id.ll_home);
+        ll_my = view.findViewById(R.id.ll_my);
         home = view.findViewById(R.id.iv_home);
         my = view.findViewById(R.id.iv_my);
-        home.setOnClickListener(this);
-        my.setOnClickListener(this);
-
-
+        ll_home.setOnClickListener(this);
+        ll_my.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.iv_home:
+            case R.id.ll_home:
                 setBottomViewState(1);
                 break;
-            case R.id.iv_my:
+            case R.id.ll_my:
                 setBottomViewState(2);
                 break;
-
-
         }
     }
 
     private void setBottomViewState(int mAccount) {
-//        hideBottomLayout();
         if (before_state != mAccount) {
             if (mAccount == 1) {
+                home.setImageResource(R.drawable.home_);
+                my.setImageResource(R.drawable.my);
                 bottomCallBack.setCallBack(1);
             } else if (mAccount == 2) {
                 bottomCallBack.setCallBack(2);
-            } else if (mAccount == 3) {
-                bottomCallBack.setCallBack(3);
-            } else if (mAccount == 4) {
-                bottomCallBack.setCallBack(4);
+                home.setImageResource(R.drawable.home);
+                my.setImageResource(R.drawable.my_);
             }
 
             before_state = mAccount;

@@ -97,12 +97,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
                 switchContent(myFragment);
                 tv_title.setText("我的");
                 break;
-            case 3:
-
-                break;
-            case 4:
-
-                break;
         }
     }
 

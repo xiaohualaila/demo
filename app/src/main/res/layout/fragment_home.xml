@@ -13,6 +13,7 @@
         android:layout_margin="@dimen/dp10"
         android:layout_gravity="center_vertical"
         android:textSize="@dimen/sp18"
+        android:textColor="@color/text_"
         android:text="产品详情"/>
     <RelativeLayout
         android:layout_width="match_parent"

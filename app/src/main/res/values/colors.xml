@@ -13,4 +13,5 @@
     <color name="view_black">#f9f9f9</color>
     <color name="content_bg">#6F000000</color>
     <color name="my_bg">#ffecedee</color>
+    <color name="text_">#161616</color>
 </resources>
