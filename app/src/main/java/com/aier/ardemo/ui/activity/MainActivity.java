@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
+import com.aier.ardemo.bean.GloData;
+import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.fragment.HomeFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
+import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,6 +51,16 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         DuMixARConfig.setAppId("16021623"); // 设置App Id
         DuMixARConfig.setAPIKey("ZI0SDxDIWvtMnHvs2scKXC2x"); // 设置API Key
         DuMixARConfig.setSecretKey("ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk");    // 设置Secret Key
+        String userData = SharedPreferencesUtil.getString(this, "usersData", "usersData", "");
+        if (!TextUtils.isEmpty(userData)) {
+            Gson gson = new Gson();
+            Person userDatas = gson.fromJson(userData, Person.class);
+            GloData.setPersons(userDatas);
+        }else {
+            Person person =new Person();
+            person.setUsername("");
+            GloData.setPersons(person);
+        }
     }
 
     @Override
