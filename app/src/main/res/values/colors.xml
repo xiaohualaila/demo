@@ -14,4 +14,5 @@
     <color name="content_bg">#6F000000</color>
     <color name="my_bg">#ffecedee</color>
     <color name="text_">#161616</color>
+    <color name="yellow_line">#FEB851</color>
 </resources>

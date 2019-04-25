@@ -2,14 +2,21 @@ package com.aier.ardemo.ui.activity;
 
 import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
-
+import android.view.View;
+import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public class OrderActivity extends BaseActivity {
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
+
     @Override
     protected void initViews() {
-
+        tv_title.setText("我的订单");
     }
 
     @Override
@@ -25,5 +32,16 @@ public class OrderActivity extends BaseActivity {
     @Override
     protected ViewModel initViewModel() {
         return null;
+    }
+
+
+    @OnClick({R.id.iv_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+              finish();
+                break;
+        }
+
     }
 }

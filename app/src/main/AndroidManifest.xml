@@ -35,6 +35,10 @@
             android:screenOrientation="portrait">
 
         </activity>
+        <activity android:name=".ui.activity.OrderActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
                 android:name=".ui.activity.ARActivity"
                 android:resizeableActivity="false"
