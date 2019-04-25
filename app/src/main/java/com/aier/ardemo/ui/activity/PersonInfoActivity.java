@@ -154,7 +154,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
                         /**
                          * 上传服务器代码
                          */
-                        ImagesUtil.toRoundBitmap(head);
+                       // ImagesUtil.toRoundBitmap(head);
                         setPicToView(head);// 保存在SD卡中
                         my_photo.setImageBitmap(head);// 用ImageView显示出来
                     }

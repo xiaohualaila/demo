@@ -39,6 +39,7 @@
         app:layout_constraintTop_toTopOf="@+id/et_name"
         app:layout_constraintStart_toEndOf="@+id/et_name"
         android:layout_marginLeft="10dp"
+        android:src="@drawable/correct"
         android:layout_width="28dp"
         android:layout_height="28dp" />
     <ImageView
@@ -46,6 +47,7 @@
         app:layout_constraintTop_toTopOf="@+id/et_name"
         app:layout_constraintStart_toEndOf="@+id/ok_name"
         android:layout_marginLeft="10dp"
+        android:src="@drawable/delete"
         android:layout_width="28dp"
         android:layout_height="28dp" />
 </android.support.constraint.ConstraintLayout>

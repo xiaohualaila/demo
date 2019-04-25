@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import com.aier.ardemo.ui.activity.AddressActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
@@ -54,7 +56,7 @@ public class MyFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), OrderInfoActivity.class));
                 break;
             case R.id.rl_address:
-
+                startActivity(new Intent(getActivity(), AddressActivity.class));
                 break;
             case R.id.rl_vr:
 

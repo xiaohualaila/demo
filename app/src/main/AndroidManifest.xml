@@ -34,17 +34,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.OrderInfoActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.OrderActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.PersonInfoActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.AddressActivity"
+            android:screenOrientation="portrait"/>
         <activity
                 android:name=".ui.activity.ARActivity"
                 android:resizeableActivity="false"
