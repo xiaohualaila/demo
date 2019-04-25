@@ -18,6 +18,8 @@ public interface PromptCallback {
      */
 //    void onSwitchCamera();
 
+
+    void onSwitchModel();
     /**
      * 退出ar
      */

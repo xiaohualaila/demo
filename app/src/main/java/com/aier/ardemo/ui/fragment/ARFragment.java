@@ -343,10 +343,6 @@ public class ARFragment extends Fragment {
                 if (TextUtils.isEmpty(mArFile)) {
                     mDuMixSource.setArKey(mArKey);
                     mDuMixSource.setArType(mArTpye);
-                } else {
-                    // TODO: 2018/6/13 本地case路径加载
-                    mDuMixSource.setArType(mArTpye);
-                    mDuMixSource.setResFilePath(mArFile);
                 }
                 mPromptUi.setDuMixSource(mDuMixSource);
 
@@ -413,6 +409,15 @@ public class ARFragment extends Fragment {
      * prompt ui callback
      */
     PromptCallback promptCallback = new PromptCallback() {
+
+        @Override
+        public void onSwitchModel() {
+
+//            mArKey = "10301534";
+//            mArTpye = 5;
+//            showArView();
+
+        }
 
         @Override
         public void onBackPressed() {

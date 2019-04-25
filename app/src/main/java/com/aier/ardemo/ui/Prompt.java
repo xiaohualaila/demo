@@ -528,6 +528,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         }else {
             ll.setVisibility(GONE);
             ll_2.setVisibility(VISIBLE);
+            mPromptCallback.onSwitchModel();
         }
     }
 
