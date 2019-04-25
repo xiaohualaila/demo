@@ -29,12 +29,14 @@ import com.baidu.ar.util.Res;
 import com.baidu.ar.util.UiThreadUtil;
 
 import android.content.Context;
+import android.support.design.widget.TabLayout;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,24 +46,16 @@ import android.widget.Toast;
  * Created by xiegaoxi on 2018/5/10.
  */
 
-public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback {
+public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback,TabLayout.OnTabSelectedListener {
 
     public static final String TAG = "PromptView";
     /**
      * 返回按钮
      */
     private ImageView mIconBack;
-
-    /**
-     * 闪光灯按钮
-     */
-    private ImageView mIconFlash;
-
-    /**
-     * 闪光灯是否处于关闭模式
-     */
-    private boolean mIsFlashOff = true;
-
+    private TabLayout tab_view;
+    private LinearLayout ll;
+    private LinearLayout ll_2;
     /**
      * Du Mix 状态回调
      */
@@ -157,21 +151,20 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         // button
         mIconBack = findViewById(R.id.bdar_titlebar_back);
         mIconBack.setOnClickListener(this);
-        mIconFlash = findViewById(R.id.bdar_titlebar_flash);
-        mIconFlash.setOnClickListener(this);
         mDumixCallbackTips = findViewById(R.id.bdar_titlebar_tips);
-
-
         mPointsView = findViewById(R.id.bdar_gui_point_view);
-
         mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
-
+        tab_view = findViewById(R.id.tab_view);
+        ll = findViewById(R.id.ll);
+        ll_2 = findViewById(R.id.ll_2);
         mDuMixCallback = this;
 
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
         mModule.setPluginContainer(mPluginContainer);
-
+        tab_view.addTab(tab_view.newTab().setText("款式"));
+        tab_view.addTab(tab_view.newTab().setText("材料"));
+        tab_view.addOnTabSelectedListener(this);
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -188,19 +181,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         if (viewId == R.id.bdar_titlebar_back) {
             if (mPromptCallback != null) {
                 mPromptCallback.onBackPressed();
-            }
-        }
-        else if (viewId == R.id.bdar_titlebar_flash) {
-            if (mPromptCallback != null) {
-                mPromptCallback.onCameraFlashStatus(mIsFlashOff);
-            }
-            mIsFlashOff = !mIsFlashOff;
-            if (mIsFlashOff) {
-                mIconFlash.setImageDrawable(getResources().getDrawable(R.drawable
-                        .bdar_drawable_btn_flash_disable_selector));
-            } else {
-                mIconFlash.setImageDrawable(getResources().getDrawable(R.drawable
-                        .bdar_drawable_btn_flash_enable_selector));
             }
         }
     }
@@ -536,6 +516,29 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     public void setDuMixSource(DuMixSource duMixSource) {
         mDuMixSource = duMixSource;
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        int positon = tab.getPosition();
+        Log.i("sss","sss"+positon);
+        if(positon==0){
+            ll.setVisibility(VISIBLE);
+            ll_2.setVisibility(GONE);
+        }else {
+            ll.setVisibility(GONE);
+            ll_2.setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 }
 

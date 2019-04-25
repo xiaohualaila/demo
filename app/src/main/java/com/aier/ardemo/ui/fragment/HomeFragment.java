@@ -30,17 +30,17 @@ public class HomeFragment extends BaseFragment {
         list.clear();
         BannerItems item1 = new BannerItems();
         item1.setId("1");
-        item1.setImage_mip(R.drawable.banner_yuyue_1);
+        item1.setImage_mip(R.drawable.ban1);
         item1.setTitle("第一张展示图片");
         list.add(item1);
         BannerItems item2 = new BannerItems();
         item2.setId("2");
-        item2.setImage_mip(R.drawable.banner_yuyue_2);
+        item2.setImage_mip(R.drawable.ban2);
         item2.setTitle("第二张展示图片");
         list.add(item2);
         BannerItems item3 = new BannerItems();
         item3.setId("3");
-        item3.setImage_mip(R.drawable.banner_yuyue_3);
+        item3.setImage_mip(R.drawable.ban3);
         item3.setTitle("第三张展示图片");
         list.add(item3);
 

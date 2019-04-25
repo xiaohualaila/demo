@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.aier.ardemo.view.PointsView
             android:id="@+id/bdar_gui_point_view"
@@ -15,19 +16,8 @@
             android:layout_height="22dp"
             android:layout_margin="15dp"
             android:scaleType="centerInside"
-            android:src="@drawable/bdar_drawable_btn_back_selector"/>
-
-
-    <!-- 闪光灯开关 -->
-    <ImageView
-            android:id="@+id/bdar_titlebar_flash"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
             android:layout_alignParentRight="true"
-            android:layout_margin="15dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/bdar_drawable_btn_flash_disable_selector"/>
-
+            android:src="@drawable/bdar_drawable_btn_back_selector"/>
 
     <RelativeLayout
             android:id="@+id/bdar_id_plugin_container"
@@ -43,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/bdar_titlebar_flash"
+            android:layout_below="@+id/bdar_titlebar_back"
             android:layout_marginRight="15dp"
             android:textColor="@android:color/holo_blue_bright"/>
     <!-- 加载提示界面 -->
@@ -53,4 +43,95 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/add"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:text="产品"/>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/ll"
+        android:background="@color/content_bg"
+        app:tabIndicatorHeight="0dp"
+        android:layout_marginBottom="40dp"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/text_bg"
+        />
+       <LinearLayout
+           android:id="@+id/ll"
+           android:layout_width="match_parent"
+           android:layout_height="40dp"
+           android:layout_alignParentBottom="true"
+           android:background="@color/content_bg"
+           android:visibility="gone"
+           android:orientation="horizontal">
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:textColor=" @color/text_bg"
+               android:gravity="center"
+               android:text="儿童款"/>
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:textColor=" @color/text_bg"
+               android:gravity="center"
+               android:text="中年款"/>
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:textColor=" @color/text_bg"
+               android:gravity="center"
+               android:text="青年款"/>
+           <TextView
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:textColor=" @color/text_bg"
+               android:gravity="center"
+               android:text="老年款"/>
+       </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/content_bg"
+
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor=" @color/text_bg"
+            android:text="黑胡桃"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor=" @color/text_bg"
+            android:text="白腊"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor=" @color/text_bg"
+            android:text="红橡"/>
+    </LinearLayout>
 </RelativeLayout>

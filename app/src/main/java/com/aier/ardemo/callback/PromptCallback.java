@@ -11,7 +11,7 @@ public interface PromptCallback {
      *
      * @param open
      */
-    void onCameraFlashStatus(boolean open);
+   // void onCameraFlashStatus(boolean open);
 
     /**
      * 摄像头前后切换

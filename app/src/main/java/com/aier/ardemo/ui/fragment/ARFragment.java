@@ -413,14 +413,6 @@ public class ARFragment extends Fragment {
      * prompt ui callback
      */
     PromptCallback promptCallback = new PromptCallback() {
-        @Override
-        public void onCameraFlashStatus(boolean open) {
-            if (open) {
-                mARCameraManager.openFlash(null);
-            } else {
-                mARCameraManager.closeFlash(null);
-            }
-        }
 
         @Override
         public void onBackPressed() {
