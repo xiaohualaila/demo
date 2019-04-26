@@ -5,25 +5,31 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
-
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.aier.ardemo.bean.GloData;
+import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.activity.AddressActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.R;
-import com.aier.ardemo.weight.RoundImageView;
+import com.aier.ardemo.utils.AdjustBitmap;
+import com.aier.ardemo.utils.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.my_photo)
-    RoundImageView my_photo;
-    private static String path = "/sdcard/myHead/";// sd路径
+    ImageView my_photo;
+    @BindView(R.id.tv_name)
+    TextView tv_name;
 
+    private static String path = "/sdcard/myHead/";// sd路径
+    Person person;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_my;
@@ -37,9 +43,8 @@ public class MyFragment extends BaseFragment {
     private void showHeadPic() {
         Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");// 从SD卡中找头像，转换成Bitmap
         if (bt != null) {
-            @SuppressWarnings("deprecation")
-            Drawable drawable = new BitmapDrawable(bt);// 转换成drawable
-            my_photo.setImageDrawable(drawable);
+            Bitmap pic = AdjustBitmap.getCircleBitmap(bt);
+            my_photo.setImageBitmap(pic);
         }
     }
 
@@ -47,6 +52,12 @@ public class MyFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         showHeadPic();
+        person = GloData.getPerson();
+        if(TextUtils.isEmpty(person.getUsername())){
+            tv_name.setText("");
+        }else {
+            tv_name.setText(person.getUsername());
+        }
     }
 
     @OnClick({R.id.rl_order,R.id.rl_address,R.id.rl_vr,R.id.rl_account})

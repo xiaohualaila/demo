@@ -6,7 +6,7 @@
     android:background="@color/my_bg"
     android:orientation="vertical">
     <include layout="@layout/title_layout"/>
-    <com.aier.ardemo.weight.RoundImageView
+    <ImageView
         android:id="@+id/my_photo"
         android:layout_width="@dimen/dp90"
         android:layout_height="@dimen/dp90"

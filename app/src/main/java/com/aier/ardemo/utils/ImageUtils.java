@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.aier.ardemo.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
@@ -82,8 +83,12 @@ public class ImageUtils {
                 .error(R.drawable.iv_my_photo)//设置错误图片
                 .transform(new GlideCircleTransform(context))
                 .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)//关闭Glide的硬盘缓存机制
                 .into(imageView);
     }
+
+
+
 
     /**
      * 圆形加载

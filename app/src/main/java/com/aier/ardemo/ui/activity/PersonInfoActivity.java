@@ -5,7 +5,9 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -21,7 +23,8 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.utils.ImagesUtil;
+import com.aier.ardemo.utils.AdjustBitmap;
+import com.aier.ardemo.utils.ImageUtils;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.RoundImageView;
 import com.google.gson.Gson;
@@ -40,7 +43,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.et_name)
     EditText et_name;
     @BindView(R.id.my_photo)
-    RoundImageView my_photo;
+    ImageView my_photo;
     Person person;
 
     private Bitmap head;// 头像Bitmap
@@ -50,16 +53,13 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
     protected void initViews() {
         tv_title.setText("个人信息");
         my_photo.setOnClickListener(this);
+
         Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");// 从SD卡中找头像，转换成Bitmap
         if (bt != null) {
-            @SuppressWarnings("deprecation")
-            Drawable drawable = new BitmapDrawable(bt);// 转换成drawable
-            my_photo.setImageDrawable(drawable);
+            Bitmap pic = AdjustBitmap.getCircleBitmap(bt);
+            my_photo.setImageBitmap(pic);
         } else {
-            /**
-             * 如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
-             *
-             */
+            // TODO: 2019/4/26  如果SD里面没有则需要从服务器取头像，取回来的头像再保存在SD中
         }
     }
 
@@ -151,12 +151,12 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
                     Bundle extras = data.getExtras();
                     head = extras.getParcelable("data");
                     if (head != null) {
-                        /**
-                         * 上传服务器代码
-                         */
-                       // ImagesUtil.toRoundBitmap(head);
+                        // TODO: 2019/4/26  上传服务器代码
+
                         setPicToView(head);// 保存在SD卡中
-                        my_photo.setImageBitmap(head);// 用ImageView显示出来
+                        Bitmap pic = AdjustBitmap.getCircleBitmap(head);
+                        my_photo.setImageBitmap(pic);// 用ImageView显示出来
+
                     }
                 }
                 break;

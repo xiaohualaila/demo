@@ -424,7 +424,12 @@ public class ARFragment extends Fragment {
 
         @Override
         public void onSwitchModel() {
-            arActivity.replaceARFragment();
+            /**
+             * 此处可以切换模型
+             */
+            if (mARController != null) {
+                mARController.switchCase("10301534", 5);//切换模型
+            }
         }
 
         @Override

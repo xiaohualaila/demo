@@ -32,20 +32,6 @@ public class ARActivity extends FragmentActivity {
         }
     }
 
-    public void  replaceARFragment(){
-        Bundle bundle = new Bundle();
-        bundle.putString("ar_key", "10301534");
-        bundle.putInt("ar_type", 5);
-        bundle.putString("ar_path", "");
-        mARFragment = new ARFragment();
-        mARFragment.setArguments(bundle);
-        FragmentManager  fragmentManager = getSupportFragmentManager();
-        FragmentTransaction  fragmentTransaction = fragmentManager.beginTransaction();
-        // 将trackArFragment设置到布局上
-        fragmentTransaction.replace(R.id.bdar_id_fragment_container, mARFragment);
-        fragmentTransaction.commitAllowingStateLoss();
-
-    }
 
     @Override
     public void onBackPressed() {
