@@ -14,7 +14,6 @@ import com.aier.ardemo.R;
 public class ARActivity extends FragmentActivity {
 
     private ARFragment mARFragment;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +21,8 @@ public class ARActivity extends FragmentActivity {
         setContentView(R.layout.activity_ar);
 
         if (findViewById(R.id.bdar_id_fragment_container) != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentManager  fragmentManager = getSupportFragmentManager();
+            FragmentTransaction  fragmentTransaction = fragmentManager.beginTransaction();
 
             mARFragment = new ARFragment();
             mARFragment.setArguments(getIntent().getExtras());
@@ -31,6 +30,21 @@ public class ARActivity extends FragmentActivity {
             fragmentTransaction.replace(R.id.bdar_id_fragment_container, mARFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }
+    }
+
+    public void  replaceARFragment(){
+        Bundle bundle = new Bundle();
+        bundle.putString("ar_key", "10301534");
+        bundle.putInt("ar_type", 5);
+        bundle.putString("ar_path", "");
+        mARFragment = new ARFragment();
+        mARFragment.setArguments(bundle);
+        FragmentManager  fragmentManager = getSupportFragmentManager();
+        FragmentTransaction  fragmentTransaction = fragmentManager.beginTransaction();
+        // 将trackArFragment设置到布局上
+        fragmentTransaction.replace(R.id.bdar_id_fragment_container, mARFragment);
+        fragmentTransaction.commitAllowingStateLoss();
+
     }
 
     @Override

@@ -30,13 +30,12 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     @BindView(R.id.tv_title)
     TextView tv_title;
 
-//    @BindView(R.id.rl_submit)
-//    RelativeLayout rl_submit;
+
     private Fragment mCurrentFrag;
     private FragmentManager fm;
     private Fragment homeFragment;
     private Fragment myFragment;
-    private boolean flag = true;
+
     @Override
     protected void initViews() {
         fm = getSupportFragmentManager();
@@ -80,13 +79,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         switch (view.getId()) {
             case R.id.fab:
 
-//                if(flag){
-//                    flag = false;
-//                    rl_submit.setVisibility(View.VISIBLE);
-//                }else {
-//                    flag = true;
-//                    rl_submit.setVisibility(View.GONE);
-//                }
                 Intent intent = new Intent(this, ARActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("ar_key", "10301636");

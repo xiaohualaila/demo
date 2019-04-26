@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.aier.ardemo.ui.activity.ARActivity;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
@@ -122,6 +123,13 @@ public class ARFragment extends Fragment {
     private String mArKey;
     private int mArTpye;
     private String mArFile;
+    private ARActivity arActivity;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        arActivity = (ARActivity) context;
+    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -336,6 +344,18 @@ public class ARFragment extends Fragment {
             }
         });
 
+        setARRead();
+//        if (mArTpye == 6 || mArTpye == 7) {
+//            mCornerPointController = new CornerPointController();
+//            if (mCornerPointController != null) {
+//                mImgRecognitionClient = mCornerPointController.getImgRecognitionClient();
+//                mPromptUi.initPreviewScreenScale(mCameraPriWidth, mCameraPriHeight);
+//                mPromptUi.setPointViewVisible(true);
+//            }
+//        }
+    }
+
+    private void setARRead() {
         mARRenderer.setARRenderCallback(new ARRenderCallback() {
             @Override
             public void onCameraDrawerCreated(SurfaceTexture surfaceTexture, int width, int height) {
@@ -379,14 +399,6 @@ public class ARFragment extends Fragment {
                 }
             }
         });
-        if (mArTpye == 6 || mArTpye == 7) {
-            mCornerPointController = new CornerPointController();
-            if (mCornerPointController != null) {
-                mImgRecognitionClient = mCornerPointController.getImgRecognitionClient();
-                mPromptUi.initPreviewScreenScale(mCameraPriWidth, mCameraPriHeight);
-                mPromptUi.setPointViewVisible(true);
-            }
-        }
     }
 
     /**
@@ -412,11 +424,7 @@ public class ARFragment extends Fragment {
 
         @Override
         public void onSwitchModel() {
-
-//            mArKey = "10301534";
-//            mArTpye = 5;
-//            showArView();
-
+            arActivity.replaceARFragment();
         }
 
         @Override
