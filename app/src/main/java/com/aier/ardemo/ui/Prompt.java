@@ -13,6 +13,7 @@ import com.aier.ardemo.module.Module;
 import com.aier.ardemo.module.PaddleController;
 import com.aier.ardemo.view.ARControllerManager;
 import com.aier.ardemo.view.PointsView;
+import com.aier.ardemo.weight.TabLayoutView;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixCallback;
 import com.baidu.ar.DuMixSource;
@@ -46,16 +47,15 @@ import android.widget.Toast;
  * Created by xiegaoxi on 2018/5/10.
  */
 
-public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback,TabLayout.OnTabSelectedListener {
+public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback, TabLayoutView.BottomCallBack {
 
     public static final String TAG = "PromptView";
     /**
      * 返回按钮
      */
     private ImageView mIconBack;
-    private TabLayout tab_view;
-    private LinearLayout ll;
-    private LinearLayout ll_2;
+
+
     /**
      * Du Mix 状态回调
      */
@@ -107,6 +107,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private DuMixSource mDuMixSource;
 
     private Context mContext;
+    private TabLayoutView tabLayoutView;
 
     /**
      * 构造函数
@@ -154,17 +155,13 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         mDumixCallbackTips = findViewById(R.id.bdar_titlebar_tips);
         mPointsView = findViewById(R.id.bdar_gui_point_view);
         mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
-        tab_view = findViewById(R.id.tab_view);
-        ll = findViewById(R.id.ll);
-        ll_2 = findViewById(R.id.ll_2);
+        tabLayoutView = findViewById(R.id.tab_view);
+        tabLayoutView.setBottomCallBack(this);
         mDuMixCallback = this;
-
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
         mModule.setPluginContainer(mPluginContainer);
-        tab_view.addTab(tab_view.newTab().setText("款式"));
-        tab_view.addTab(tab_view.newTab().setText("材料"));
-        tab_view.addOnTabSelectedListener(this);
+
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -199,14 +196,11 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
         switch (state) {
             case MsgField.MSG_AUTH_FAIL:
-                UiThreadUtil.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(mContext, getContext().getText(R.string.auth_fail), Toast.LENGTH_SHORT)
-                                .show();
-                        if (mPromptCallback != null) {
-                            mPromptCallback.onBackPressed();
-                        }
+                UiThreadUtil.runOnUiThread(() -> {
+                    Toast.makeText(mContext, getContext().getText(R.string.auth_fail), Toast.LENGTH_SHORT)
+                            .show();
+                    if (mPromptCallback != null) {
+                        mPromptCallback.onBackPressed();
                     }
                 });
                 break;
@@ -505,12 +499,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     }
 
     public void setPointViewVisible(final boolean visible) {
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mPointsView.clear();
-                mPointsView.setVisibility(visible ? View.VISIBLE : View.GONE);
-            }
+        UiThreadUtil.runOnUiThread(() -> {
+            mPointsView.clear();
+            mPointsView.setVisibility(visible ? View.VISIBLE : View.GONE);
         });
     }
 
@@ -518,28 +509,10 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         mDuMixSource = duMixSource;
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        int positon = tab.getPosition();
-        Log.i("sss","sss"+positon);
-        if(positon==0){
-            ll.setVisibility(VISIBLE);
-            ll_2.setVisibility(GONE);
-        }else {
-//            ll.setVisibility(GONE);
-//            ll_2.setVisibility(VISIBLE);
-            mPromptCallback.onSwitchModel();
-        }
-    }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
+    public void setCallBack(int num) {
+          // mPromptCallback.onSwitchModel();
     }
 }
 

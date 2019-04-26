@@ -55,83 +55,9 @@
         android:textColor="@color/white"
         android:visibility="gone"
         android:text="产品"/>
-    <android.support.design.widget.TabLayout
+    <com.aier.ardemo.weight.TabLayoutView
         android:id="@+id/tab_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_above="@+id/ll"
-        android:background="@color/content_bg"
-        app:tabIndicatorHeight="0dp"
-        android:layout_marginBottom="40dp"
-        app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/text_bg"
-        />
-       <LinearLayout
-           android:id="@+id/ll"
-           android:layout_width="match_parent"
-           android:layout_height="40dp"
-           android:layout_alignParentBottom="true"
-           android:background="@color/content_bg"
-           android:visibility="gone"
-           android:orientation="horizontal">
-           <TextView
-               android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:layout_weight="1"
-               android:textColor=" @color/text_bg"
-               android:gravity="center"
-               android:text="儿童款"/>
-           <TextView
-               android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:layout_weight="1"
-               android:textColor=" @color/text_bg"
-               android:gravity="center"
-               android:text="中年款"/>
-           <TextView
-               android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:layout_weight="1"
-               android:textColor=" @color/text_bg"
-               android:gravity="center"
-               android:text="青年款"/>
-           <TextView
-               android:layout_width="0dp"
-               android:layout_height="match_parent"
-               android:layout_weight="1"
-               android:textColor=" @color/text_bg"
-               android:gravity="center"
-               android:text="老年款"/>
-       </LinearLayout>
-    <LinearLayout
-        android:id="@+id/ll_2"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/content_bg"
-
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor=" @color/text_bg"
-            android:text="黑胡桃"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor=" @color/text_bg"
-            android:text="白腊"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor=" @color/text_bg"
-            android:text="红橡"/>
-    </LinearLayout>
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

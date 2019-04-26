@@ -249,23 +249,17 @@ public class ARFragment extends Fragment {
      */
     private void quit() {
         if (mARCameraManager != null) {
-            mARCameraManager.stopCamera(new ARCameraCallback() {
-                @Override
-                public void onResult(final boolean result) {
-                    try {
-                        UiThreadUtil.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (result) {
-                                    if (getActivity() != null) {
-                                        getActivity().finish();
-                                    }
-                                }
+            mARCameraManager.stopCamera(result -> {
+                try {
+                    UiThreadUtil.runOnUiThread(() -> {
+                        if (result) {
+                            if (getActivity() != null) {
+                                getActivity().finish();
                             }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }, false);
         }
@@ -279,12 +273,7 @@ public class ARFragment extends Fragment {
         mArGLSurfaceView.setEGLContextClientVersion(2);
         mARRenderer = new ARRenderer(isScreenOrientationLandscape(mRootView.getContext()));
         mARRenderer.setARFrameListener(
-                new SurfaceTexture.OnFrameAvailableListener() {
-                    @Override
-                    public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-                        mArGLSurfaceView.requestRender();
-                    }
-                }
+                surfaceTexture -> mArGLSurfaceView.requestRender()
         );
         mArGLSurfaceView.setEGLConfigChooser(new GLConfigChooser());
         mArGLSurfaceView.setRenderer(mARRenderer);
@@ -300,15 +289,12 @@ public class ARFragment extends Fragment {
      */
     private void startCamera() {
         SurfaceTexture surfaceTexture = mARRenderer.getCameraTexture();
-        mARCameraManager.startCamera(surfaceTexture, new ARStartCameraCallback() {
-            @Override
-            public void onCameraStart(boolean result, SurfaceTexture surfaceTexture, int width, int height) {
-                if (result) {
-                    if (mARController == null) {
-                        showArView();
-                    }
-
+        mARCameraManager.startCamera(surfaceTexture, (result, surfaceTexture1, width, height) -> {
+            if (result) {
+                if (mARController == null) {
+                    showArView();
                 }
+
             }
         });
     }
@@ -327,32 +313,21 @@ public class ARFragment extends Fragment {
                 return false;
             }
         });
-        mARCameraManager.setPreviewCallback(new PreviewCallback() {
-            @Override
-            public void onPreviewFrame(byte[] data, int width, int height) {
-                if (mARController != null) {
-                    mARController.onCameraPreviewFrame(data, width, height);
-                }
-                if (mImgRecognitionClient != null) {
-                    byte[] rotatedData = rotateImage(data, mCameraPriWidth, mCameraPriHeight);
-                    CornerPoint[] cornerPoints = mImgRecognitionClient.extractCornerPoints
-                            (rotatedData, mCameraPriHeight, mCameraPriWidth);
-                    if (mPromptUi != null) {
-                        mPromptUi.setCornerPoint(cornerPoints);
-                    }
+        mARCameraManager.setPreviewCallback((data, width, height) -> {
+            if (mARController != null) {
+                mARController.onCameraPreviewFrame(data, width, height);
+            }
+            if (mImgRecognitionClient != null) {
+                byte[] rotatedData = rotateImage(data, mCameraPriWidth, mCameraPriHeight);
+                CornerPoint[] cornerPoints = mImgRecognitionClient.extractCornerPoints
+                        (rotatedData, mCameraPriHeight, mCameraPriWidth);
+                if (mPromptUi != null) {
+                    mPromptUi.setCornerPoint(cornerPoints);
                 }
             }
         });
 
         setARRead();
-//        if (mArTpye == 6 || mArTpye == 7) {
-//            mCornerPointController = new CornerPointController();
-//            if (mCornerPointController != null) {
-//                mImgRecognitionClient = mCornerPointController.getImgRecognitionClient();
-//                mPromptUi.initPreviewScreenScale(mCameraPriWidth, mCameraPriHeight);
-//                mPromptUi.setPointViewVisible(true);
-//            }
-//        }
     }
 
     private void setARRead() {

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/content_bg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/ll"
+        app:tabIndicatorHeight="0dp"
+        android:layout_marginBottom="40dp"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/text_bg"
+        />
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_child_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor=" @color/text_bg"
+            android:gravity="center"
+            android:text="儿童款"/>
+        <TextView
+            android:id="@+id/tv_middle_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor=" @color/text_bg"
+            android:gravity="center"
+            android:text="中年款"/>
+        <TextView
+            android:id="@+id/tv_youth_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor=" @color/text_bg"
+            android:gravity="center"
+            android:text="青年款"/>
+        <TextView
+            android:id="@+id/tv_old_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor=" @color/text_bg"
+            android:gravity="center"
+            android:text="老年款"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tv_black_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor=" @color/text_bg"
+            android:text="黑胡桃"/>
+        <TextView
+            android:id="@+id/tv_white_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor=" @color/text_bg"
+            android:text="白腊"/>
+        <TextView
+            android:id="@+id/tv_red_style"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor=" @color/text_bg"
+            android:text="红橡"/>
+    </LinearLayout>
+</RelativeLayout>
