@@ -12,6 +12,7 @@ import com.aier.ardemo.callback.PromptCallback;
 import com.aier.ardemo.module.Module;
 import com.aier.ardemo.module.PaddleController;
 import com.aier.ardemo.view.ARControllerManager;
+import com.aier.ardemo.view.LoadingView;
 import com.aier.ardemo.view.PointsView;
 import com.aier.ardemo.weight.TabLayoutView;
 import com.baidu.ar.ARController;
@@ -55,7 +56,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      */
     private ImageView mIconBack;
 
-
+    private LoadingView lv_loading;
     /**
      * Du Mix 状态回调
      */
@@ -163,7 +164,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
 //        mModule.setPluginContainer(mPluginContainer);
-
+        lv_loading = findViewById(R.id.lv_loading);
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -186,6 +187,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 mPromptCallback.onStartOrderAc();
                 break;
         }
+        lv_loading.setVisibility(VISIBLE);
     }
 
     public void release() {
@@ -199,7 +201,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     @Override
     public void onStateChange(final int state, final Object msg) {
         Log.e(TAG, "onStateChange, state = " + state + " msg = " + msg);
-
+        UiThreadUtil.runOnUiThread(() -> {
+            lv_loading.setVisibility(GONE);
+        });
         switch (state) {
             case MsgField.MSG_AUTH_FAIL:
                 UiThreadUtil.runOnUiThread(() -> {
@@ -510,7 +514,10 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void setCallBack(int num) {
-           mPromptCallback.onSwitchModel(num);
+        UiThreadUtil.runOnUiThread(() -> {
+        lv_loading.setVisibility(VISIBLE);
+        });
+        mPromptCallback.onSwitchModel(num);
     }
 }
 

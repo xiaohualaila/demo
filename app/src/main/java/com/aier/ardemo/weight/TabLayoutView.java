@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 
 public class TabLayoutView extends LinearLayout implements View.OnClickListener,TabLayout.OnTabSelectedListener{
     private int before_state = 1;
-    private LinearLayout ll,ll_2;
+    private LinearLayout ll_style,ll_material;
     private TabLayout tab;
     private TextView tv_black_style,tv_white_style,tv_red_style,tv_child_style,
             tv_middle_style,tv_youth_style,tv_old_style;
@@ -36,12 +36,12 @@ public class TabLayoutView extends LinearLayout implements View.OnClickListener,
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.tablayout_view, this);
         tab = view.findViewById(R.id.tab);
-        tab.addTab(tab.newTab().setText("款式"));
         tab.addTab(tab.newTab().setText("材料"));
+        tab.addTab(tab.newTab().setText("款式"));
         tab.addOnTabSelectedListener(this);
 
-        ll = findViewById(R.id.ll);
-        ll_2 = findViewById(R.id.ll_2);
+        ll_style = findViewById(R.id.ll_style);
+        ll_material = findViewById(R.id.ll_material);
         tv_black_style = findViewById(R.id.tv_black_style);
         tv_white_style = findViewById(R.id.tv_white_style);
         tv_red_style = findViewById(R.id.tv_red_style);
@@ -138,13 +138,12 @@ public class TabLayoutView extends LinearLayout implements View.OnClickListener,
         int positon = tab.getPosition();
         Log.i("sss","sss"+positon);
         if(positon==0){
-            ll.setVisibility(GONE);
-            ll_2.setVisibility(VISIBLE);
+            ll_style.setVisibility(GONE);
+            ll_material.setVisibility(VISIBLE);
             setBottomViewState(4);
         }else {
-
-            ll.setVisibility(VISIBLE);
-            ll_2.setVisibility(GONE);
+            ll_style.setVisibility(VISIBLE);
+            ll_material.setVisibility(GONE);
             setBottomViewState(1);
         }
     }
