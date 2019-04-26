@@ -8,17 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.aier.ardemo.ui.activity.ARActivity;
+import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
 import com.baidu.ar.bean.ARConfig;
 import com.aier.ardemo.Config;
 import com.aier.ardemo.R;
-import com.aier.ardemo.callback.PreviewCallback;
 import com.aier.ardemo.callback.PromptCallback;
-import com.aier.ardemo.camera.ARCameraCallback;
 import com.aier.ardemo.camera.ARCameraManager;
-import com.aier.ardemo.camera.ARStartCameraCallback;
 import com.aier.ardemo.draw.ARRenderCallback;
 import com.aier.ardemo.draw.ARRenderer;
 import com.aier.ardemo.draw.GLConfigChooser;
@@ -30,9 +28,9 @@ import com.baidu.ar.recg.CornerPointController;
 import com.baidu.ar.recg.ImgRecognitionClient;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
-
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.SurfaceTexture;
@@ -42,10 +40,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 /**
  * AR Fragment
@@ -304,14 +302,11 @@ public class ARFragment extends Fragment {
      */
     public void showArView() {
         mARController = ARControllerManager.getInstance(getActivity()).getArController();
-        mArGLSurfaceView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (mARController != null) {
-                    return mARController.onTouchEvent(motionEvent);
-                }
-                return false;
+        mArGLSurfaceView.setOnTouchListener((view, motionEvent) -> {
+            if (mARController != null) {
+                return mARController.onTouchEvent(motionEvent);
             }
+            return false;
         });
         mARCameraManager.setPreviewCallback((data, width, height) -> {
             if (mARController != null) {
@@ -398,12 +393,26 @@ public class ARFragment extends Fragment {
     PromptCallback promptCallback = new PromptCallback() {
 
         @Override
-        public void onSwitchModel() {
+        public void onStartOrderAc() {
+            startActivity(new Intent(arActivity, OrderInfoActivity.class));
+        }
+
+        @Override
+        public void onSwitchModel(int num) {
             /**
              * 此处可以切换模型
              */
             if (mARController != null) {
-                mARController.switchCase("10301534", 5);//切换模型
+                if(num ==1){
+                    mARController.switchCase("10301883", 5);//切换黑胡桃
+                }else if(num ==2){
+                    mARController.switchCase("10301878", 5);//切换模型白腊木
+                }else if((num ==3)){
+                    mARController.switchCase("10301899", 5);//切换模型 红橡木
+                }else {
+                    Toast.makeText(arActivity,"暂时没有模型",Toast.LENGTH_LONG).show();
+                }
+
             }
         }
 

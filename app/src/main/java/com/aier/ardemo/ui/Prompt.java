@@ -47,7 +47,7 @@ import android.widget.Toast;
  * Created by xiegaoxi on 2018/5/10.
  */
 
-public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback, TabLayoutView.BottomCallBack {
+public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback, TabLayoutView.TabCallBack {
 
     public static final String TAG = "PromptView";
     /**
@@ -91,7 +91,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      */
     private ARController mARController;
 
-    private RelativeLayout mPluginContainer;
+//    private RelativeLayout mPluginContainer;
 
     /**
      * 云点
@@ -108,7 +108,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     private Context mContext;
     private TabLayoutView tabLayoutView;
-
+    private TextView tv_submit;
     /**
      * 构造函数
      *
@@ -154,13 +154,15 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         mIconBack.setOnClickListener(this);
         mDumixCallbackTips = findViewById(R.id.bdar_titlebar_tips);
         mPointsView = findViewById(R.id.bdar_gui_point_view);
-        mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
+//        mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
         tabLayoutView = findViewById(R.id.tab_view);
         tabLayoutView.setBottomCallBack(this);
+        tv_submit = findViewById(R.id.tv_submit);
+        tv_submit.setOnClickListener(this);
         mDuMixCallback = this;
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
-        mModule.setPluginContainer(mPluginContainer);
+//        mModule.setPluginContainer(mPluginContainer);
 
     }
 
@@ -174,11 +176,15 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void onClick(View view) {
-        int viewId = view.getId();
-        if (viewId == R.id.bdar_titlebar_back) {
-            if (mPromptCallback != null) {
-                mPromptCallback.onBackPressed();
-            }
+        switch (view.getId()){
+            case R.id.bdar_titlebar_back:
+                if (mPromptCallback != null) {
+                    mPromptCallback.onBackPressed();
+                }
+                break;
+            case R.id.tv_submit:
+                mPromptCallback.onStartOrderAc();
+                break;
         }
     }
 
@@ -455,12 +461,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      * @param s
      */
     private void showToast(final String s) {
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mDumixCallbackTips.setText(s);
-            }
-        });
+        UiThreadUtil.runOnUiThread(() -> mDumixCallbackTips.setText(s));
     }
 
 
@@ -479,12 +480,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     };
 
     public void setCornerPoint(final CornerPoint[] cornerPoints) {
-        UiThreadUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mPointsView.setNrCornerAndCornersData(cornerPoints, mScaleWidth, mScaleHeight);
-                mPointsView.invalidate();
-            }
+        UiThreadUtil.runOnUiThread(() -> {
+            mPointsView.setNrCornerAndCornersData(cornerPoints, mScaleWidth, mScaleHeight);
+            mPointsView.invalidate();
         });
     }
 
@@ -512,7 +510,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void setCallBack(int num) {
-          // mPromptCallback.onSwitchModel();
+           mPromptCallback.onSwitchModel(num);
     }
 }
 

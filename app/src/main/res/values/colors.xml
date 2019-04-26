@@ -11,8 +11,9 @@
     <color name="title_bg">#000000 </color>
     <!--背景 -->
     <color name="view_black">#f9f9f9</color>
-    <color name="content_bg">#6F000000</color>
+    <color name="content_bg">#B9000000</color>
     <color name="my_bg">#ffecedee</color>
     <color name="text_">#161616</color>
     <color name="yellow_line">#FEB851</color>
+    <color name="tab_bg">#B3B1B1</color>
 </resources>

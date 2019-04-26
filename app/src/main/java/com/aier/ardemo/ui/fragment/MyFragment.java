@@ -12,13 +12,11 @@ import android.widget.TextView;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.activity.AddressActivity;
-import com.aier.ardemo.ui.activity.OrderInfoActivity;
+import com.aier.ardemo.ui.activity.OrderActivity;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.R;
 import com.aier.ardemo.utils.AdjustBitmap;
-import com.aier.ardemo.utils.ImageUtils;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -64,7 +62,7 @@ public class MyFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_order:
-                startActivity(new Intent(getActivity(), OrderInfoActivity.class));
+                startActivity(new Intent(getActivity(), OrderActivity.class));
                 break;
             case R.id.rl_address:
                 startActivity(new Intent(getActivity(), AddressActivity.class));

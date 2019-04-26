@@ -23,9 +23,9 @@ public class TabLayoutView extends LinearLayout implements View.OnClickListener,
     private TextView tv_black_style,tv_white_style,tv_red_style,tv_child_style,
             tv_middle_style,tv_youth_style,tv_old_style;
 
-    private BottomCallBack bottomCallBack;
-    public void setBottomCallBack(BottomCallBack bottomCallBack) {
-        this.bottomCallBack = bottomCallBack;
+    private TabCallBack TabCallBack;
+    public void setBottomCallBack(TabCallBack TabCallBack) {
+        this.TabCallBack = TabCallBack;
     }
 
     public TabLayoutView(Context context) {
@@ -92,42 +92,42 @@ public class TabLayoutView extends LinearLayout implements View.OnClickListener,
         if (before_state != flag) {
             if (flag == 1) {
                 tv_black_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(1);
+                TabCallBack.setCallBack(1);
             } else if (flag == 2) {
                 tv_white_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(2);
+                TabCallBack.setCallBack(2);
             } else if (flag == 3) {
                 tv_red_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(3);
+                TabCallBack.setCallBack(3);
             }
             else if (flag == 4) {
                 tv_child_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(4);
+                TabCallBack.setCallBack(4);
             } else if (flag == 5) {
                 tv_middle_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(5);
+                TabCallBack.setCallBack(5);
             } else if (flag == 6) {
                 tv_youth_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(6);
+                TabCallBack.setCallBack(6);
             }else if (flag == 7) {
                 tv_old_style.setTextColor(getResources().getColor(R.color.white));
-                bottomCallBack.setCallBack(7);
+                TabCallBack.setCallBack(7);
             }
 
             if (before_state == 1) {
-                tv_black_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_black_style.setTextColor(getResources().getColor(R.color.tab_bg));
             } else if (before_state == 2) {
-                tv_white_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_white_style.setTextColor(getResources().getColor(R.color.tab_bg));
             } else if (before_state == 3) {
-                tv_red_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_red_style.setTextColor(getResources().getColor(R.color.tab_bg));
             } else if (before_state == 4) {
-                tv_child_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_child_style.setTextColor(getResources().getColor(R.color.tab_bg));
             } else if (before_state == 5) {
-                tv_middle_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_middle_style.setTextColor(getResources().getColor(R.color.tab_bg));
             } else if (before_state == 6) {
-                tv_youth_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_youth_style.setTextColor(getResources().getColor(R.color.tab_bg));
             } else if (before_state == 7) {
-                tv_old_style.setTextColor(getResources().getColor(R.color.text_bg));
+                tv_old_style.setTextColor(getResources().getColor(R.color.tab_bg));
             }
             before_state = flag;
         }
@@ -138,12 +138,13 @@ public class TabLayoutView extends LinearLayout implements View.OnClickListener,
         int positon = tab.getPosition();
         Log.i("sss","sss"+positon);
         if(positon==0){
-            ll.setVisibility(VISIBLE);
-            ll_2.setVisibility(GONE);
-            setBottomViewState(4);
-        }else {
             ll.setVisibility(GONE);
             ll_2.setVisibility(VISIBLE);
+            setBottomViewState(4);
+        }else {
+
+            ll.setVisibility(VISIBLE);
+            ll_2.setVisibility(GONE);
             setBottomViewState(1);
         }
     }
@@ -158,7 +159,7 @@ public class TabLayoutView extends LinearLayout implements View.OnClickListener,
 
     }
 
-    public interface BottomCallBack{
+    public interface TabCallBack{
         void setCallBack(int num);
     }
 
