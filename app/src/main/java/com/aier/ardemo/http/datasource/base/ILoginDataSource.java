@@ -2,6 +2,7 @@ package com.aier.ardemo.http.datasource.base;
 
 
 import com.aier.ardemo.http.basis.callback.RequestCallback;
+import com.aier.ardemo.model.Order;
 import com.aier.ardemo.model.QrCode;
 
 /**
@@ -13,6 +14,6 @@ import com.aier.ardemo.model.QrCode;
  */
 public interface ILoginDataSource {
 
-    void createQrCode(String text, int width, RequestCallback<QrCode> callback);
+    void createOrder(String text, int width, RequestCallback<Order> callback);
 
 }

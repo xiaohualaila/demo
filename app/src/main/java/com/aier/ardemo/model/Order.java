@@ -1,7 +1,5 @@
 package com.aier.ardemo.model;
 
-import android.graphics.Bitmap;
-
 /**
  * 作者：leavesC
  * 时间：2018/10/29 21:22
@@ -9,7 +7,7 @@ import android.graphics.Bitmap;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class QrCode {
+public class Order {
 
     private String id;
 

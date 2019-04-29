@@ -2,6 +2,8 @@ package com.aier.ardemo.http.service;
 
 
 import com.aier.ardemo.http.basis.config.HttpConfig;
+import com.aier.ardemo.http.basis.model.BaseResponseBody;
+import com.aier.ardemo.model.Weather;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -23,5 +25,9 @@ public interface ApiService {
     @GET("qrcode/api")
     Observable createQrCode(@Query("text") String text, @Query("w") int width);
 
+
+    @Headers({HttpConfig.HTTP_REQUEST_TYPE_KEY + ":" + HttpConfig.HTTP_REQUEST_WEATHER})
+    @GET("onebox/weather/query")
+    Observable<BaseResponseBody<Weather>> queryWeather(@Query("cityname") String cityName);
 
 }
