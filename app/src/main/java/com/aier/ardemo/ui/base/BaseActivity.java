@@ -193,4 +193,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void startActiviys(Class c) {
+        Intent intent = new Intent(this, c);
+        startActivity(intent);
+    }
+
+    public void startActiviys(Class c, int type) {
+        Intent intent = new Intent(this, c);
+        intent.putExtra("type", type);
+        startActivityForResult(intent, type);
+    }
 }

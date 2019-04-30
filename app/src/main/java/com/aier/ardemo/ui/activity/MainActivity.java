@@ -1,11 +1,19 @@
 package com.aier.ardemo.ui.activity;
 
+import android.Manifest;
 import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +28,9 @@ import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -29,8 +40,15 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     BottomView bottomView;
     @BindView(R.id.tv_title)
     TextView tv_title;
-
-
+    private static String TAG ="MainActivity";
+    /**
+     * 需要手动申请的权限
+     */
+    private static final String[] ALL_PERMISSIONS = new String[] {
+                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                                    Manifest.permission.CAMERA,
+                                    Manifest.permission.RECORD_AUDIO};
     private Fragment mCurrentFrag;
     private FragmentManager fm;
     private Fragment homeFragment;
@@ -43,6 +61,47 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         myFragment = new MyFragment();
         switchContent(homeFragment);
         bottomView.setBottomCallBack(this);
+        requestPermission();
+    }
+
+    private void requestPermission() {
+        // 6.0以下版本直接同意使用权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!hasNecessaryPermission()) {
+                ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1123: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    Log.i(TAG,"权限申请成功！");
+                } else {
+                    // permission denied, boo! Disable the
+                    Log.i(TAG,"权限申请失败！");
+                    showMissingPermissionDialog();
+                }
+                return;
+            }
+        }
+    }
+
+    private boolean hasNecessaryPermission() {
+        List<String> permissionsList = new ArrayList();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            for (String permission : ALL_PERMISSIONS) {
+                if (ActivityCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsList.add(permission);
+                }
+            }
+        }
+        return permissionsList.size() == 0;
     }
 
     @Override
@@ -128,4 +187,27 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         }
     }
 
+    private void showMissingPermissionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示");
+        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
+
+        // 拒绝, 退出应用
+        builder.setNegativeButton("取消", (dialog, which) -> finish());
+
+        builder.setPositiveButton("设置", (dialog, which) -> startAppSettings());
+
+        builder.setCancelable(false);
+
+        builder.show();
+    }
+
+    /**
+     * 启动应用的设置
+     */
+    private void startAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse("package:" + getPackageName()));
+        startActivity(intent);
+    }
 }
