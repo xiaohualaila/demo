@@ -34,14 +34,14 @@ public class FilterInterceptor implements Interceptor {
                         httpBuilder.addQueryParameter(HttpConfig.KEY, HttpConfig.KEY_WEATHER);
                         break;
                     }
-                    case HttpConfig.HTTP_REQUEST_QR_CODE: {
-                        httpBuilder.addQueryParameter(HttpConfig.KEY, HttpConfig.KEY_QR_CODE);
-                        break;
-                    }
-                    case HttpConfig.HTTP_REQUEST_NEWS: {
-                        httpBuilder.addQueryParameter(HttpConfig.KEY, HttpConfig.KEY_NEWS);
-                        break;
-                    }
+//                    case HttpConfig.HTTP_REQUEST_QR_CODE: {
+//                        httpBuilder.addQueryParameter(HttpConfig.KEY, HttpConfig.KEY_QR_CODE);
+//                        break;
+//                    }
+//                    case HttpConfig.HTTP_REQUEST_NEWS: {
+//                        httpBuilder.addQueryParameter(HttpConfig.KEY, HttpConfig.KEY_NEWS);
+//                        break;
+//                    }
                 }
             }
         }

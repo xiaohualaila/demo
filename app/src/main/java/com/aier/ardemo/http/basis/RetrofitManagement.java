@@ -67,7 +67,7 @@ public class RetrofitManagement {
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .addInterceptor(new HttpInterceptor())
                 .addInterceptor(new HeaderInterceptor())
-                .addInterceptor(new FilterInterceptor())
+//                .addInterceptor(new FilterInterceptor())
                 .retryOnConnectionFailure(true);
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();

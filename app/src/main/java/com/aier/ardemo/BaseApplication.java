@@ -2,6 +2,7 @@ package com.aier.ardemo;
 
 import android.app.Application;
 
+
 public class BaseApplication extends Application {
 
     private static Application appContext;
@@ -9,7 +10,6 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         appContext = this;
-
 
     }
 

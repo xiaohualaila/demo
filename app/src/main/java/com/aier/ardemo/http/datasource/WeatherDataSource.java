@@ -3,10 +3,8 @@ package com.aier.ardemo.http.datasource;
 
 import com.aier.ardemo.http.basis.BaseRemoteDataSource;
 import com.aier.ardemo.http.basis.callback.RequestCallback;
-import com.aier.ardemo.http.basis.config.HttpConfig;
-import com.aier.ardemo.http.datasource.base.IOrderDataSource;
+import com.aier.ardemo.http.datasource.base.IWeatherDataSource;
 import com.aier.ardemo.http.service.ApiService;
-import com.aier.ardemo.model.Order;
 import com.aier.ardemo.model.Weather;
 import com.aier.ardemo.viewmodel.base.BaseViewModel;
 
@@ -17,14 +15,14 @@ import com.aier.ardemo.viewmodel.base.BaseViewModel;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class OrderDataSource extends BaseRemoteDataSource implements IOrderDataSource {
+public class WeatherDataSource extends BaseRemoteDataSource implements IWeatherDataSource {
 
-    public OrderDataSource(BaseViewModel baseViewModel) {
+    public WeatherDataSource(BaseViewModel baseViewModel) {
         super(baseViewModel);
     }
 
     @Override
-    public void createOrder(String text, RequestCallback<Weather> callback) {
+    public void createWeather(String text, RequestCallback<Weather> callback) {
         execute(getService(ApiService.class).queryWeather(text), callback);
     }
 

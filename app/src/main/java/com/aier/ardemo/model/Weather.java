@@ -2,53 +2,114 @@ package com.aier.ardemo.model;
 
 import java.util.List;
 
-/**
- * 作者：leavesC
- * 时间：2018/10/29 21:22
- * 描述：
- * GitHub：https://github.com/leavesC
- * Blog：https://www.jianshu.com/u/9df45b87cfdf
- */
+
 public class Weather {
 
-    private InnerWeather data;
+    /**
+     * data : {"yesterday":{"date":"4日星期六","high":"高温 28℃","fx":"南风","low":"低温 16℃","fl":"<![CDATA[<3级]]>","type":"小雨"},"city":"北京","forecast":[{"date":"5日星期天","high":"高温 23℃","fengli":"<![CDATA[4-5级]]>","low":"低温 10℃","fengxiang":"北风","type":"晴"},{"date":"6日星期一","high":"高温 25℃","fengli":"<![CDATA[3-4级]]>","low":"低温 10℃","fengxiang":"西南风","type":"晴"},{"date":"7日星期二","high":"高温 28℃","fengli":"<![CDATA[3-4级]]>","low":"低温 13℃","fengxiang":"西南风","type":"晴"},{"date":"8日星期三","high":"高温 28℃","fengli":"<![CDATA[<3级]]>","low":"低温 14℃","fengxiang":"西南风","type":"多云"},{"date":"9日星期四","high":"高温 30℃","fengli":"<![CDATA[<3级]]>","low":"低温 15℃","fengxiang":"西南风","type":"晴"}],"ganmao":"相对于今天将会出现大幅度降温，风力较强，易发生感冒，请注意适当增加衣服。","wendu":"21"}
+     * status : 1000
+     * desc : OK
+     */
 
-    public InnerWeather getData() {
+    private DataBean data;
+    private int status;
+    private String desc;
+
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(InnerWeather data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
-    public static class InnerWeather {
+    public int getStatus() {
+        return status;
+    }
 
-        private List<NearestWeather> weather;
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-        public List<NearestWeather> getWeather() {
-            return weather;
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public static class DataBean {
+        /**
+         * yesterday : {"date":"4日星期六","high":"高温 28℃","fx":"南风","low":"低温 16℃","fl":"<![CDATA[<3级]]>","type":"小雨"}
+         * city : 北京
+         * forecast : [{"date":"5日星期天","high":"高温 23℃","fengli":"<![CDATA[4-5级]]>","low":"低温 10℃","fengxiang":"北风","type":"晴"},{"date":"6日星期一","high":"高温 25℃","fengli":"<![CDATA[3-4级]]>","low":"低温 10℃","fengxiang":"西南风","type":"晴"},{"date":"7日星期二","high":"高温 28℃","fengli":"<![CDATA[3-4级]]>","low":"低温 13℃","fengxiang":"西南风","type":"晴"},{"date":"8日星期三","high":"高温 28℃","fengli":"<![CDATA[<3级]]>","low":"低温 14℃","fengxiang":"西南风","type":"多云"},{"date":"9日星期四","high":"高温 30℃","fengli":"<![CDATA[<3级]]>","low":"低温 15℃","fengxiang":"西南风","type":"晴"}]
+         * ganmao : 相对于今天将会出现大幅度降温，风力较强，易发生感冒，请注意适当增加衣服。
+         * wendu : 21
+         */
+
+        private YesterdayBean yesterday;
+        private String city;
+        private String ganmao;
+        private String wendu;
+        private List<ForecastBean> forecast;
+
+        public YesterdayBean getYesterday() {
+            return yesterday;
         }
 
-        public void setWeather(List<NearestWeather> weather) {
-            this.weather = weather;
+        public void setYesterday(YesterdayBean yesterday) {
+            this.yesterday = yesterday;
         }
 
-        public static class NearestWeather {
+        public String getCity() {
+            return city;
+        }
 
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getGanmao() {
+            return ganmao;
+        }
+
+        public void setGanmao(String ganmao) {
+            this.ganmao = ganmao;
+        }
+
+        public String getWendu() {
+            return wendu;
+        }
+
+        public void setWendu(String wendu) {
+            this.wendu = wendu;
+        }
+
+        public List<ForecastBean> getForecast() {
+            return forecast;
+        }
+
+        public void setForecast(List<ForecastBean> forecast) {
+            this.forecast = forecast;
+        }
+
+        public static class YesterdayBean {
             /**
-             * date : 2018-10-26
-             * info : {"dawn":["7","小雨","16","东风","微风","17:13"],"day":["1","多云","22","西北风","3-5级","06:03"],"night":["0","晴","13","西北风","5-6级","17:12"]}
-             * week : 五
-             * nongli : 九月十八
+             * date : 4日星期六
+             * high : 高温 28℃
+             * fx : 南风
+             * low : 低温 16℃
+             * fl : <![CDATA[<3级]]>
+             * type : 小雨
              */
 
             private String date;
-
-            private InfoBean info;
-
-            private String week;
-
-            private String nongli;
+            private String high;
+            private String fx;
+            private String low;
+            private String fl;
+            private String type;
 
             public String getDate() {
                 return date;
@@ -58,64 +119,111 @@ public class Weather {
                 this.date = date;
             }
 
-            public InfoBean getInfo() {
-                return info;
+            public String getHigh() {
+                return high;
             }
 
-            public void setInfo(InfoBean info) {
-                this.info = info;
+            public void setHigh(String high) {
+                this.high = high;
             }
 
-            public String getWeek() {
-                return week;
+            public String getFx() {
+                return fx;
             }
 
-            public void setWeek(String week) {
-                this.week = week;
+            public void setFx(String fx) {
+                this.fx = fx;
             }
 
-            public String getNongli() {
-                return nongli;
+            public String getLow() {
+                return low;
             }
 
-            public void setNongli(String nongli) {
-                this.nongli = nongli;
+            public void setLow(String low) {
+                this.low = low;
             }
 
-            public static class InfoBean {
-
-                private List<String> dawn;
-
-                private List<String> day;
-
-                private List<String> night;
-
-                public List<String> getDawn() {
-                    return dawn;
-                }
-
-                public void setDawn(List<String> dawn) {
-                    this.dawn = dawn;
-                }
-
-                public List<String> getDay() {
-                    return day;
-                }
-
-                public void setDay(List<String> day) {
-                    this.day = day;
-                }
-
-                public List<String> getNight() {
-                    return night;
-                }
-
-                public void setNight(List<String> night) {
-                    this.night = night;
-                }
+            public String getFl() {
+                return fl;
             }
 
+            public void setFl(String fl) {
+                this.fl = fl;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+        }
+
+        public static class ForecastBean {
+            /**
+             * date : 5日星期天
+             * high : 高温 23℃
+             * fengli : <![CDATA[4-5级]]>
+             * low : 低温 10℃
+             * fengxiang : 北风
+             * type : 晴
+             */
+
+            private String date;
+            private String high;
+            private String fengli;
+            private String low;
+            private String fengxiang;
+            private String type;
+
+            public String getDate() {
+                return date;
+            }
+
+            public void setDate(String date) {
+                this.date = date;
+            }
+
+            public String getHigh() {
+                return high;
+            }
+
+            public void setHigh(String high) {
+                this.high = high;
+            }
+
+            public String getFengli() {
+                return fengli;
+            }
+
+            public void setFengli(String fengli) {
+                this.fengli = fengli;
+            }
+
+            public String getLow() {
+                return low;
+            }
+
+            public void setLow(String low) {
+                this.low = low;
+            }
+
+            public String getFengxiang() {
+                return fengxiang;
+            }
+
+            public void setFengxiang(String fengxiang) {
+                this.fengxiang = fengxiang;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
         }
     }
-
 }
