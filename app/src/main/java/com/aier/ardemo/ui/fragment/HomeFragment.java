@@ -50,10 +50,7 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
+
 
     public class BannerViewFactory implements BannerView.ViewFactory<BannerItems> {
 

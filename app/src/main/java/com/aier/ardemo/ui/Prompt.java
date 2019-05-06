@@ -44,7 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * 提示层UI
+ * AR界面
  * Created by xiegaoxi on 2018/5/10.
  */
 

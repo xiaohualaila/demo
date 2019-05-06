@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.weight.AddDeleteView;
@@ -35,11 +34,6 @@ public class OrderInfoActivity extends BaseActivity implements AddDeleteView.OnA
         return R.layout.activity_order_info;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-
-        return null;
-    }
 
 
     @OnClick({R.id.iv_back,R.id.rl_order_info})

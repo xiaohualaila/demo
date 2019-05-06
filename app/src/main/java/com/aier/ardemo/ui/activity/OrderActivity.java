@@ -29,12 +29,6 @@ public class OrderActivity extends BaseActivity {
         return R.layout.activity_order;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-     return null;
-    }
-
-
 
     @OnClick({R.id.iv_back})
     public void onClick(View view) {

@@ -30,10 +30,6 @@ public class AddressActivity extends BaseActivity {
         return R.layout.activity_addr;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
 
     @OnClick({R.id.iv_back})
     public void onClick(View view) {

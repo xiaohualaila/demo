@@ -23,6 +23,7 @@ import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.fragment.HomeFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
+import com.aier.ardemo.ui.fragment.WeatherFragment;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
@@ -51,15 +52,16 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
                                     Manifest.permission.RECORD_AUDIO};
     private Fragment mCurrentFrag;
     private FragmentManager fm;
-    private Fragment homeFragment;
+ //   private Fragment homeFragment;
+    private Fragment weatherFragment;
     private Fragment myFragment;
 
     @Override
     protected void initViews() {
         fm = getSupportFragmentManager();
-        homeFragment = new HomeFragment();
+        weatherFragment = new WeatherFragment();
         myFragment = new MyFragment();
-        switchContent(homeFragment);
+        switchContent(weatherFragment);
         bottomView.setBottomCallBack(this);
         requestPermission();
     }
@@ -126,12 +128,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         return R.layout.activity_main;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-
-        return null;
-    }
-
 
     @OnClick({R.id.fab})
     public void onClick(View view) {
@@ -156,7 +152,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     public void setCallBack(int num) {
         switch (num){
             case 1:
-                switchContent(homeFragment);
+                switchContent(weatherFragment);
                 tv_title.setText("首页");
                 break;
             case 2:
@@ -210,4 +206,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         intent.setData(Uri.parse("package:" + getPackageName()));
         startActivity(intent);
     }
+
+
 }

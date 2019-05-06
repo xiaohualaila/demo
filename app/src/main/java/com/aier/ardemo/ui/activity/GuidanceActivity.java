@@ -46,8 +46,4 @@ public class GuidanceActivity extends BaseActivity {
         return R.layout.activity_guidance;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
 }

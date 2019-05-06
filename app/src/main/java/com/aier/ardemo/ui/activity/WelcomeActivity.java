@@ -1,6 +1,5 @@
 package com.aier.ardemo.ui.activity;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
@@ -39,8 +38,7 @@ public class WelcomeActivity extends BaseActivity {
         return R.layout.activity_wel;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
+
+
+
 }

@@ -77,8 +77,4 @@ public class MyFragment extends BaseFragment {
 
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
 }

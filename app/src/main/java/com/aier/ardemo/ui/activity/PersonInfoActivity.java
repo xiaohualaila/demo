@@ -1,15 +1,9 @@
 package com.aier.ardemo.ui.activity;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,16 +18,12 @@ import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.AdjustBitmap;
-import com.aier.ardemo.utils.ImageUtils;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
-import com.aier.ardemo.weight.RoundImageView;
 import com.google.gson.Gson;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -78,10 +68,6 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
         return R.layout.activity_person_info;
     }
 
-    @Override
-    protected ViewModel initViewModel() {
-        return null;
-    }
 
 
     @OnClick({R.id.iv_back,R.id.ok_name,R.id.delete_name,R.id.my_photo})

@@ -2,22 +2,12 @@ package com.aier.ardemo.ui.base;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
-
-import com.aier.ardemo.viewmodel.base.IViewModelAction;
-import com.aier.ardemo.event.BaseActionEvent;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.ButterKnife;
 
 
@@ -38,7 +28,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-        initViewModelEvent();
         initDate(savedInstanceState);
         initViews();
     }
@@ -49,60 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayout();
 
-    protected abstract ViewModel initViewModel();
 
-    protected List<ViewModel> initViewModelList() {
-        return null;
-    }
-
-    private void initViewModelEvent() {
-        List<ViewModel> viewModelList = initViewModelList();
-        if (viewModelList != null && viewModelList.size() > 0) {
-            observeEvent(viewModelList);
-        } else {
-            ViewModel viewModel = initViewModel();
-            if (viewModel != null) {
-                List<ViewModel> modelList = new ArrayList<>();
-                modelList.add(viewModel);
-                observeEvent(modelList);
-            }
-        }
-    }
-
-    private void observeEvent(List<ViewModel> viewModelList) {
-        for (ViewModel viewModel : viewModelList) {
-            if (viewModel instanceof IViewModelAction) {
-                IViewModelAction viewModelAction = (IViewModelAction) viewModel;
-                viewModelAction.getActionLiveData().observe(this, baseActionEvent -> {
-                    if (baseActionEvent != null) {
-                        switch (baseActionEvent.getAction()) {
-                            case BaseActionEvent.SHOW_LOADING_DIALOG: {
-                                startLoading(baseActionEvent.getMessage());
-                                break;
-                            }
-                            case BaseActionEvent.DISMISS_LOADING_DIALOG: {
-                                dismissLoading();
-                                break;
-                            }
-                            case BaseActionEvent.SHOW_TOAST: {
-                                showToast(baseActionEvent.getMessage());
-                                break;
-                            }
-                            case BaseActionEvent.FINISH: {
-                                finish();
-                                break;
-                            }
-                            case BaseActionEvent.FINISH_WITH_RESULT_OK: {
-                                setResult(RESULT_OK);
-                                finish();
-                                break;
-                            }
-                        }
-                    }
-                });
-            }
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -143,18 +79,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         return BaseActivity.this;
     }
 
-    protected void startActivity(Class cl) {
-        startActivity(new Intent(this, cl));
-    }
 
-    public void startActivityForResult(Class cl, int requestCode) {
-        startActivityForResult(new Intent(this, cl), requestCode);
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    protected boolean isFinishingOrDestroyed() {
-        return isFinishing() || isDestroyed();
-    }
 
     /**
      * 发出一个短Toast
@@ -203,4 +129,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         intent.putExtra("type", type);
         startActivityForResult(intent, type);
     }
+
+
+    public void startActivityForResult(Class cl, int requestCode) {
+        startActivityForResult(new Intent(this, cl), requestCode);
+    }
+
 }
