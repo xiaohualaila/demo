@@ -2,6 +2,7 @@ package com.aier.ardemo.ui.fragment;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -14,9 +15,13 @@ import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.activity.CheckActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
+import com.karics.library.zxing.android.CaptureActivity;
+
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class WeatherFragment extends BaseFragment {
@@ -49,6 +54,9 @@ public class WeatherFragment extends BaseFragment {
     @BindView(R.id.tv_air_quality_)
     TextView tv_air_quality_;
 
+    private static final int REQUEST_CODE_SCAN = 0x0000;
+    private static final String DECODED_CONTENT_KEY = "codedContent";
+    private static final String DECODED_BITMAP_KEY = "codedBitmap";
     @Override
     public int getLayoutId() {
         return R.layout.fragment_weather;
@@ -115,7 +123,9 @@ public class WeatherFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_check:
-             startActivity(new Intent(getActivity(), CheckActivity.class));
+          //   startActivity(new Intent(getActivity(), CheckActivity.class));
+                Intent intent = new Intent(new Intent(getActivity(), CaptureActivity.class));
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
             case R.id.tv_zhen:
 
@@ -124,7 +134,22 @@ public class WeatherFragment extends BaseFragment {
         }
 
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 扫描二维码/条码回传
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+            if (data != null) {
 
+                String content = data.getStringExtra(DECODED_CONTENT_KEY);
+                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
+
+              //  qrCoded.setText("解码结果： \n" + content);
+                Log.i("sss",content);
+            //    qrCodeImage.setImageBitmap(bitmap);
+            }
+        }
+    }
 
 
 }

@@ -12,9 +12,12 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
     <uses-feature android:name="android.hardware.camera"/>
     <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.NFC" />
+    <!-- 要求当前设备必须要有NFC芯片 -->
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
 
     <application
             android:name=".BaseApplication"
@@ -30,6 +33,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.karics.library.zxing.android.CaptureActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".ui.activity.NfcActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.CheckActivity"
