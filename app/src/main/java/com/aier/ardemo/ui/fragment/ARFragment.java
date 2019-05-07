@@ -410,7 +410,7 @@ public class ARFragment extends Fragment {
                 }else if((num ==3)){
                     mARController.switchCase("10301899", 5);//切换模型 红橡木
                 }else {
-                    Toast.makeText(arActivity,"暂时没有模型",Toast.LENGTH_LONG).show();
+                    Toast.makeText(arActivity,num + " ",Toast.LENGTH_LONG).show();
                 }
 
             }

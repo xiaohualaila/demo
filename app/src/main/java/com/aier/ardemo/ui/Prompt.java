@@ -14,6 +14,7 @@ import com.aier.ardemo.module.PaddleController;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.aier.ardemo.arview.LoadingView;
 import com.aier.ardemo.arview.PointsView;
+import com.aier.ardemo.weight.ArBottomBtn;
 import com.aier.ardemo.weight.TabLayoutView;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixCallback;
@@ -46,7 +47,7 @@ import android.widget.Toast;
  * Created by xiegaoxi on 2018/5/10.
  */
 
-public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback, TabLayoutView.TabCallBack {
+public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback, TabLayoutView.TabCallBack ,ArBottomBtn.ARBottomCallBack{
 
     public static final String TAG = "PromptView";
     /**
@@ -69,6 +70,8 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      * Du Mix 状态回调提示文字
      */
     private TextView mDumixCallbackTips;
+
+    private ArBottomBtn arBottomBtn;
 
     /**
      * 本地识图云端识图返回的arKey
@@ -107,7 +110,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     private Context mContext;
     private TabLayoutView tabLayoutView;
-    private TextView tv_submit;
+
     /**
      * 构造函数
      *
@@ -156,13 +159,14 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 //        mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
         tabLayoutView = findViewById(R.id.tab_view);
         tabLayoutView.setBottomCallBack(this);
-        tv_submit = findViewById(R.id.tv_submit);
-        tv_submit.setOnClickListener(this);
+
         mDuMixCallback = this;
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
 //        mModule.setPluginContainer(mPluginContainer);
         lv_loading = findViewById(R.id.lv_loading);
+        arBottomBtn = findViewById(R.id.ar_bottom_btn);
+        arBottomBtn.setARBottomCallBack(this);
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -180,9 +184,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 if (mPromptCallback != null) {
                     mPromptCallback.onBackPressed();
                 }
-                break;
-            case R.id.tv_submit:
-                mPromptCallback.onStartOrderAc();
                 break;
         }
         lv_loading.setVisibility(VISIBLE);
@@ -488,15 +489,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         });
     }
 
-    /**
-     * 计算屏幕和preview 的宽高比
-     */
-
-    public void initPreviewScreenScale(int cameraW, int cameraH) {
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        mScaleHeight = (float) ((dm.heightPixels * 1.0) / (cameraW * 1.0));
-        mScaleWidth = (float) ((dm.widthPixels * 1.0) / (cameraH * 1.0));
-    }
 
     public void setPointViewVisible(final boolean visible) {
         UiThreadUtil.runOnUiThread(() -> {
@@ -512,9 +504,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void setCallBack(int num) {
-        UiThreadUtil.runOnUiThread(() -> {
-        lv_loading.setVisibility(VISIBLE);
-        });
+//        UiThreadUtil.runOnUiThread(() -> {
+//        lv_loading.setVisibility(VISIBLE);
+//        });
         mPromptCallback.onSwitchModel(num);
     }
 }

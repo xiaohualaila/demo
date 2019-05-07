@@ -21,19 +21,29 @@
             android:layout_marginRight="20dp"
             android:src="@drawable/back_x"/>
 
-    <TextView
-        android:id="@+id/tv_submit"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+    <!--<TextView-->
+        <!--android:id="@+id/tv_submit"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="@drawable/submit_button"-->
+        <!--android:gravity="center"-->
+        <!--android:text="提交订单"-->
+        <!--android:textColor="@color/white"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--app:layout_constraintVertical_bias="0.85" />-->
+    <com.aier.ardemo.weight.ArBottomBtn
+        android:id="@+id/ar_bottom_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:background="@drawable/submit_button"
-        android:gravity="center"
-        android:text="提交订单"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintVertical_bias="0.85"
+        ></com.aier.ardemo.weight.ArBottomBtn>
     <!--<RelativeLayout-->
             <!--android:id="@+id/bdar_id_plugin_container"-->
             <!--android:layout_width="wrap_content"-->
