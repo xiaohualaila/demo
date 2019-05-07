@@ -6,7 +6,7 @@ package com.aier.ardemo.module;
 import java.util.HashMap;
 
 import com.baidu.ar.ARController;
-import com.aier.ardemo.view.ARControllerManager;
+import com.aier.ardemo.arview.ARControllerManager;
 import com.baidu.ar.tts.TTSCallback;
 import com.baidu.ar.tts.TTSStatus;
 import com.baidu.ar.tts.Tts;

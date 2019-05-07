@@ -142,7 +142,7 @@ public class WeatherFragment extends BaseFragment {
                 Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
 
               //  qrCoded.setText("解码结果： \n" + content);
-                Log.i("sss",content);
+            //    Log.i("sss",content);
             //    qrCodeImage.setImageBitmap(bitmap);
             }
         }

@@ -1,4 +1,4 @@
-package com.aier.ardemo.view;
+package com.aier.ardemo.arview;
 
 import android.content.Context;
 import android.util.AttributeSet;

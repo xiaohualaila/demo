@@ -28,15 +28,23 @@
             android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.WelcomeActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
         <activity
             android:name="com.karics.library.zxing.android.CaptureActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".ui.activity.VRActivity"
+            android:launchMode="singleTop" >
+
+        </activity>
+        <activity android:name=".ui.activity.WebActivity"
+            android:launchMode="singleTop" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".ui.activity.NfcActivity"
             android:launchMode="singleTop"

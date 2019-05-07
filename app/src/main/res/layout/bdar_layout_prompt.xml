@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.aier.ardemo.view.PointsView
+    <com.aier.ardemo.arview.PointsView
             android:id="@+id/bdar_gui_point_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -53,7 +53,7 @@
             android:textColor="@android:color/holo_blue_bright"/>
     <!-- 加载提示界面 -->
 
-    <com.aier.ardemo.view.LoadingView
+    <com.aier.ardemo.arview.LoadingView
             android:id="@+id/lv_loading"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

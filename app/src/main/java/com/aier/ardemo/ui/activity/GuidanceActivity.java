@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager;
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.SamplePagerAdapter;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.view.CircleIndicator;
+import com.aier.ardemo.arview.CircleIndicator;
 import butterknife.BindView;
 
 public class GuidanceActivity extends BaseActivity {

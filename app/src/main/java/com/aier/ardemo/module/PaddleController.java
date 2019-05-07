@@ -10,7 +10,7 @@ import com.baidu.ar.ARController;
 import com.baidu.ar.arplay.util.MsgParamsUtil;
 import com.baidu.ar.paddle.ARPaddleHelper;
 import com.baidu.ar.paddle.PaddleManager;
-import com.aier.ardemo.view.ARControllerManager;
+import com.aier.ardemo.arview.ARControllerManager;
 
 import android.content.Context;
 import android.text.TextUtils;

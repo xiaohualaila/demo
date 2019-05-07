@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
  */
-package com.aier.ardemo.view;
+package com.aier.ardemo.arview;
 
 import com.aier.ardemo.R;
 import com.baidu.ar.recg.CornerPoint;

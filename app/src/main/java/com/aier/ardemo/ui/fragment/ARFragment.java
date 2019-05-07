@@ -22,7 +22,7 @@ import com.aier.ardemo.draw.ARRenderer;
 import com.aier.ardemo.draw.GLConfigChooser;
 import com.aier.ardemo.module.MsgType;
 import com.aier.ardemo.ui.Prompt;
-import com.aier.ardemo.view.ARControllerManager;
+import com.aier.ardemo.arview.ARControllerManager;
 import com.baidu.ar.recg.CornerPoint;
 import com.baidu.ar.recg.CornerPointController;
 import com.baidu.ar.recg.ImgRecognitionClient;
