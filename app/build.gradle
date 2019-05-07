@@ -71,4 +71,5 @@ dependencies {
     implementation files('libs/core-3.0.0.jar')
     //vr
     implementation 'com.google.vr:sdk-videowidget:1.10.0'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
 }
