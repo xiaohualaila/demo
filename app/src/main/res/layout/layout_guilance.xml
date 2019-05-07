@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dp25"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/white_shape"
         android:gravity="center"
         android:paddingBottom="@dimen/dp05"
@@ -25,8 +25,9 @@
         android:paddingRight="@dimen/dp25"
         android:paddingTop="@dimen/dp05"
         android:text="立即体验"
-        android:textColor="@color/white"
+        android:textColor="@color/text_"
         android:textSize="@dimen/sp16"
-        android:visibility="gone"/>
+        android:visibility="gone"
+       />
 
 </RelativeLayout>

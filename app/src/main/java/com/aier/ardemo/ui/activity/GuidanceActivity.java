@@ -1,6 +1,5 @@
 package com.aier.ardemo.ui.activity;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

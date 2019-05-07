@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.aier.ardemo.R;
 
@@ -16,6 +17,7 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
     private int before_state = 1;
     private BottomCallBack bottomCallBack;
     private LinearLayout ll_home,ll_my;
+    private TextView iv_home_text,iv_my_text;
     public void setBottomCallBack(BottomCallBack bottomCallBack) {
         this.bottomCallBack = bottomCallBack;
     }
@@ -32,8 +34,12 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
         ll_my = view.findViewById(R.id.ll_my);
         home = view.findViewById(R.id.iv_home);
         my = view.findViewById(R.id.iv_my);
+        iv_home_text = view.findViewById(R.id.iv_home_text);
+        iv_my_text = view.findViewById(R.id.iv_my_text);
         ll_home.setOnClickListener(this);
         ll_my.setOnClickListener(this);
+        iv_home_text.setOnClickListener(this);
+        iv_my_text.setOnClickListener(this);
     }
 
     @Override
@@ -45,6 +51,12 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
             case R.id.ll_my:
                 setBottomViewState(2);
                 break;
+            case R.id.iv_home_text:
+                setBottomViewState(1);
+                break;
+            case R.id.iv_my_text:
+                setBottomViewState(2);
+                break;
         }
     }
 
@@ -53,11 +65,15 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
             if (mAccount == 1) {
                 home.setImageResource(R.drawable.home_);
                 my.setImageResource(R.drawable.my);
+                iv_home_text.setTextColor(getResources().getColor(R.color.colorPrimary));
+                iv_my_text.setTextColor(getResources().getColor(R.color.tab_bg));
                 bottomCallBack.setCallBack(1);
             } else if (mAccount == 2) {
                 bottomCallBack.setCallBack(2);
                 home.setImageResource(R.drawable.home);
                 my.setImageResource(R.drawable.my_);
+                iv_home_text.setTextColor(getResources().getColor(R.color.tab_bg));
+                iv_my_text.setTextColor(getResources().getColor(R.color.colorPrimary));
             }
 
             before_state = mAccount;

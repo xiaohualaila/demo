@@ -39,8 +39,6 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity implements BottomView.BottomCallBack{
     @BindView(R.id.bottom_view)
     BottomView bottomView;
-    @BindView(R.id.tv_title)
-    TextView tv_title;
     private static String TAG ="MainActivity";
     /**
      * 需要手动申请的权限
@@ -153,11 +151,9 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         switch (num){
             case 1:
                 switchContent(weatherFragment);
-                tv_title.setText("首页");
                 break;
             case 2:
                 switchContent(myFragment);
-                tv_title.setText("我的");
                 break;
         }
     }

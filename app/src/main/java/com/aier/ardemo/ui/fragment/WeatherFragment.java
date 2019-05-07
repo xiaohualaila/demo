@@ -105,12 +105,9 @@ public class WeatherFragment extends BaseFragment {
         tv_shidu_.setText(dataBean.getHumidity()+"");
 
         List<String> strings =dataBean.getWin();
-//        StringBuilder builder = new StringBuilder();
-//        for (String s:strings){
-//            builder.append(s);
-//        }
-     //   tv_fengli_.setText(dataBean.getWin_speed()+" "+builder.toString());
-        tv_fengli_.setText(dataBean.getWin_speed()+" "+strings.get(0));
+        if(strings.size()>0){
+            tv_fengli_.setText(dataBean.getWin_speed()+" "+strings.get(0));
+        }
         tv_air_.setText(dataBean.getAir()+"");
         tv_air_quality_.setText(dataBean.getAir_level());
         tv_ye_tem1.setText(dataBean_tomorrow.getTem2());
