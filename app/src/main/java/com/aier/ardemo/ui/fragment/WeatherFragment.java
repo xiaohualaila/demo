@@ -3,23 +3,25 @@ package com.aier.ardemo.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.aier.ardemo.R;
+import com.aier.ardemo.adapter.ProduceAdapter;
+import com.aier.ardemo.model.Produces;
 import com.aier.ardemo.model.WeatherResponseBean;
 import com.aier.ardemo.netsubscribe.WeatherSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
-import com.aier.ardemo.ui.activity.ARActivity;
-import com.aier.ardemo.ui.activity.CheckActivity;
 import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
 import com.karics.library.zxing.android.CaptureActivity;
-
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,12 +58,17 @@ public class WeatherFragment extends BaseFragment {
     TextView tv_air_;
     @BindView(R.id.tv_air_quality_)
     TextView tv_air_quality_;
+    @BindView(R.id.rv_order_info)
+    RecyclerView mRecyclerView;
+
 
     private static final int REQUEST_CODE_SCAN = 0x0000;
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
 
     private MainActivity ac;
+    ProduceAdapter mAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_weather;
@@ -71,8 +78,29 @@ public class WeatherFragment extends BaseFragment {
     protected void init() {
         ac = (MainActivity) getActivity();
         getWeatherData();
+        initRecycView();
     }
 
+    private void initRecycView() {
+
+        //设置RecyclerView管理器
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(ac, LinearLayoutManager.VERTICAL, false));
+        //初始化适配器
+        mAdapter = new ProduceAdapter(getDataOrder());
+        //设置添加或删除item时的动画，这里使用默认动画
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //设置适配器
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private List<Produces> getDataOrder() {
+        List<Produces> list = new ArrayList();
+        list.add(new Produces("2011-9-11 12:10:07","xxxxxxxxxxxxxxxxx"));
+        list.add(new Produces("2011-4-11 12:10:07","hhhhhhhhhhhhhhhhhh"));
+        list.add(new Produces("2017-4-11 12:10:07","sssssssss"));
+        list.add(new Produces("2017-4-11 12:10:07","qqqqqqqqqqqqq"));
+        return list;
+    }
 
 
     /**

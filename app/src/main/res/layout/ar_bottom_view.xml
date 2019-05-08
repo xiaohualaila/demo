@@ -33,10 +33,11 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/white"/>
+
     <TextView
         android:id="@+id/tv_fast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="立即购买"/>
+        android:text="加入购物车"
+        android:textColor="@color/white" />
 </LinearLayout>

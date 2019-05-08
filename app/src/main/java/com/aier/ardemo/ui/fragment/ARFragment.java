@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
+import com.aier.ardemo.ui.activity.ShoppingActivity;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
@@ -123,6 +124,8 @@ public class ARFragment extends Fragment {
     private String mArFile;
     private ARActivity arActivity;
 
+    private String current_produce;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -142,7 +145,9 @@ public class ARFragment extends Fragment {
             mArTpye = bundle.getInt(Config.AR_TYPE);
             mArFile = bundle.getString(Config.AR_FILE);
             ARConfig.setARPath(mArFile);
+            current_produce = mArKey;
         }
+
         mARCameraManager = new ARCameraManager();
 
         // 6.0以下版本直接同意使用权限
@@ -405,12 +410,21 @@ public class ARFragment extends Fragment {
             if (mARController != null) {
                 if(num ==1){
                     mARController.switchCase("10301883", 5);//切换黑胡桃
+                    current_produce = "10301883";
                 }else if(num ==2){
                     mARController.switchCase("10301878", 5);//切换模型白腊木
-                }else if((num ==3)){
+                    current_produce = "10301878";
+                }else if(num ==3){
                     mARController.switchCase("10301899", 5);//切换模型 红橡木
+                    current_produce = "10301899";
+                }else if(num ==10){
+                    Intent intent =new Intent(arActivity,ShoppingActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ar_key", current_produce);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }else {
-                    Toast.makeText(arActivity,num + " ",Toast.LENGTH_LONG).show();
+                    Toast.makeText(arActivity, " 功能正在开发当中 ",Toast.LENGTH_LONG).show();
                 }
 
             }

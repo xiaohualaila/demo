@@ -110,7 +110,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     private Context mContext;
     private TabLayoutView tabLayoutView;
-
+    private ImageView iv_tian,iv_xian,iv_jian;
     /**
      * 构造函数
      *
@@ -167,6 +167,13 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         lv_loading = findViewById(R.id.lv_loading);
         arBottomBtn = findViewById(R.id.ar_bottom_btn);
         arBottomBtn.setARBottomCallBack(this);
+
+        iv_tian = findViewById(R.id.iv_tian);
+        iv_xian = findViewById(R.id.iv_xian);
+        iv_jian = findViewById(R.id.iv_jian);
+        iv_tian.setOnClickListener(this);
+        iv_xian.setOnClickListener(this);
+        iv_jian.setOnClickListener(this);
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -185,8 +192,18 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                     mPromptCallback.onBackPressed();
                 }
                 break;
+            case R.id.iv_tian:
+              //  mPromptCallback.onSwitchModel(11);
+                showToast();
+                break;
+            case R.id.iv_xian:
+                showToast();
+                break;
+            case R.id.iv_jian:
+                showToast();
+                break;
         }
-        lv_loading.setVisibility(VISIBLE);
+      //  lv_loading.setVisibility(VISIBLE);
     }
 
     public void release() {
@@ -466,7 +483,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private void showToast(final String s) {
         UiThreadUtil.runOnUiThread(() -> mDumixCallbackTips.setText(s));
     }
-
+    private void showToast() {
+        UiThreadUtil.runOnUiThread(() -> Toast.makeText(mContext,"功能正在开发当中", Toast.LENGTH_SHORT).show());
+    }
 
 
 
