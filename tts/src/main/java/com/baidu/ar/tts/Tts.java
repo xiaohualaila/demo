@@ -55,7 +55,7 @@ public class Tts {
         mSpeechSynthesizer.setApiKey(aipKey, secretKey);
         AuthInfo authInfo = mSpeechSynthesizer.auth(TtsMode.ONLINE);
         if (authInfo.isSuccess()) {
-            Log.e("tts", "auth success");
+            Log.e("tts", "auth success_pic");
         } else {
             String errorMsg = authInfo.getTtsError().getDetailMessage();
             Log.e("tts", "auth failed errorMsg=" + errorMsg);
@@ -81,7 +81,7 @@ public class Tts {
 
         AuthInfo authInfo = mSpeechSynthesizer.auth(TtsMode.ONLINE);
         if (authInfo.isSuccess()) {
-            Log.e("tts", "auth success");
+            Log.e("tts", "auth success_pic");
         } else {
             String errorMsg = authInfo.getTtsError().getDetailMessage();
             Log.e("tts", "auth failed errorMsg=" + errorMsg);

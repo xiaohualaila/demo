@@ -18,7 +18,7 @@ public class PaySuccessActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        tv_title.setText("支付成功");
+        tv_title.setText("支付结果");
         tv_right.setVisibility(View.VISIBLE);
 
     }
@@ -35,10 +35,13 @@ public class PaySuccessActivity extends BaseActivity {
 
 
 
-    @OnClick(R.id.iv_back)
+    @OnClick({R.id.iv_back,R.id.tv_right})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
+                break;
+            case R.id.tv_right:
                 finish();
                 break;
         }

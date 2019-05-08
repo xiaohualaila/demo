@@ -236,7 +236,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 break;
             // so加载成功
             case MsgField.IMSG_SO_LOAD_SUCCESS:
-                showToast("so load success");
+                showToast("so load success_pic");
                 break;
 
             // so加载失败

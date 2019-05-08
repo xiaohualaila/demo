@@ -35,6 +35,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
 
     private List<Goods> list;
     private boolean isBuy = false;
+    private int myAmount;
     @Override
     protected void initViews() {
         tv_title.setText("购物车");
@@ -87,19 +88,29 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                 }
                 mAdapter.notifyDataSetChanged();
                 if(isBuy){
-                    iv_choose.setImageResource(R.drawable.buy);
+                    iv_choose.setImageResource(R.drawable.success_pic);
                 }else {
                     iv_choose.setImageResource(R.drawable.not_buy);
                 }
                 break;
             case R.id.bt_submit:
+                if(myAmount==0){
+                    showToast("没有要提交的订单！");
+                      return;
+                }
 
+                Intent intent = new Intent(this,OrderInfoActivity.class);
+                Bundle bundle =new Bundle();
+                bundle.putInt("amount",myAmount);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
 
     @Override
     public void onTotalAmount(int amount) {
+        myAmount = amount;
         Log.i("sss","amount" + amount);
         tv_sum.setText("￥"+amount);
     }

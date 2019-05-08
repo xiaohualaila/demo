@@ -32,7 +32,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         Goods goods = list.get(position);
         if(goods.isBuy()){
             Total += goods.getAmount();
-            holder.iv_choose.setImageResource(R.drawable.buy);
+            holder.iv_choose.setImageResource(R.drawable.success_pic);
         }else {
             holder.iv_choose.setImageResource(R.drawable.not_buy);
         }
@@ -53,7 +53,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                  holder.add_dele_btn.setNumber(1);
 
             }else {
-                holder.iv_choose.setImageResource(R.drawable.buy);
+                holder.iv_choose.setImageResource(R.drawable.success_pic);
                 goods.setBuy(true);
 
                 Total = Total + goods.getAmount();

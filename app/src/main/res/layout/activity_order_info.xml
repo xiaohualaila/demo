@@ -18,15 +18,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp10"
-                android:layout_marginRight="@dimen/dp10"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/text_"
-                android:text="共3件宝贝" />
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--android:layout_marginRight="@dimen/dp10"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:textColor="@color/text_"-->
+                <!--android:text="共3件宝贝" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,6 +101,13 @@
                 android:layout_marginBottom="@dimen/dp10"
                 android:orientation="vertical"
                 android:background="@color/white">
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:text="￥22001"/>
              <TextView
                  android:layout_width="match_parent"
                  android:layout_height="46dp"
@@ -118,8 +125,8 @@
                     android:layout_height="46dp">
                     <ImageView
                         android:id="@+id/rb_weixin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:src="@drawable/selected"
@@ -151,8 +158,8 @@
                     android:layout_height="46dp">
                     <ImageView
                         android:id="@+id/rb_zhifubao"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:src="@drawable/not_selected"
@@ -174,93 +181,102 @@
                         android:textColor="@color/text_"
                         android:text="支付宝支付"/>
                 </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:textColor="@color/white"
+                    android:text="确定"/>
             </LinearLayout>
 
             <!--订单-->
-            <RelativeLayout
-                android:id="@+id/rl_order_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp10"
-                android:layout_marginRight="@dimen/dp10"
-                android:padding="10dp"
-                android:background="@color/white">
-                <ImageView
-                    android:id="@+id/iv_goods"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:src="@drawable/chair"
-                    android:scaleType="fitXY" />
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_goods"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="@dimen/sp16"
-                    android:textColor="@color/text_"
-                    android:text="复古椅"/>
-                <TextView
-                    android:id="@+id/tv_color"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_goods"
-                    android:layout_marginLeft="10dp"
-                    android:layout_below="@+id/tv_name"
-                    android:layout_centerVertical="true"
-                    android:text="颜色"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/iv_goods"
-                    android:layout_marginLeft="10dp"
-                    android:layout_below="@+id/tv_color"
-                    android:textColor="@color/red"
-                    android:layout_alignParentBottom="true"
-                    android:text="￥1007"/>
-                <com.aier.ardemo.weight.AddDeleteView
-                    android:id="@+id/add_dele"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@color/white"
-                android:layout_marginLeft="@dimen/dp10"
-                android:layout_marginRight="@dimen/dp10">
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_order_info"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--android:layout_marginRight="@dimen/dp10"-->
+                <!--android:padding="10dp"-->
+                <!--android:background="@color/white">-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_goods"-->
+                    <!--android:layout_width="90dp"-->
+                    <!--android:layout_height="90dp"-->
+                    <!--android:src="@drawable/chair"-->
+                    <!--android:scaleType="fitXY" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_name"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toRightOf="@+id/iv_goods"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:textSize="@dimen/sp16"-->
+                    <!--android:textColor="@color/text_"-->
+                    <!--android:text="复古椅"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_color"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toRightOf="@+id/iv_goods"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_below="@+id/tv_name"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:text="颜色"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_toRightOf="@+id/iv_goods"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_below="@+id/tv_color"-->
+                    <!--android:textColor="@color/red"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:text="￥1007"/>-->
+                <!--<com.aier.ardemo.weight.AddDeleteView-->
+                    <!--android:id="@+id/add_dele"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_alignParentBottom="true" />-->
+            <!--</RelativeLayout>-->
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
+                <!--android:background="@color/white"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--android:layout_marginRight="@dimen/dp10">-->
 
-             <TextView
-                 android:id="@+id/tv_total"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:textColor="@color/red"
-                 android:textSize="16sp"
-                 android:layout_centerVertical="true"
-                 android:layout_alignParentRight="true"
-                 android:text="￥2017"/>
-             <TextView
-                 android:id="@+id/xiaoji"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_centerVertical="true"
-                 android:layout_toLeftOf="@+id/tv_total"
-                 android:text="小计："/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="共2件"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/xiaoji"/>
-            </RelativeLayout>
+             <!--<TextView-->
+                 <!--android:id="@+id/tv_total"-->
+                 <!--android:layout_width="wrap_content"-->
+                 <!--android:layout_height="wrap_content"-->
+                 <!--android:textColor="@color/red"-->
+                 <!--android:textSize="16sp"-->
+                 <!--android:layout_centerVertical="true"-->
+                 <!--android:layout_alignParentRight="true"-->
+                 <!--android:text="￥2017"/>-->
+             <!--<TextView-->
+                 <!--android:id="@+id/xiaoji"-->
+                 <!--android:layout_width="wrap_content"-->
+                 <!--android:layout_height="wrap_content"-->
+                 <!--android:layout_centerVertical="true"-->
+                 <!--android:layout_toLeftOf="@+id/tv_total"-->
+                 <!--android:text="小计："/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="共2件"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_toLeftOf="@+id/xiaoji"/>-->
+            <!--</RelativeLayout>-->
 
         </LinearLayout>
 
 
     </com.aier.ardemo.arview.ObservableScrollView>
-    <include layout="@layout/bottom_submit" />
+
 </LinearLayout>

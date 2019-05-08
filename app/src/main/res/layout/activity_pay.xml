@@ -2,30 +2,31 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
     <include layout="@layout/title_layout"/>
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="@color/line" />
-<ImageView
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="50dp"
-    android:layout_marginBottom="50dp"
-    android:src="@drawable/v"/>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:textColor="@color/text_"
-    android:textSize="18sp"
-    android:text="验证成功"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/result_pic"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/text_"
+        android:textSize="18sp"
+        android:text="支付成功"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="请前往智选页面下方查看进度"/>
+        android:text="请前往智选页面订单查看进度"/>
 </LinearLayout>
