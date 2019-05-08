@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:background="@color/my_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:id="@+id/bg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:background="#00BCD4"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <ImageView
         android:id="@+id/my_photo"
@@ -24,115 +32,165 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/text_"
         android:text="梦的秋千"/>
-    <LinearLayout
-        android:id="@+id/ll_moddle"
-        android:layout_width="match_parent"
+      <RelativeLayout
+          android:id="@+id/rl"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:layout_constraintTop_toBottomOf="@+id/bg"
+          app:layout_constraintLeft_toLeftOf="parent"
+          android:background="@color/white"
+          android:padding="10dp"
+          android:layout_margin="@dimen/dp10"
+          app:layout_constraintRight_toRightOf="parent">
+          <View
+              android:id="@+id/view"
+              android:layout_width="3dp"
+              android:layout_height="20dp"
+              android:background="@color/colorPrimary"/>
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_toRightOf="@+id/view"
+              android:layout_marginLeft="10dp"
+              android:text="宝贝技能"
+              android:textColor="@color/text_"
+              />
+           <TextView
+               android:layout_width="80dp"
+               android:layout_height="28dp"
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="10dp"
+               android:gravity="center"
+               android:textColor="@color/white"
+               android:background="@drawable/vr_blue_btn"
+               android:text="绑定手机"/>
+
+      </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/rl"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        >
-        <RelativeLayout
-            android:id="@+id/rl_order"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp60"
-            android:background="@color/white"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textColor="@color/text_"
-                android:text="我的订单"/>
+        android:layout_marginTop="@dimen/dp10"
+        android:text="没有数据"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/right"
-                android:padding="10dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_address"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp60"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textColor="@color/text_"
-                android:text="收获地址"/>
+    <TextView
+        android:id="@+id/tv_setup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="20dp"
+        android:textSize="@dimen/sp18"
+        android:text="设置"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/right"
-                android:padding="10dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/rl_vr"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp60"
-            android:background="@color/white"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:textColor="@color/text_"
-                android:text="VR全景"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/right"
-                android:padding="10dp"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_account"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp60"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:gravity="center_vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="我的账户"
-                android:textColor="@color/text_" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:padding="10dp"
-                android:src="@drawable/right" />
-        </RelativeLayout>
-    </LinearLayout>
 
-    <!--<Button-->
+
+
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_moddle"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/ll_moddle"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/tv_name"-->
         <!--app:layout_constraintLeft_toLeftOf="parent"-->
         <!--app:layout_constraintRight_toRightOf="parent"-->
         <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--android:layout_marginLeft="@dimen/dp40"-->
-        <!--android:layout_marginRight="@dimen/dp40"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:background="#C80001"-->
-        <!--android:text="退出登录"/>-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:orientation="vertical"-->
+        <!--&gt;-->
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_order"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp60"-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_vertical">-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
+                <!--android:textColor="@color/text_"-->
+                <!--android:text="我的订单"/>-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/right"-->
+                <!--android:padding="10dp"-->
+                <!--android:layout_alignParentRight="true"/>-->
+        <!--</RelativeLayout>-->
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_address"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp60"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_vertical">-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
+                <!--android:textColor="@color/text_"-->
+                <!--android:text="收获地址"/>-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/right"-->
+                <!--android:padding="10dp"-->
+                <!--android:layout_alignParentRight="true"/>-->
+        <!--</RelativeLayout>-->
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_vr"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp60"-->
+            <!--android:background="@color/white"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:gravity="center_vertical">-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
+                <!--android:textColor="@color/text_"-->
+                <!--android:text="VR全景"/>-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@drawable/right"-->
+                <!--android:padding="10dp"-->
+                <!--android:layout_alignParentRight="true"/>-->
+        <!--</RelativeLayout>-->
+
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/rl_account"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/dp60"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_vertical">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="10dp"-->
+                <!--android:text="我的账户"-->
+                <!--android:textColor="@color/text_" />-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:padding="10dp"-->
+                <!--android:src="@drawable/right" />-->
+        <!--</RelativeLayout>-->
+    <!--</LinearLayout>-->
+
+
 
 </android.support.constraint.ConstraintLayout>

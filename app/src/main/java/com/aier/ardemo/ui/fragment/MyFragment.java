@@ -1,7 +1,5 @@
 package com.aier.ardemo.ui.fragment;
 
-
-import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
-import com.aier.ardemo.ui.activity.AddressActivity;
-import com.aier.ardemo.ui.activity.OrderActivity;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.R;
@@ -58,23 +54,13 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.rl_order,R.id.rl_address,R.id.rl_vr,R.id.rl_account})
+    @OnClick({R.id.tv_setup})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rl_order:
-                startActivity(new Intent(getActivity(), OrderActivity.class));
-                break;
-            case R.id.rl_address:
-                startActivity(new Intent(getActivity(), AddressActivity.class));
-                break;
-            case R.id.rl_vr:
-
-                break;
-            case R.id.rl_account:
-               startActivity(new Intent(getActivity(), PersonInfoActivity.class));
+            case R.id.tv_setup:
+                startActivity(new Intent(getActivity(), PersonInfoActivity.class));
                 break;
         }
-
     }
 
 }
