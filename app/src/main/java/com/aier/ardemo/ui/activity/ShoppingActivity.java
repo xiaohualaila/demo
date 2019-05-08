@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.aier.ardemo.Config;
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ShoppingAdapter;
+import com.aier.ardemo.dialog.PayPassDialog;
+import com.aier.ardemo.dialog.PayPassView;
 import com.aier.ardemo.model.Goods;
 import com.aier.ardemo.ui.base.BaseActivity;
 
@@ -99,14 +101,48 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                       return;
                 }
 
-                Intent intent = new Intent(this,OrderInfoActivity.class);
-                Bundle bundle =new Bundle();
-                bundle.putInt("amount",myAmount);
-                intent.putExtras(bundle);
-                startActivity(intent);
+
+
+                payDialog();
+
                 break;
         }
     }
+
+
+    private void payDialog() {
+        final PayPassDialog dialog = new PayPassDialog(this);
+        dialog.getPayViewPass()
+                .setPayClickListener(new PayPassView.OnPayClickListener() {
+                    @Override
+                    public void onPassFinish(String passContent) {
+                        //6位输入完成,回调
+                        Log.i("sss", passContent);
+
+                        Intent intent = new Intent(ShoppingActivity.this, OrderInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("amount", myAmount);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+
+                    }
+
+                    @Override
+                    public void onPayClose() {
+                        dialog.dismiss();
+                        //关闭回调
+                    }
+
+                    @Override
+                    public void onPayForget() {
+                        dialog.dismiss();
+                        //点击忘记密码回调
+                    }
+                });
+    }
+
+
 
     @Override
     public void onTotalAmount(int amount) {
