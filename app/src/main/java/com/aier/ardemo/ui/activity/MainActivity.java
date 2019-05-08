@@ -29,6 +29,7 @@ import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
 import com.google.gson.Gson;
+import com.karics.library.zxing.android.CaptureActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,19 +139,26 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         switch (view.getId()) {
             case R.id.fab:
 
-                Intent intent = new Intent(this, ARActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("ar_key", "10301883");
-                bundle.putInt("ar_type", 5);
-                bundle.putString("ar_path", "");
-                bundle.putString("name", "白色椅子");
-                bundle.putString("description", "");
-                intent.putExtras(bundle);
-                startActivity(intent);
+
                 break;
         }
 
     }
+
+
+    public void goToArActivity(){
+        Intent intent = new Intent(this, ARActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("ar_key", "10301883");
+        bundle.putInt("ar_type", 5);
+        bundle.putString("ar_path", "");
+        bundle.putString("name", "白色椅子");
+        bundle.putString("description", "");
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
+
 
     @Override
     public void setCallBack(int num) {

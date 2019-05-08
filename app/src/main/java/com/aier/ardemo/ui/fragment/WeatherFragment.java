@@ -3,6 +3,7 @@ package com.aier.ardemo.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +13,9 @@ import com.aier.ardemo.model.WeatherResponseBean;
 import com.aier.ardemo.netsubscribe.WeatherSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
+import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.CheckActivity;
+import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
 import com.karics.library.zxing.android.CaptureActivity;
@@ -57,6 +60,8 @@ public class WeatherFragment extends BaseFragment {
     private static final int REQUEST_CODE_SCAN = 0x0000;
     private static final String DECODED_CONTENT_KEY = "codedContent";
     private static final String DECODED_BITMAP_KEY = "codedBitmap";
+
+    private MainActivity ac;
     @Override
     public int getLayoutId() {
         return R.layout.fragment_weather;
@@ -64,8 +69,10 @@ public class WeatherFragment extends BaseFragment {
 
     @Override
     protected void init() {
+        ac = (MainActivity) getActivity();
         getWeatherData();
     }
+
 
 
     /**
@@ -120,12 +127,11 @@ public class WeatherFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_check:
-          //   startActivity(new Intent(getActivity(), CheckActivity.class));
                 Intent intent = new Intent(new Intent(getActivity(), CaptureActivity.class));
                 startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
             case R.id.tv_zhen:
-
+                ac.goToArActivity();
                 break;
 
         }
