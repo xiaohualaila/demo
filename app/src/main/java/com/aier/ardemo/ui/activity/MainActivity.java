@@ -141,12 +141,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             case R.id.fab:
 
                 DialogFragment dialogFragment = DialogFragment.getInstance();
-                dialogFragment.show(getSupportFragmentManager(), new DialogFragment.OnDialogButtonClickListener() {
-                    @Override
-                    public void cancelButtonClick() {
-                        dialogFragment.dismiss();
-                    }
-                });
+                dialogFragment.show(getSupportFragmentManager(), () -> dialogFragment.dismiss());
                 break;
         }
 
