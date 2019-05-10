@@ -51,6 +51,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="@color/text_" />
             <TextView
+                android:id="@+id/tv_vr_video"
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp30"
                 android:layout_alignParentRight="true"

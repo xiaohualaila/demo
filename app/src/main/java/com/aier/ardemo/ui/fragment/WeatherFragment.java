@@ -151,7 +151,7 @@ public class WeatherFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_check,R.id.tv_zhen})
+    @OnClick({R.id.tv_check,R.id.tv_zhen,R.id.tv_vr_video})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_check:
@@ -161,7 +161,9 @@ public class WeatherFragment extends BaseFragment {
             case R.id.tv_zhen:
                 ac.goToArActivity();
                 break;
-
+            case R.id.tv_vr_video:
+                ac.goToVRVideoActivity();
+                break;
         }
 
     }

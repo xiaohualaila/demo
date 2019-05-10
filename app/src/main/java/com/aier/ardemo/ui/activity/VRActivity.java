@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.TextView;
+
 import com.aier.ardemo.R;
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
@@ -29,6 +32,10 @@ public class VRActivity extends AppCompatActivity {
      * 播放按钮
      */
     ImageButton play_toggle;
+
+    ImageView iv_back;
+
+    TextView tv_title;
 
     /**
      * 声音是否开启
@@ -57,6 +64,11 @@ public class VRActivity extends AppCompatActivity {
         seek_bar =  findViewById(R.id.seek_bar);
         volume_toggle =  findViewById(R.id.volume_toggle);
         play_toggle =  findViewById(R.id.play_toggle);
+        iv_back =  findViewById(R.id.iv_back);
+        iv_back.setOnClickListener(v -> finish());
+        tv_title = findViewById(R.id.tv_title);
+        tv_title.setText("VR360度全景视频");
+
 
         /**设置加载设置**/
         VrVideoView.Options options = new VrVideoView.Options();
@@ -214,6 +226,7 @@ public class VRActivity extends AppCompatActivity {
      */
     @Override
     protected void onDestroy() {
+        vr_video_view.pauseRendering();
         vr_video_view.shutdown();
         super.onDestroy();
     }

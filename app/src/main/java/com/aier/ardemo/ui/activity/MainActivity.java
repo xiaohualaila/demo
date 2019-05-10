@@ -158,6 +158,10 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         startActivity(intent);
     }
 
+    public void goToVRVideoActivity(){
+        Intent intent = new Intent(this, VRActivity.class);
+        startActivity(intent);
+    }
 
 
     @Override
