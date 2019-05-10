@@ -84,6 +84,7 @@
                         android:text="收货不方便时，可选择免费代收服务"/>
                 </LinearLayout>
                 <ImageView
+                    android:id="@+id/iv_add"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:padding="10dp"
@@ -125,8 +126,8 @@
                     android:layout_height="46dp">
                     <ImageView
                         android:id="@+id/rb_weixin"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:src="@drawable/selected"
@@ -158,8 +159,8 @@
                     android:layout_height="46dp">
                     <ImageView
                         android:id="@+id/rb_zhifubao"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_marginLeft="10dp"
                         android:padding="10dp"
                         android:src="@drawable/not_selected"

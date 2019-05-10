@@ -1,13 +1,11 @@
 package com.aier.ardemo.ui.activity;
 
-import android.arch.lifecycle.ViewModel;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

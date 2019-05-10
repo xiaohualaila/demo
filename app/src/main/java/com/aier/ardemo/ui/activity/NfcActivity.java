@@ -8,19 +8,12 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseNfcActivity;
-
 import java.util.Arrays;
-
 import butterknife.ButterKnife;
 
 public class NfcActivity  extends BaseNfcActivity {
@@ -46,15 +39,7 @@ public class NfcActivity  extends BaseNfcActivity {
         Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         //2.获取Ndef的实例
         Ndef ndef = Ndef.get(detectedTag);
-
         readNfcTag(intent);
-//        try {
-//         String sss =   readNFCFromTag(intent);
-//         Log.i("sss nfc msg >>>",sss);
-//            mNfcText.setText(sss);
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
 
     }
 

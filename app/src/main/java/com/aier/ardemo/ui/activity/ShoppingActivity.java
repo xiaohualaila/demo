@@ -52,21 +52,24 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //设置适配器
         mRecyclerView.setAdapter(mAdapter);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-           String ar_key = bundle.getString(Config.AR_KEY);
 
-        }
     }
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
-        list = new ArrayList();
-        list.add(new Goods("儿童椅","红色",1000,false));
-        list.add(new Goods("老头靠椅","红色",1200,false));
-        list.add(new Goods("藤椅","黄色",650,false));
-        list.add(new Goods("白色椅子","白色",900,false));
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            String ar_key = bundle.getString(Config.AR_KEY);
+            list = new ArrayList();
+            if(ar_key.equals("10301883")){//切换黑胡桃
+                list.add(new Goods("黑胡桃木椅","红黑色",1000,false));
+            }else if(ar_key.equals("10301878")){
+                list.add(new Goods("白腊木","白色",1000,false));
+            }else {
+                list.add(new Goods("红橡木","红色",1200,false));
+            }
+        }
 
 
 
@@ -102,46 +105,20 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                 }
 
 
+                Intent intent = new Intent(ShoppingActivity.this, OrderInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("amount", myAmount);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
 
-                payDialog();
+
 
                 break;
         }
     }
 
 
-    private void payDialog() {
-        final PayPassDialog dialog = new PayPassDialog(this);
-        dialog.getPayViewPass()
-                .setPayClickListener(new PayPassView.OnPayClickListener() {
-                    @Override
-                    public void onPassFinish(String passContent) {
-                        //6位输入完成,回调
-                        Log.i("sss", passContent);
-
-                        Intent intent = new Intent(ShoppingActivity.this, OrderInfoActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("amount", myAmount);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        finish();
-
-
-                    }
-
-                    @Override
-                    public void onPayClose() {
-                        dialog.dismiss();
-                        //关闭回调
-                    }
-
-                    @Override
-                    public void onPayForget() {
-                        dialog.dismiss();
-                        //点击忘记密码回调
-                    }
-                });
-    }
 
 
 

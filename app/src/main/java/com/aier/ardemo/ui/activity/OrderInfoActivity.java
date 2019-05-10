@@ -3,10 +3,13 @@ package com.aier.ardemo.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.R;
+import com.aier.ardemo.dialog.PayPassDialog;
+import com.aier.ardemo.dialog.PayPassView;
 import com.aier.ardemo.ui.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,15 +49,14 @@ public class OrderInfoActivity extends BaseActivity {
         return R.layout.activity_order_info;
     }
 
-    @OnClick({R.id.iv_back,R.id.tv_submit,R.id.rb_weixin,R.id.rb_zhifubao})
+    @OnClick({R.id.iv_back,R.id.tv_submit,R.id.rb_weixin,R.id.rb_zhifubao,R.id.iv_add})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
             case R.id.tv_submit:
-                startActivity(new Intent(this,PaySuccessActivity.class));
-                finish();
+                payDialog();
                 break;
             case R.id.rb_weixin:
                 rb_weixin.setImageResource(R.drawable.selected);
@@ -66,7 +68,38 @@ public class OrderInfoActivity extends BaseActivity {
                 rb_zhifubao.setImageResource(R.drawable.selected);
                 isWeixinPay = false;
                 break;
+            case R.id.iv_add:
+
+                break;
         }
 
     }
+
+    private void payDialog() {
+        final PayPassDialog dialog = new PayPassDialog(this);
+        dialog.getPayViewPass()
+                .setPayClickListener(new PayPassView.OnPayClickListener() {
+                    @Override
+                    public void onPassFinish(String passContent) {
+                        //6位输入完成,回调
+                        Log.i("sss", passContent);
+                        startActivity(new Intent(OrderInfoActivity.this,PaySuccessActivity.class));
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onPayClose() {
+                        dialog.dismiss();
+                        //关闭回调
+                    }
+
+                    @Override
+                    public void onPayForget() {
+                        dialog.dismiss();
+                        //点击忘记密码回调
+                    }
+                });
+    }
+
 }
