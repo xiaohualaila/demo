@@ -174,6 +174,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         iv_tian.setOnClickListener(this);
         iv_xian.setOnClickListener(this);
         iv_jian.setOnClickListener(this);
+        UiThreadUtil.runOnUiThread(() -> {
+            lv_loading.setVisibility(VISIBLE);
+        });
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -203,7 +206,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 showToast();
                 break;
         }
-      //  lv_loading.setVisibility(VISIBLE);
     }
 
     public void release() {
@@ -217,9 +219,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     @Override
     public void onStateChange(final int state, final Object msg) {
         Log.e(TAG, "onStateChange, state = " + state + " msg = " + msg);
-        UiThreadUtil.runOnUiThread(() -> {
-            lv_loading.setVisibility(GONE);
-        });
+
         switch (state) {
             case MsgField.MSG_AUTH_FAIL:
                 UiThreadUtil.runOnUiThread(() -> {
@@ -236,12 +236,15 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 break;
             // so加载成功
             case MsgField.IMSG_SO_LOAD_SUCCESS:
-                showToast("so load success_pic");
+             //   showToast("so load success_pic");
                 break;
 
             // so加载失败
             case MsgField.IMSG_SO_LOAD_FAILED:
-                showToast("so load failed");
+              //  showToast("so load failed");
+                UiThreadUtil.runOnUiThread(() -> {
+                    lv_loading.setVisibility(GONE);
+                });
                 break;
 
             // 解压zip失败
@@ -333,8 +336,12 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
             // 引擎模型加载完毕, 所有ar业务都会发送此消息
             case MsgField.IMSG_MODEL_LOADED:
-                showToast(" 引擎模型加载完毕 ");
+             //   showToast(" 引擎模型加载完毕 ");
                 // 测试case与业务层Button end
+
+                UiThreadUtil.runOnUiThread(() -> {
+                    lv_loading.setVisibility(GONE);
+                });
                 break;
 
             // Track消息 tips提示
@@ -523,9 +530,9 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     @Override
     public void setCallBack(int num) {
-//        UiThreadUtil.runOnUiThread(() -> {
-//        lv_loading.setVisibility(VISIBLE);
-//        });
+        UiThreadUtil.runOnUiThread(() -> {
+        lv_loading.setVisibility(VISIBLE);
+        });
         mPromptCallback.onSwitchModel(num);
     }
 }

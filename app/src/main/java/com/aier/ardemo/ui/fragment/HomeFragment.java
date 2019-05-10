@@ -1,18 +1,14 @@
 package com.aier.ardemo.ui.fragment;
 
-import android.arch.lifecycle.ViewModel;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.aier.ardemo.bean.BannerItems;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.R;
 import com.aier.ardemo.weight.banner.BannerView;
 import java.util.ArrayList;
 import java.util.List;
-
-
 import butterknife.BindView;
 
 public class HomeFragment extends BaseFragment {

@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="今天:"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_to_tianqi"
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="晴"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_to_tem1"
@@ -109,20 +109,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="15C"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_to_tem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="28C"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
         </LinearLayout>
         <View
@@ -140,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="明日:"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_ye_tianqi"
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="晴"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_ye_tem1"
@@ -156,20 +156,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="15C"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_ye_tem2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="28C"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
@@ -181,7 +181,7 @@
         app:layout_constraintLeft_toRightOf="@+id/guideline"
         android:textColor="@color/white"
         android:layout_marginLeft="@dimen/dp10"
-        android:textSize="10sp"
+        android:textSize="14sp"
         android:text="湿度"
         />
     <TextView
@@ -202,7 +202,7 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_shidu"
         android:textColor="@color/white"
         android:layout_marginLeft="20dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="风向风力"
         />
     <TextView
@@ -225,7 +225,7 @@
         android:textColor="@color/white"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="空气指数" />
 
     <TextView
@@ -246,7 +246,7 @@
         app:layout_constraintStart_toEndOf="@+id/tv_air"
         android:textColor="@color/white"
         android:layout_marginLeft="10dp"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:text="空气质量" />
     <TextView
         android:id="@+id/tv_air_quality_"

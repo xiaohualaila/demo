@@ -144,23 +144,15 @@ public class VRActivity extends AppCompatActivity {
         });
         try {
             /**加载VR视频**/
-            vr_video_view.loadVideoFromAsset("congo.mp4", options);
+            vr_video_view.loadVideoFromAsset("factory.mp4", options);
             //  vr_video_view.loadVideo();
         } catch (IOException e) {
             e.printStackTrace();
         }
         /**设置声音按钮点击监听**/
-        volume_toggle.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                setIsMuted(!isMuted);
-            }
-        });
+        volume_toggle.setOnClickListener(v -> setIsMuted(!isMuted));
         /**设置播放暂停按钮点击监听**/
-        play_toggle.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                setIsPlay(!isPlay);
-            }
-        });
+        play_toggle.setOnClickListener(v -> setIsPlay(!isPlay));
 
         /**设置进度条拖动监听**/
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
@@ -18,11 +16,9 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.karics.library.zxing.android.CaptureActivity;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.baidu.speech.audio.MicrophoneServer.TAG;
 
 public class MyFragment extends BaseFragment {
     @BindView(R.id.my_photo)
