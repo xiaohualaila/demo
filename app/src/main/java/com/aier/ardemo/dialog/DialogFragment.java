@@ -85,9 +85,14 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         ImageView tv_colse= view.findViewById(R.id.tv_colse);
 
 
+        tv_colse.setOnClickListener(v -> buttonClickListner.cancelButtonClick());
 
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        btn.setOnClickListener(v -> buttonClickListner.cancelButtonClick());
+            }
+        });
         builder.setView(view);
         return builder.create();
     }
