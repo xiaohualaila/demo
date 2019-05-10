@@ -155,7 +155,8 @@ public class WeatherFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_check:
-                Intent intent = new Intent(new Intent(getActivity(), CaptureActivity.class));
+                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+                intent.putExtra("from","wheather");
                 startActivity(intent);
              //   startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;

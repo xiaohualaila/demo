@@ -58,6 +58,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
 	private ImageButton imageButton_back;
 	private TextView tv_nfc,nfc_tip;
+	private String flag;
 	public ViewfinderView getViewfinderView() {
 		return viewfinderView;
 	}
@@ -87,6 +88,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 		Window window = getWindow();
 		window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setContentView(R.layout.capture);
+
+		flag = getIntent().getStringExtra("from");
 		hasSurface = false;
 
 		inactivityTimer = new InactivityTimer(this);
@@ -204,17 +207,22 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 			beepManager.playBeepSoundAndVibrate();
 
 			Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
+            if(flag.equals("bind")){
+				Intent intent = getIntent();
+				intent.putExtra("codedContent", rawResult.getText());
+				//intent.putExtra("codedBitmap", barcode);
+				setResult(RESULT_OK, intent);
+				finish();
+			}else {
+				Intent intent = new Intent(this, WebActivity.class);
+				intent.putExtra("codedContent", rawResult.getText());
+				intent.putExtra("type", 1);
+				startActivity(intent);
+				finish();
+			}
 
-//			Intent intent = getIntent();
-//			intent.putExtra("codedContent", rawResult.getText());
-//			intent.putExtra("codedBitmap", barcode);
-//			setResult(RESULT_OK, intent);
 
-			Intent intent = new Intent(this, WebActivity.class);
-			intent.putExtra("codedContent", rawResult.getText());
-			intent.putExtra("type", 1);
-			startActivity(intent);
-			finish();
+
 		}
 
 	}
