@@ -66,6 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="gone"
             android:text="暂时没有信息"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_order_info"

@@ -95,10 +95,9 @@ public class WeatherFragment extends BaseFragment {
 
     private List<Produces> getDataOrder() {
         List<Produces> list = new ArrayList();
-        list.add(new Produces("2011-9-11 12:10:07","xxxxxxxxxxxxxxxxx"));
-        list.add(new Produces("2011-4-11 12:10:07","hhhhhhhhhhhhhhhhhh"));
-        list.add(new Produces("2017-4-11 12:10:07","sssssssss"));
-        list.add(new Produces("2017-4-11 12:10:07","qqqqqqqqqqqqq"));
+        list.add(new Produces("2019-4-11 16:12:07","您购买了志林实木椅子"));
+        list.add(new Produces("2011-4-27 12:10:07","厂家已经接单生产"));
+        list.add(new Produces("2011-4-27 18:10:07","厂家已经发货"));
         return list;
     }
 

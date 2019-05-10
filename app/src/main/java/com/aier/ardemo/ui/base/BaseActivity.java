@@ -3,11 +3,16 @@ package com.aier.ardemo.ui.base;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
+
 import butterknife.ButterKnife;
 
 
@@ -28,7 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-
         initDate(savedInstanceState);
         initViews();
     }
@@ -136,5 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void startActivityForResult(Class cl, int requestCode) {
         startActivityForResult(new Intent(this, cl), requestCode);
     }
+
+
 
 }
