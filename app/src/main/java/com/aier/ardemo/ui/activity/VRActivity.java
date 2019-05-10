@@ -144,7 +144,7 @@ public class VRActivity extends AppCompatActivity {
         });
         try {
             /**加载VR视频**/
-            vr_video_view.loadVideoFromAsset("factory.mp4", options);
+            vr_video_view.loadVideoFromAsset("congo.mp4", options);
             //  vr_video_view.loadVideo();
         } catch (IOException e) {
             e.printStackTrace();

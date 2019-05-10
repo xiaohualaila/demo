@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
+import com.aier.ardemo.dialog.DialogFragment;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.fragment.HomeFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
@@ -139,7 +140,13 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         switch (view.getId()) {
             case R.id.fab:
 
-
+                DialogFragment dialogFragment = DialogFragment.getInstance();
+                dialogFragment.show(getSupportFragmentManager(), new DialogFragment.OnDialogButtonClickListener() {
+                    @Override
+                    public void cancelButtonClick() {
+                        dialogFragment.dismiss();
+                    }
+                });
                 break;
         }
 
@@ -201,14 +208,10 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("提示");
         builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
-
         // 拒绝, 退出应用
         builder.setNegativeButton("取消", (dialog, which) -> finish());
-
         builder.setPositiveButton("设置", (dialog, which) -> startAppSettings());
-
         builder.setCancelable(false);
-
         builder.show();
     }
 
