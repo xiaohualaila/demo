@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <com.lzj.pass.dialog.PayPassView
+    <com.aier.ardemo.dialog.PayPassView
         android:id="@+id/pay_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

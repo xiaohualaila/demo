@@ -124,6 +124,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                         bundle.putInt("amount", myAmount);
                         intent.putExtras(bundle);
                         startActivity(intent);
+                        finish();
 
 
                     }

@@ -423,6 +423,8 @@ public class ARFragment extends Fragment {
                     bundle.putString("ar_key", current_produce);
                     intent.putExtras(bundle);
                     startActivity(intent);
+                    arActivity.finish();
+
                 }else {
                     Toast.makeText(arActivity, " 功能正在开发当中 ",Toast.LENGTH_LONG).show();
                 }

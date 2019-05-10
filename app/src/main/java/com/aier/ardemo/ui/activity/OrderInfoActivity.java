@@ -54,6 +54,7 @@ public class OrderInfoActivity extends BaseActivity {
                 break;
             case R.id.tv_submit:
                 startActivity(new Intent(this,PaySuccessActivity.class));
+                finish();
                 break;
             case R.id.rb_weixin:
                 rb_weixin.setImageResource(R.drawable.selected);
