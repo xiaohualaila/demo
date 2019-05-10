@@ -3,6 +3,7 @@ package com.aier.ardemo.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,6 +12,8 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.PayPassDialog;
 import com.aier.ardemo.dialog.PayPassView;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.utils.SharedPreferencesUtil;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -26,6 +29,8 @@ public class OrderInfoActivity extends BaseActivity {
     ImageView rb_weixin;
     @BindView(R.id.rb_zhifubao)
     ImageView rb_zhifubao;
+    @BindView(R.id.addr)
+    TextView addr;
     private int amount;
     private boolean isWeixinPay = true;
 
@@ -35,6 +40,10 @@ public class OrderInfoActivity extends BaseActivity {
            if(bundle!=null){
                amount = bundle.getInt("amount");
            }
+          String  add = SharedPreferencesUtil.getString(this,"addr","");
+          if(TextUtils.isEmpty(add)){
+              addr.setText(add);
+          }
     }
 
     @Override
@@ -56,6 +65,11 @@ public class OrderInfoActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_submit:
+                String str =addr.getText().toString();
+                if(TextUtils.isEmpty(str)){
+                    showToast("请添加收货地址！");
+                    return;
+                }
                 payDialog();
                 break;
             case R.id.rb_weixin:
@@ -69,7 +83,7 @@ public class OrderInfoActivity extends BaseActivity {
                 isWeixinPay = false;
                 break;
             case R.id.iv_add:
-
+                startActivityForResult(new Intent(this, AddressActivity.class), 11);
                 break;
         }
 
@@ -100,6 +114,13 @@ public class OrderInfoActivity extends BaseActivity {
                         //点击忘记密码回调
                     }
                 });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String result = data.getStringExtra("result");//得到新Activity 关闭后返回的数据
+        addr.setText(result);
     }
 
 }

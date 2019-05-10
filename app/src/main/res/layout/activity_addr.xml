@@ -9,10 +9,11 @@
         android:id="@+id/et_add"
         android:layout_width="match_parent"
         android:layout_height="120dp"
+        android:padding="5dp"
+        android:gravity="start"
         android:background="@drawable/et_add"/>
-
-
     <TextView
+        android:id="@+id/tv_determine"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp40"
         android:gravity="center"
@@ -21,6 +22,5 @@
         android:layout_marginLeft="@dimen/dp10"
         android:layout_marginRight="@dimen/dp10"
         android:layout_marginTop="200dp"
-
         android:text="确  定"/>
 </LinearLayout>
