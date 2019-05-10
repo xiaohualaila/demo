@@ -11,6 +11,9 @@ import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
@@ -21,14 +24,17 @@ import java.util.Arrays;
 import butterknife.ButterKnife;
 
 public class NfcActivity  extends BaseNfcActivity {
-    private String mTagText;
-    private TextView mNfcText;
+
+    private ImageView iv_back;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-        mNfcText =  findViewById(R.id.tv_nfctext);
+
+        iv_back =  findViewById(R.id.iv_back);
+
+        iv_back.setOnClickListener(v -> finish());
     }
 
 
@@ -40,7 +46,7 @@ public class NfcActivity  extends BaseNfcActivity {
         Tag detectedTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         //2.获取Ndef的实例
         Ndef ndef = Ndef.get(detectedTag);
-        mTagText = ndef.getType() + "\nmaxsize:" + ndef.getMaxSize() + "bytes\n\n";
+
         readNfcTag(intent);
 //        try {
 //         String sss =   readNFCFromTag(intent);
@@ -49,7 +55,7 @@ public class NfcActivity  extends BaseNfcActivity {
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();
 //        }
-        mNfcText.setText(mTagText);
+
     }
 
     protected int getLayout() {
@@ -74,9 +80,16 @@ public class NfcActivity  extends BaseNfcActivity {
             try {
                 if (msgs != null) {
                     NdefRecord record = msgs[0].getRecords()[0];
-                    String textRecord = parseTextRecord(record);
+//                    String textRecord = parseTextRecord(record);
                     Log.i("sss","ssss textRecord  "+ new String(record.getPayload()));
-                    mTagText += textRecord + "\n\ntext\n" + new String(record.getPayload())+"   "+ contentSize + " bytes";
+
+                    String textRecord = new String(record.getPayload()).trim();
+                    Intent intent1 = new Intent(this, WebActivity.class);
+                    intent1.putExtra("codedContent", textRecord);
+                    intent1.putExtra("type", 2);
+                    startActivity(intent1);
+                    finish();
+
                 }
             } catch (Exception e) {
             }

@@ -156,7 +156,8 @@ public class WeatherFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.tv_check:
                 Intent intent = new Intent(new Intent(getActivity(), CaptureActivity.class));
-                startActivityForResult(intent, REQUEST_CODE_SCAN);
+                startActivity(intent);
+             //   startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
             case R.id.tv_zhen:
                 ac.goToArActivity();

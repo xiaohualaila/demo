@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.JsPromptResult;
@@ -41,18 +42,33 @@ public class WebActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
    // private String id, title, url;
+    private String codedContent;
+    private int  type = 1;
     @Override
     protected void initViews() {
 //        title = getIntent().getStringExtra("title");
-//        url = getIntent().getStringExtra("url");
-//        type = getIntent().getIntExtra("type", 0);
-        tv_title.setText("芯片溯源");
+        codedContent = getIntent().getStringExtra("codedContent");
+        type = getIntent().getIntExtra("type", 1);
+
         //4.2 开启辅助功能崩溃
         mWebView.disableAccessibility(getApplicationContext());
         initWebSettings();
         initListener();
        // initinject();
-        mWebView.loadUrl("http://www.jianshu.com/u/fa272f63280a");
+        if(type ==1){
+            tv_title.setText("南康智能家具产业联盟防伪系统");
+            mWebView.loadUrl(codedContent);
+        }else {
+            tv_title.setText("芯片溯源");
+            String str = codedContent.substring(0,4);
+            if (str.equals("https")){
+                mWebView.loadUrl(codedContent);
+            }else {
+                mWebView.loadUrl("http://zcc.zq12369.com/nkapp/index.html#/tracesource");
+            }
+        }
+
+        Log.i("sss",codedContent);
         //   mWebView.loadUrl("file:///android_asset/test.html");
     }
 

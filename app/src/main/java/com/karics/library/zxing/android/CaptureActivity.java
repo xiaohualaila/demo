@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.activity.NfcActivity;
+import com.aier.ardemo.ui.activity.WebActivity;
 import com.aier.ardemo.ui.base.BaseNfcActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
@@ -37,8 +38,7 @@ import java.util.Map;
  * 然后在扫描成功的时候覆盖扫描结果
  * 
  */
-public final class CaptureActivity extends Activity implements
-		SurfaceHolder.Callback {
+public final class CaptureActivity extends Activity implements SurfaceHolder.Callback {
 
 	private static final String TAG = CaptureActivity.class.getSimpleName();
 
@@ -120,12 +120,12 @@ public final class CaptureActivity extends Activity implements
 		// 当扫描框的尺寸不正确时会出现bug
 		cameraManager = new CameraManager(getApplication());
 
-		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
+		viewfinderView =  findViewById(R.id.viewfinder_view);
 		viewfinderView.setCameraManager(cameraManager);
 
 		handler = null;
 
-		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+		SurfaceView surfaceView =  findViewById(R.id.preview_view);
 		SurfaceHolder surfaceHolder = surfaceView.getHolder();
 		if (hasSurface) {
 			// activity在paused时但不会stopped,因此surface仍旧存在；
@@ -156,7 +156,7 @@ public final class CaptureActivity extends Activity implements
 		beepManager.close();
 		cameraManager.closeDriver();
 		if (!hasSurface) {
-			SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+			SurfaceView surfaceView =  findViewById(R.id.preview_view);
 			SurfaceHolder surfaceHolder = surfaceView.getHolder();
 			surfaceHolder.removeCallback(this);
 		}
@@ -205,10 +205,15 @@ public final class CaptureActivity extends Activity implements
 
 			Toast.makeText(this, "扫描成功", Toast.LENGTH_SHORT).show();
 
-			Intent intent = getIntent();
+//			Intent intent = getIntent();
+//			intent.putExtra("codedContent", rawResult.getText());
+//			intent.putExtra("codedBitmap", barcode);
+//			setResult(RESULT_OK, intent);
+
+			Intent intent = new Intent(this, WebActivity.class);
 			intent.putExtra("codedContent", rawResult.getText());
-			intent.putExtra("codedBitmap", barcode);
-			setResult(RESULT_OK, intent);
+			intent.putExtra("type", 1);
+			startActivity(intent);
 			finish();
 		}
 
