@@ -108,7 +108,7 @@ public class WeatherFragment extends BaseFragment {
      * new OnSuccessAndFaultSub（第一个参数:成功or失败的回调，第二个参数:上下文，可以不填，控制dialog的）
      */
     private void getWeatherData() {
-        WeatherSubscribe.getWeatherDataForBody("", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+        WeatherSubscribe.getWeatherDataForQuery("赣州", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
             @Override
             public void onSuccess(String result) {
                 WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
