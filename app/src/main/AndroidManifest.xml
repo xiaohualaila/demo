@@ -39,6 +39,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".ui.activity.VRActivity"
+            android:screenOrientation="landscape"
             android:launchMode="singleTop" >
 
         </activity>

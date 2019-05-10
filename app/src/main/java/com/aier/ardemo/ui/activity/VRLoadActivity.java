@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -13,10 +12,11 @@ import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.google.vr.sdk.widgets.video.VrVideoEventListener;
 import com.google.vr.sdk.widgets.video.VrVideoView;
+
 import java.io.IOException;
 
 
-public class VRActivity extends AppCompatActivity {
+public class VRLoadActivity extends AppCompatActivity {
     /**
      * 播放360度全景视频的的控件
      */
@@ -34,9 +34,9 @@ public class VRActivity extends AppCompatActivity {
      */
     ImageButton play_toggle;
 
-    TextView iv_back;
+    ImageView iv_back;
 
-
+    TextView tv_title;
 
     /**
      * 声音是否开启
@@ -53,8 +53,7 @@ public class VRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_vr);
+        setContentView(R.layout.activity_vr_land);
         load360Video();
     }
 
@@ -68,6 +67,8 @@ public class VRActivity extends AppCompatActivity {
         play_toggle =  findViewById(R.id.play_toggle);
         iv_back =  findViewById(R.id.iv_back);
         iv_back.setOnClickListener(v -> finish());
+        tv_title = findViewById(R.id.tv_title);
+        tv_title.setText("VR360度全景视频");
 
 
         /**设置加载设置**/
