@@ -6,10 +6,12 @@ import com.aier.ardemo.model.WeatherResponseBean;
 
 import java.util.Map;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -42,6 +44,10 @@ public interface HttpApi {
     @Streaming//使用Streaming 方式 Retrofit 不会一次性将ResponseBody 读取进入内存，否则文件很多容易OOM
     Call<ResponseBody> downloadFile(@Url String fileUrl);//返回值使用 ResponseBody 之后会对ResponseBody 进行读取
 
-    @GET("")
-    Observable<ResponseBody> getAppVer();
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("NKCLOUDAPI_GETORDERLIST")
+    Observable<ResponseBody> getAppVerForBody(@Body RequestBody body);
+
+    @POST("")
+    Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);
 }

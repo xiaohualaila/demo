@@ -15,26 +15,30 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.Apk_dialog;
-import com.aier.ardemo.model.WeatherResponseBean;
+import com.aier.ardemo.model.MyRequestBody;
 import com.aier.ardemo.netsubscribe.CheckAPPVersionSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.DeviceidUtil;
-import com.aier.ardemo.utils.GsonUtils;
+import com.aier.ardemo.utils.Md5Secret;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.AppDownload;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class WelcomeActivity extends BaseActivity implements AppDownload.Callback{
     private static String TAG ="WelcomeActivity";
@@ -123,26 +127,55 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     }
 
     private void checkAppVersion() {
-//        CheckAPPVersionSubscribe.getAppVer(new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-//            @Override
-//            public void onSuccess(String result) {
-//               // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
-//
-//              //  Log.i("sss","sss"+weather.toString());
-//              //  showWeatherText(weather);
-//                 String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
-//                 SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
-//                 updataApp("");
-//            }
-//
-//            @Override
-//            public void onFault(String errorMsg) {
-//                //失败
-//               // Toast.makeText(getActivity(), "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
-//                todo();
-//            }
-//        }));
-        todo();
+        JSONObject obj =new JSONObject();
+        JSONObject object1 =new JSONObject();
+        try {
+            Long timestamp = new Date().getTime();
+            obj.put("appId","");
+            obj.put("method","NKCLOUDAPI_GETLASTAPP");
+            obj.put("timestamp",timestamp);//System.currentTimeMillis(),
+            obj.put("clienttype","Android");
+            obj.put("object",object1);
+            String md5_str = Md5Secret.md5("   "+"NKCLOUDAPI_GETLASTAPP"+ timestamp +"Android" +object1.toString());
+            obj.put("secret",md5_str);
+            Log.i("xxx",obj.toString());
+
+//            MyRequestBody myRequestBody = new MyRequestBody();
+//            myRequestBody.setAppId("");
+//            myRequestBody.setMethod("NKCLOUDAPI_GETLASTAPP");
+//            myRequestBody.setTimestamp(timestamp);
+//            myRequestBody.setClienttype("Android");
+//            myRequestBody.setObject(object1.toString());
+//            myRequestBody.setSecret(md5_str);
+//            Gson gsons = new Gson();
+//            String postInfoStr = gsons.toJson(myRequestBody);
+//            Log.i("xxx","postInfoStr " + postInfoStr);
+        }catch (Exception e){
+           e.getMessage();
+        }
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
+
+        CheckAPPVersionSubscribe.getAppVer(body,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                Log.i("sss","  result" + result);
+               // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
+
+              //  Log.i("sss","sss"+weather.toString());
+              //  showWeatherText(weather);
+                 String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
+                 SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
+                 updataApp("");
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                showToast(errorMsg);
+                todo();
+            }
+        }));
+
     }
 
     private void updataApp(String url) {

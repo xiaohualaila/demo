@@ -71,11 +71,6 @@ public class WeatherFragment extends BaseFragment {
     @BindView(R.id.rv_order_info)
     RecyclerView mRecyclerView;
 
-
-    private static final int REQUEST_CODE_SCAN = 0x0000;
-    private static final String DECODED_CONTENT_KEY = "codedContent";
-    private static final String DECODED_BITMAP_KEY = "codedBitmap";
-
     private MainActivity ac;
     ProduceAdapter mAdapter;
 
@@ -92,14 +87,9 @@ public class WeatherFragment extends BaseFragment {
     }
 
     private void initRecycView() {
-
-        //设置RecyclerView管理器
         mRecyclerView.setLayoutManager(new LinearLayoutManager(ac, LinearLayoutManager.VERTICAL, false));
-        //初始化适配器
         mAdapter = new ProduceAdapter(getDataOrder());
-        //设置添加或删除item时的动画，这里使用默认动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -207,22 +197,7 @@ public class WeatherFragment extends BaseFragment {
         }
 
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // 扫描二维码/条码回传
-        if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
-            if (data != null) {
 
-                String content = data.getStringExtra(DECODED_CONTENT_KEY);
-                Bitmap bitmap = data.getParcelableExtra(DECODED_BITMAP_KEY);
-
-              //  qrCoded.setText("解码结果： \n" + content);
-            //    Log.i("sss",content);
-            //    qrCodeImage.setImageBitmap(bitmap);
-            }
-        }
-    }
 
 
 }

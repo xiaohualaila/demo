@@ -13,7 +13,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:textSize="14sp"
-        android:text="共3件宝贝"/>
+        android:text="共1件宝贝"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"

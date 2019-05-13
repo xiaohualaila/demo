@@ -16,13 +16,27 @@ import com.aier.ardemo.adapter.ShoppingAdapter;
 import com.aier.ardemo.dialog.PayPassDialog;
 import com.aier.ardemo.dialog.PayPassView;
 import com.aier.ardemo.model.Goods;
+import com.aier.ardemo.model.WeatherResponseBean;
+import com.aier.ardemo.netapi.HttpApi;
+import com.aier.ardemo.netapi.URLConstant;
+import com.aier.ardemo.netsubscribe.OrderSubscribe;
+import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
+import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.utils.GsonUtils;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.BackTotalAmountClick {
     @BindView(R.id.tv_title)
@@ -38,22 +52,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     private List<Goods> list;
     private boolean isBuy = false;
     private int myAmount;
-    @Override
-    protected void initViews() {
-        tv_title.setText("购物车");
 
-        mRecyclerView = findViewById(R.id.recyclerView);
-        //设置RecyclerView管理器
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        //初始化适配器
-        mAdapter = new ShoppingAdapter(list);
-        mAdapter.setBackTotalAmountClick(this);
-        //设置添加或删除item时的动画，这里使用默认动画
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //设置适配器
-        mRecyclerView.setAdapter(mAdapter);
-
-    }
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -71,7 +70,46 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
             }
         }
 
+    }
+    private void getOrderData() {
+        OrderSubscribe.getOrderDataForQuery("10301883", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                Log.i("sss","sss"+result);
+              //  WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
 
+               // Log.i("sss","sss"+weather.toString());
+
+
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                //失败
+              showToast("请求失败");
+            }
+        },this));
+
+
+
+    }
+
+
+
+    @Override
+    protected void initViews() {
+        tv_title.setText("购物车");
+
+        mRecyclerView = findViewById(R.id.recyclerView);
+        //设置RecyclerView管理器
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        //初始化适配器
+        mAdapter = new ShoppingAdapter(list);
+        mAdapter.setBackTotalAmountClick(this);
+        //设置添加或删除item时的动画，这里使用默认动画
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //设置适配器
+        mRecyclerView.setAdapter(mAdapter);
 
     }
 
