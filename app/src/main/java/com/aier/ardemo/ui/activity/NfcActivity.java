@@ -10,15 +10,21 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseNfcActivity;
+import com.karics.library.zxing.android.CaptureActivity;
+
 import java.util.Arrays;
 import butterknife.ButterKnife;
 
 public class NfcActivity  extends BaseNfcActivity {
 
     private ImageView iv_back;
+    private TextView tv_scan;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +32,15 @@ public class NfcActivity  extends BaseNfcActivity {
         ButterKnife.bind(this);
 
         iv_back =  findViewById(R.id.iv_back);
-
+        tv_scan = findViewById(R.id.tv_scan);
         iv_back.setOnClickListener(v -> finish());
+        tv_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(NfcActivity.this, CaptureActivity.class));
+                finish();
+            }
+        });
     }
 
 

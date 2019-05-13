@@ -1,5 +1,7 @@
 package com.aier.ardemo.netsubscribe;
 
+import android.util.Log;
+
 import com.aier.ardemo.model.BaseRequestBean;
 import com.aier.ardemo.model.WeatherRequestBean;
 import com.aier.ardemo.netutils.RetrofitFactory;
@@ -8,6 +10,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 import okhttp3.ResponseBody;
+
 
 /**
  * Created by 眼神 on 2018/3/27.
@@ -19,9 +22,9 @@ public class WeatherSubscribe {
     /**
      * 获取天气数据@Query
      */
-    public static void getWeatherDataForQuery(String cityName, DisposableObserver<ResponseBody> subscriber) {
-        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getWeatherDataForQuery("v1",cityName);
-        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
+    public static void  getWeatherDataForQuery(String cityName, DisposableObserver<ResponseBody> subscriber) {
+//        Observable<ResponseBody> observable =  RetrofitFactory.getInstance().getHttpApi().getWeatherDataForQuery("v1",cityName);
+//        RetrofitFactory.getInstance().toSubscribe(observable, subscriber);
     }
 
     /**

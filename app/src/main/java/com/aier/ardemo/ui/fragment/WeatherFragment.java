@@ -14,6 +14,8 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ProduceAdapter;
 import com.aier.ardemo.model.Produces;
 import com.aier.ardemo.model.WeatherResponseBean;
+import com.aier.ardemo.netapi.HttpApi;
+import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.netsubscribe.WeatherSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
@@ -21,10 +23,18 @@ import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
 import com.karics.library.zxing.android.CaptureActivity;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -108,21 +118,50 @@ public class WeatherFragment extends BaseFragment {
      * new OnSuccessAndFaultSub（第一个参数:成功or失败的回调，第二个参数:上下文，可以不填，控制dialog的）
      */
     private void getWeatherData() {
-        WeatherSubscribe.getWeatherDataForQuery("赣州", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
+//        WeatherSubscribe.getWeatherDataForQuery("赣州", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+//            @Override
+//            public void onSuccess(String result) {
+//                WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
+//
+//                Log.i("sss","sss"+weather.toString());
+//                showWeatherText(weather);
+//            }
+//
+//            @Override
+//            public void onFault(String errorMsg) {
+//                //失败
+//                Toast.makeText(getActivity(), "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+//            }
+//        },getActivity()));
 
-                Log.i("sss","sss"+weather.toString());
-                showWeatherText(weather);
-            }
+            Retrofit retrofit = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(URLConstant.WEATHER_URL)
+                    .build();
+            HttpApi service = retrofit.create(HttpApi.class);
+            Call<ResponseBody> call = service.getWeatherDataForQuery("v1","赣州");
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    // 已经转换为想要的类型了
+                    try {
+                        String str = response.body().string();
+                        WeatherResponseBean weather = GsonUtils.fromJson(str, WeatherResponseBean.class);
+                        showWeatherText(weather);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-            @Override
-            public void onFault(String errorMsg) {
-                //失败
-                Toast.makeText(getActivity(), "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
-            }
-        },getActivity()));
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                }
+
+
+            });
+
     }
 
     private void showWeatherText(WeatherResponseBean weathe) {

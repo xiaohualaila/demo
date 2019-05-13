@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_weight="1"
-            android:background="@color/colorPrimary"
+            android:background="@color/bdar_dialog_gray"
             app:layout_constraintTop_toTopOf="@+id/view_1"
             app:layout_constraintBottom_toBottomOf="@+id/view_1"/>
         <View

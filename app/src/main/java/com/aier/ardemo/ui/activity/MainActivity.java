@@ -1,7 +1,6 @@
 package com.aier.ardemo.ui.activity;
 
 import android.Manifest;
-import android.arch.lifecycle.ViewModel;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,22 +15,17 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.dialog.DialogFragment;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.ui.fragment.HomeFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
 import com.aier.ardemo.ui.fragment.WeatherFragment;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
 import com.google.gson.Gson;
-import com.karics.library.zxing.android.CaptureActivity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +58,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         myFragment = new MyFragment();
         switchContent(weatherFragment);
         bottomView.setBottomCallBack(this);
-        requestPermission();
+     //   requestPermission();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int screenWidth = dm.widthPixels;
         int screenHeight = dm.heightPixels;
@@ -72,45 +66,42 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         Log.i("sss"," screenHeight"+screenHeight);
     }
 
-    private void requestPermission() {
-        // 6.0以下版本直接同意使用权限
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!hasNecessaryPermission()) {
-                ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
-            }
-        }
-    }
+//    private void requestPermission() {
+//        // 6.0以下版本直接同意使用权限
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (!hasNecessaryPermission()) {
+//                ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
+//            }
+//        }
+//    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1123: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    Log.i(TAG,"权限申请成功！");
-                } else {
-                    // permission denied, boo! Disable the
-                    Log.i(TAG,"权限申请失败！");
-                    showMissingPermissionDialog();
-                }
-                return;
-            }
-        }
-    }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        switch (requestCode) {
+//            case 1123: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    Log.i(TAG,"权限申请成功！");
+//                } else {
+//                    Log.i(TAG,"权限申请失败！");
+//                    showMissingPermissionDialog();
+//                }
+//                return;
+//            }
+//        }
+//    }
 
-    private boolean hasNecessaryPermission() {
-        List<String> permissionsList = new ArrayList();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (String permission : ALL_PERMISSIONS) {
-                if (ActivityCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED) {
-                    permissionsList.add(permission);
-                }
-            }
-        }
-        return permissionsList.size() == 0;
-    }
+//    private boolean hasNecessaryPermission() {
+//        List<String> permissionsList = new ArrayList();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            for (String permission : ALL_PERMISSIONS) {
+//                if (ActivityCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED) {
+//                    permissionsList.add(permission);
+//                }
+//            }
+//        }
+//        return permissionsList.size() == 0;
+//    }
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -199,25 +190,25 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         }
     }
 
-    private void showMissingPermissionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示");
-        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
-        // 拒绝, 退出应用
-        builder.setNegativeButton("取消", (dialog, which) -> finish());
-        builder.setPositiveButton("设置", (dialog, which) -> startAppSettings());
-        builder.setCancelable(false);
-        builder.show();
-    }
+//    private void showMissingPermissionDialog() {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("提示");
+//        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
+//        // 拒绝, 退出应用
+//        builder.setNegativeButton("取消", (dialog, which) -> finish());
+//        builder.setPositiveButton("设置", (dialog, which) -> startAppSettings());
+//        builder.setCancelable(false);
+//        builder.show();
+//    }
 
-    /**
-     * 启动应用的设置
-     */
-    private void startAppSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse("package:" + getPackageName()));
-        startActivity(intent);
-    }
+//    /**
+//     * 启动应用的设置
+//     */
+//    private void startAppSettings() {
+//        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//        intent.setData(Uri.parse("package:" + getPackageName()));
+//        startActivity(intent);
+//    }
 
 
 }

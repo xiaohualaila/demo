@@ -2,6 +2,8 @@ package com.aier.ardemo.netapi;
 
 import com.aier.ardemo.model.BaseRequestBean;
 import com.aier.ardemo.model.WeatherRequestBean;
+import com.aier.ardemo.model.WeatherResponseBean;
+
 import java.util.Map;
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -21,8 +23,10 @@ import retrofit2.http.Url;
  */
 
 public interface HttpApi {
-    @GET("api")
-    Observable<ResponseBody> getWeatherDataForQuery(@Query("version") String version, @Query("city") String city);
+//    @GET("api")
+//    Observable<ResponseBody> getWeatherDataForQuery(@Query("version") String version, @Query("city") String city);
+    @POST("api")
+    Call<ResponseBody> getWeatherDataForQuery(@Query("version") String version, @Query("city") String city);
 
     @GET("api")
     Observable<ResponseBody> getWeatherDataForMap(@QueryMap Map<String, String> map);
@@ -37,4 +41,7 @@ public interface HttpApi {
     @GET()
     @Streaming//使用Streaming 方式 Retrofit 不会一次性将ResponseBody 读取进入内存，否则文件很多容易OOM
     Call<ResponseBody> downloadFile(@Url String fileUrl);//返回值使用 ResponseBody 之后会对ResponseBody 进行读取
+
+    @GET("")
+    Observable<ResponseBody> getAppVer();
 }

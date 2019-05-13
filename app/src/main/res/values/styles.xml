@@ -3,9 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <!--Appbar背景色-->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!--状态栏颜色-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <!--控制各个控件被选中时的颜色-->
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
     <declare-styleable name="BannerView">
         <!-- 是否支持循环, 默认 true -->
@@ -132,5 +136,22 @@
     <style name="dialogOpenAnimation" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/dialog_payview_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_payview_out</item>
+    </style>
+    <style name="dim_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题，设置的是decorview的背景色 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!-- 默认是有阴影背景的,加以下属性可以改变阴影度阴影 -->
+    </style>
+    <style name="Widget.SeekBar.Normal" parent="@android:style/Widget.SeekBar">
+        <item name="android:maxHeight">4.0dip</item>
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:indeterminateDrawable">
+            @android:drawable/progress_indeterminate_horizontal
+        </item>
+        <item name="android:progressDrawable">@drawable/seekbar_style</item>
+        <item name="android:minHeight">4.0dip</item>
+        <item name="android:thumb">@color/title_black</item>
+        <item name="android:thumbOffset">10.0dip</item>
     </style>
 </resources>

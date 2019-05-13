@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorPrimaryDark">#2196F3</color>
     <color name="colorAccent">#D81B60</color>
     <color name="item_text">#333031</color>
     <color name="text_bg">#7C7B7B</color>
@@ -37,4 +37,9 @@
     <color name="gray_e5">#e5e5e5</color>
     <color name="black">#000000</color>
     <color name="nfc_title_bg">#ff393939</color>
+
+    <!--蓝色背景 -->
+    <color name="title_black">#2993F0</color>
+
+    <color name="text_color_gary">#A2AAB3</color>
 </resources>
