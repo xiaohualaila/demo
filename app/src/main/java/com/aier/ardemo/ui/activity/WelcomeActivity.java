@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.Apk_dialog;
-import com.aier.ardemo.model.MyRequestBody;
 import com.aier.ardemo.netsubscribe.CheckAPPVersionSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
@@ -28,7 +26,6 @@ import com.aier.ardemo.utils.DeviceidUtil;
 import com.aier.ardemo.utils.Md5Secret;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.AppDownload;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -36,6 +33,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -48,22 +47,21 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO};
 
-    private static Handler handler = new Handler();
     Apk_dialog apk_dialog;
     SeekBar seek;
     TextView numProBar;
     String path;
     @Override
     protected void initDate(Bundle savedInstanceState) {
-//
-//        Timer time = new Timer();
-//        TimerTask tk = new TimerTask() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        };time.schedule(tk, 500);
-        requestPermission();
+
+        Timer time = new Timer();
+        TimerTask tk = new TimerTask() {
+            @Override
+            public void run() {
+                requestPermission();
+            }
+        };time.schedule(tk, 500);
+
     }
 
     @Override
@@ -89,9 +87,13 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!hasNecessaryPermission()) {
                 ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
+            }else {
+                isShowGuidance();
+                // checkAppVersion();
             }
         }else {
-            checkAppVersion();
+            isShowGuidance();
+           // checkAppVersion();
         }
     }
 
@@ -116,7 +118,8 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             case 1123: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
-                    checkAppVersion();
+                    isShowGuidance();
+               //     checkAppVersion();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
@@ -172,7 +175,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             @Override
             public void onFault(String errorMsg) {
                 showToast(errorMsg);
-                todo();
             }
         }));
 
@@ -190,7 +192,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         }
         AppDownload appDownload = new AppDownload();
         appDownload.setProgressInterface(WelcomeActivity.this);
-        appDownload.downApk(url,WelcomeActivity.this);
+        appDownload.downApk(url, WelcomeActivity.this);
         apk_dialog.show();
         apk_dialog.setCancelable( false );
         seek = apk_dialog.getSeekBar();
@@ -224,9 +226,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         return R.layout.activity_wel;
     }
 
-    private void todo(){
-        handler.postDelayed(runnable,500);
-    }
+
 
     private Runnable runnable = () -> isShowGuidance();
 

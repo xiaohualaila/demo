@@ -22,6 +22,7 @@ import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
+import com.aier.ardemo.utils.NetUtils;
 import com.karics.library.zxing.android.CaptureActivity;
 
 import java.io.IOException;
@@ -189,6 +190,10 @@ public class WeatherFragment extends BaseFragment {
              //   startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
             case R.id.tv_zhen:
+                if(!NetUtils.isNetworkConnected()){
+                    showToast("网络异常，请检查网络！");
+                    return;
+                }
                 ac.goToArActivity();
                 break;
             case R.id.tv_vr_video:
