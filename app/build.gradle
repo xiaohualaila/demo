@@ -12,6 +12,25 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        sourceSets {
+            main {
+                jni.srcDirs "src/main/cpp"
+                jniLibs.srcDirs 'libs'
+            }
+        }
+        externalNativeBuild {
+            //cmake编译方式配置
+            cmake {
+                cppFlags "-std=c++11 -fexceptions -frtti"
+                arguments "-DANDROID_STL=c++_static"
+            }
+            //mk编译方式配置
+            ndk {
+                abiFilters 'armeabi-v7a'
+
+            }
+            //https://blog.csdn.net/afei__/article/details/81272251
+        }
     }
     buildTypes {
         release {
@@ -22,6 +41,13 @@ android {
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
+    }
+
+    //关联CMake的程序清单文件,path 指向cmake文件路径，此处为项目工程根目录下。
+    externalNativeBuild {
+        cmake {
+            path 'CMakeLists.txt'
+        }
     }
 }
 
@@ -72,4 +98,6 @@ dependencies {
     //vr
     implementation 'com.google.vr:sdk-videowidget:1.10.0'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
+
+    implementation project(':pelibrary')
 }

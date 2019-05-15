@@ -26,6 +26,8 @@ import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
 import com.google.gson.Gson;
+import com.panoeye.peplayer.ConnectPage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,7 +154,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     }
 
     public void goToVRVideoActivity(){
-        Intent intent = new Intent(this, VRActivity.class);
+        Intent intent = new Intent(this, ConnectPage.class);
         startActivity(intent);
     }
 
