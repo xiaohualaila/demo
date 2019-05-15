@@ -8,14 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
-import com.aier.ardemo.R;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.karics.library.zxing.android.CaptureActivity;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -27,10 +29,10 @@ public class MyFragment extends BaseFragment {
     TextView tv_name;
     @BindView(R.id.tv_bind_phone)
     TextView tv_bind_phone;
-    @BindView(R.id.img)
-    ImageView img;
-    @BindView(R.id.tv_no_data)
-    TextView tv_no_data;
+//    @BindView(R.id.img)
+//    ImageView img;
+//    @BindView(R.id.tv_no_data)
+//    TextView tv_no_data;
     boolean isBind = false;
 
     private static String path = "/sdcard/myHead/";// sd路径
@@ -46,13 +48,13 @@ public class MyFragment extends BaseFragment {
         if(isBind){
             tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_gray_btn));
             tv_bind_phone.setText("取消绑定");
-            img.setVisibility(View.VISIBLE);
-            tv_no_data.setVisibility(View.GONE);
+//            img.setVisibility(View.VISIBLE);
+         //   tv_no_data.setVisibility(View.GONE);
         }else {
             tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_blue_btn));
             tv_bind_phone.setText("绑定手机");
-            img.setVisibility(View.GONE);
-            tv_no_data.setVisibility(View.VISIBLE);
+        //    img.setVisibility(View.GONE);
+         //   tv_no_data.setVisibility(View.VISIBLE);
         }
     }
 
@@ -76,7 +78,7 @@ public class MyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.tv_setup,R.id.tv_bind_phone})
+    @OnClick({R.id.tv_setup, R.id.tv_bind_phone})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_setup:
@@ -92,8 +94,8 @@ public class MyFragment extends BaseFragment {
                     tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_blue_btn));
                     tv_bind_phone.setText("绑定手机");
                     isBind = false;
-                    img.setVisibility(View.GONE);
-                    tv_no_data.setVisibility(View.VISIBLE);
+                 //   img.setVisibility(View.GONE);
+                 //   tv_no_data.setVisibility(View.VISIBLE);
                 }
 
                 break;
@@ -112,8 +114,8 @@ public class MyFragment extends BaseFragment {
         tv_bind_phone.setText("取消绑定");
         SharedPreferencesUtil.putBoolean(getActivity(),"bind",true);
         isBind = true;
-        img.setVisibility(View.VISIBLE);
-        tv_no_data.setVisibility(View.GONE);
+     //   img.setVisibility(View.VISIBLE);
+    //    tv_no_data.setVisibility(View.GONE);
     }
 
 }

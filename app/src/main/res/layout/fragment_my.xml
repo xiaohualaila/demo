@@ -1,100 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/my_bg"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <View
-        android:id="@+id/bg"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:background="#00BCD4"
-        app:layout_constraintRight_toRightOf="parent"/>
+    android:scrollbars="none">
 
-    <ImageView
-        android:id="@+id/my_photo"
-        android:layout_width="@dimen/dp90"
-        android:layout_height="@dimen/dp90"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/iv_my_photo"
-        android:layout_marginTop="30dp"/>
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/my_photo"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/text_"
-        android:text="梦的秋千"/>
-      <RelativeLayout
-          android:id="@+id/rl"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          app:layout_constraintTop_toBottomOf="@+id/bg"
-          app:layout_constraintLeft_toLeftOf="parent"
-          android:background="@color/white"
-          android:padding="10dp"
-          android:layout_margin="@dimen/dp10"
-          app:layout_constraintRight_toRightOf="parent">
-          <View
-              android:id="@+id/view"
-              android:layout_width="3dp"
-              android:layout_height="20dp"
-              android:background="@color/colorPrimary"/>
-          <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@+id/view"
-              android:layout_marginLeft="10dp"
-              android:text="宝贝技能"
-              android:textColor="@color/text_"
-              />
-           <TextView
-               android:id="@+id/tv_bind_phone"
-               android:layout_width="80dp"
-               android:layout_height="28dp"
-               android:layout_alignParentRight="true"
-               android:layout_marginRight="10dp"
-               android:gravity="center"
-               android:textColor="@color/white"
-               android:background="@drawable/vr_blue_btn"
-               android:text="绑定手机"/>
-
-      </RelativeLayout>
-    <TextView
-        android:id="@+id/tv_no_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/rl"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/dp10"
-        android:text="没有数据"/>
-
-    <TextView
-        android:id="@+id/tv_setup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_margin="20dp"
-        android:textSize="@dimen/sp18"
-        android:text="设置"/>
-    <ImageView
-        android:id="@+id/img"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/rl"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/bind_pic"/>
+        android:orientation="vertical">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/bg"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:background="#00BCD4"
+                app:layout_constraintRight_toRightOf="parent"/>
+            <ImageView
+                android:id="@+id/my_photo"
+                android:layout_width="@dimen/dp90"
+                android:layout_height="@dimen/dp90"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:src="@drawable/iv_my_photo"
+                android:layout_marginTop="30dp"/>
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/my_photo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/text_"
+                android:text="梦的秋千"/>
+
+            <!--<TextView-->
+                <!--android:id="@+id/tv_no_data"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/rl"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintRight_toRightOf="parent"-->
+                <!--android:layout_marginTop="@dimen/dp10"-->
+                <!--android:text="没有数据"/>-->
+
+            <TextView
+                android:id="@+id/tv_setup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_margin="20dp"
+                android:textSize="@dimen/sp18"
+                android:text="设置"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp10"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp30"
+                android:background="@color/white"
+                android:layout_margin="@dimen/dp10"
+                app:layout_constraintRight_toRightOf="parent">
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="3dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorPrimary"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/view"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:text="宝贝技能"
+                    android:textColor="@color/text_"
+                    />
+                <TextView
+                    android:id="@+id/tv_bind_phone"
+                    android:layout_width="80dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:background="@drawable/vr_blue_btn"
+                    android:text="绑定手机"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp10"
+                android:background="@color/line"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:textColor="@color/text_"
+                android:layout_margin="@dimen/dp10"
+                android:layout_centerVertical="true"
+                android:paddingLeft="10dp"
+                android:text="新技能尝试"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp10"
+                android:background="@color/line"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp30"
+                android:textColor="@color/text_"
+                android:layout_margin="@dimen/dp10"
+                android:paddingLeft="10dp"
+                android:layout_centerVertical="true"
+                android:text="测个血压 18pa(135mmhg)"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp10"
+                android:background="@color/line"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp30"
+                android:textColor="@color/text_"
+                android:layout_margin="@dimen/dp10"
+                android:paddingLeft="10dp"
+                android:layout_centerVertical="true"
+                android:text="量个血氧：97%"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_marginRight="@dimen/dp10"
+                android:background="@color/line"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp30"
+                android:textColor="@color/text_"
+                android:layout_margin="@dimen/dp10"
+                android:paddingLeft="@dimen/dp10"
+                android:layout_centerVertical="true"
+                android:text="测个心率：86次/分"/>
+
+
+        </LinearLayout>
+
+        <!--技能热度排行-->
+        <include layout="@layout/skills_heat_item"/>
+        <include layout="@layout/surround_zhineng_item"/>
+    </LinearLayout>
+
+
+
+
+
 
 
 
@@ -203,4 +282,4 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+</ScrollView>
