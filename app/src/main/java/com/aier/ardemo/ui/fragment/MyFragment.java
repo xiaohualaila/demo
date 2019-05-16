@@ -3,6 +3,8 @@ package com.aier.ardemo.ui.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +20,20 @@ import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.karics.library.zxing.android.CaptureActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import master.flame.danmaku.danmaku.model.BaseDanmaku;
+import master.flame.danmaku.danmaku.model.DanmakuTimer;
+import master.flame.danmaku.danmaku.model.IDanmakus;
+import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
+import master.flame.danmaku.danmaku.model.android.DanmakuContext;
+import master.flame.danmaku.danmaku.model.android.Danmakus;
+import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
+import master.flame.danmaku.ui.widget.DanmakuView;
 
 
 public class MyFragment extends BaseFragment {
@@ -33,10 +47,16 @@ public class MyFragment extends BaseFragment {
 //    ImageView img;
 //    @BindView(R.id.tv_no_data)
 //    TextView tv_no_data;
+
+    @BindView(R.id.float_btn)
+    FloatingActionButton float_btn;
+
     boolean isBind = false;
 
     private static String path = "/sdcard/myHead/";// sd路径
     Person person;
+
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_my;
@@ -56,7 +76,12 @@ public class MyFragment extends BaseFragment {
         //    img.setVisibility(View.GONE);
          //   tv_no_data.setVisibility(View.VISIBLE);
         }
+
     }
+
+
+
+
 
     private void showHeadPic() {
         Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");// 从SD卡中找头像，转换成Bitmap
@@ -76,9 +101,10 @@ public class MyFragment extends BaseFragment {
         }else {
             tv_name.setText(person.getUsername());
         }
+
     }
 
-    @OnClick({R.id.tv_setup, R.id.tv_bind_phone})
+    @OnClick({R.id.tv_setup, R.id.tv_bind_phone, R.id.float_btn})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_setup:
@@ -99,6 +125,9 @@ public class MyFragment extends BaseFragment {
                 }
 
                 break;
+            case R.id.float_btn:
+
+                break;
         }
     }
 
@@ -117,5 +146,26 @@ public class MyFragment extends BaseFragment {
      //   img.setVisibility(View.VISIBLE);
     //    tv_no_data.setVisibility(View.GONE);
     }
+
+    /**
+     * @author : 贺金龙
+     * email : 753355530@qq.com
+     * create at 2018/7/12  18:30
+     * description : 最简单的解析器
+     */
+    public static BaseDanmakuParser getDefaultDanmakuParser() {
+        return new BaseDanmakuParser() {
+            @Override
+            protected IDanmakus parse() {
+                return new Danmakus();
+            }
+        };
+    }
+
+
+
+
+
+
 
 }
