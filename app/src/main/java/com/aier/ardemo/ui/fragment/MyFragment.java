@@ -7,8 +7,13 @@ import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
@@ -34,6 +39,9 @@ import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
+import top.littlefogcat.danmakulib.danmaku.DanmakuLayout;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 public class MyFragment extends BaseFragment {
@@ -47,15 +55,20 @@ public class MyFragment extends BaseFragment {
 //    ImageView img;
 //    @BindView(R.id.tv_no_data)
 //    TextView tv_no_data;
-
+    @BindView(R.id.danmakuLayout)
+    DanmakuLayout mDanmakuLayout;
+    @BindView(R.id.etSend)
+    EditText mEtSend;
     @BindView(R.id.float_btn)
-    FloatingActionButton float_btn;
-
+    ImageView float_btn;
+    @BindView(R.id.ll_danmu)
+    LinearLayout ll_danmu;
     boolean isBind = false;
 
     private static String path = "/sdcard/myHead/";// sd路径
     Person person;
 
+    private boolean isShowDanmu = false;
 
     @Override
     public int getLayoutId() {
@@ -64,6 +77,7 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void init() {
+
         isBind = SharedPreferencesUtil.getBoolean(getActivity(),"bind",false);
         if(isBind){
             tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_gray_btn));
@@ -76,9 +90,26 @@ public class MyFragment extends BaseFragment {
         //    img.setVisibility(View.GONE);
          //   tv_no_data.setVisibility(View.VISIBLE);
         }
-
+        mEtSend.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEND) {
+                    mDanmakuLayout.send(mEtSend.getText().toString(), "#D81B60");
+                    mEtSend.setText("");
+                    mEtSend.clearFocus();
+                    hideIme();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
-
+    private void hideIme() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null && mEtSend != null) {
+            imm.hideSoftInputFromWindow(mEtSend.getWindowToken(), 0);
+        }
+    }
 
 
 
@@ -126,7 +157,15 @@ public class MyFragment extends BaseFragment {
 
                 break;
             case R.id.float_btn:
-
+                if(isShowDanmu){
+                    ll_danmu.setVisibility(View.GONE);
+                    isShowDanmu=false;
+                    float_btn.setImageResource(R.drawable.danmu_gray);
+                }else {
+                    ll_danmu.setVisibility(View.VISIBLE);
+                    isShowDanmu=true;
+                    float_btn.setImageResource(R.drawable.danmu_blue);
+                }
                 break;
         }
     }

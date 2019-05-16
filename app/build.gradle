@@ -74,6 +74,6 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     implementation 'com.github.ctiao:dfm:0.4.2'
     //弹幕
-
+    implementation project(path: ':danmakulib')
 
 }
