@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         myFragment = new MyFragment();
         switchContent(weatherFragment);
         bottomView.setBottomCallBack(this);
-     //   requestPermission();
+
         DisplayMetrics dm = getResources().getDisplayMetrics();
         int screenWidth = dm.widthPixels;
         int screenHeight = dm.heightPixels;
@@ -66,42 +66,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         Log.i("sss"," screenHeight"+screenHeight);
     }
 
-//    private void requestPermission() {
-//        // 6.0以下版本直接同意使用权限
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            if (!hasNecessaryPermission()) {
-//                ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
-//            }
-//        }
-//    }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        switch (requestCode) {
-//            case 1123: {
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    Log.i(TAG,"权限申请成功！");
-//                } else {
-//                    Log.i(TAG,"权限申请失败！");
-//                    showMissingPermissionDialog();
-//                }
-//                return;
-//            }
-//        }
-//    }
-
-//    private boolean hasNecessaryPermission() {
-//        List<String> permissionsList = new ArrayList();
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            for (String permission : ALL_PERMISSIONS) {
-//                if (ActivityCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED) {
-//                    permissionsList.add(permission);
-//                }
-//            }
-//        }
-//        return permissionsList.size() == 0;
-//    }
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -189,26 +154,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             mCurrentFrag = to;
         }
     }
-
-//    private void showMissingPermissionDialog() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("提示");
-//        builder.setMessage("当前应用缺少必要权限。请点击\"设置\"-\"权限\"-打开所需权限。");
-//        // 拒绝, 退出应用
-//        builder.setNegativeButton("取消", (dialog, which) -> finish());
-//        builder.setPositiveButton("设置", (dialog, which) -> startAppSettings());
-//        builder.setCancelable(false);
-//        builder.show();
-//    }
-
-//    /**
-//     * 启动应用的设置
-//     */
-//    private void startAppSettings() {
-//        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//        intent.setData(Uri.parse("package:" + getPackageName()));
-//        startActivity(intent);
-//    }
 
 
 }
