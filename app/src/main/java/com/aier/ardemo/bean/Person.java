@@ -14,6 +14,7 @@ public class Person {
     private String headimg;
     private String reservedone;
     private String reservedtwo;
+    private String address;
 
     public String getId() {
         return id;
@@ -117,5 +118,13 @@ public class Person {
 
     public void setReservedtwo(String reservedtwo) {
         this.reservedtwo = reservedtwo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

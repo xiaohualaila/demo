@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     public void goToArActivity(){
         Intent intent = new Intent(this, ARActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("ar_key", "10301883");
+        bundle.putString("ar_key", "10302537");
         bundle.putInt("ar_type", 5);
         bundle.putString("ar_path", "");
         bundle.putString("name", "白色椅子");

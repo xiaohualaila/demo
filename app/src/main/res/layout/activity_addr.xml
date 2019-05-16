@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp40"
         android:gravity="center"
-        android:background="@drawable/ac_bottom_vtn"
+        android:background="@color/title_black"
         android:textColor="@color/white"
         android:layout_marginLeft="@dimen/dp10"
         android:layout_marginRight="@dimen/dp10"

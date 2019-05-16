@@ -45,8 +45,12 @@ public interface HttpApi {
     Call<ResponseBody> downloadFile(@Url String fileUrl);//返回值使用 ResponseBody 之后会对ResponseBody 进行读取
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("NKCLOUDAPI_GETORDERLIST")
+    @POST("nkcloudapi")
     Observable<ResponseBody> getAppVerForBody(@Body RequestBody body);
+
+//    @Headers({"Content-Type: application/json","Accept: application/json"})
+//    @POST("nkcloudapi")
+//    Call<ResponseBody> getAppVerForBody(@Body RequestBody body);
 
     @POST("")
     Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);

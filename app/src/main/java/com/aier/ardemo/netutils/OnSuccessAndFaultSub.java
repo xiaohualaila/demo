@@ -114,28 +114,21 @@ public class OnSuccessAndFaultSub extends DisposableObserver<ResponseBody>
 
             if (e instanceof SocketTimeoutException) {//请求超时
             } else if (e instanceof ConnectException) {//网络连接超时
-                //                ToastManager.showShortToast("网络连接超时");
                 mOnSuccessAndFaultListener.onFault("网络连接超时");
             } else if (e instanceof SSLHandshakeException) {//安全证书异常
-                //                ToastManager.showShortToast("安全证书异常");
                 mOnSuccessAndFaultListener.onFault("安全证书异常");
             } else if (e instanceof HttpException) {//请求的地址不存在
                 int code = ((HttpException) e).code();
                 if (code == 504) {
-                    //                    ToastManager.showShortToast("网络异常，请检查您的网络状态");
                     mOnSuccessAndFaultListener.onFault("网络异常，请检查您的网络状态");
                 } else if (code == 404) {
-                    //                    ToastManager.showShortToast("请求的地址不存在");
                     mOnSuccessAndFaultListener.onFault("请求的地址不存在");
                 } else {
-                    //                    ToastManager.showShortToast("请求失败");
                     mOnSuccessAndFaultListener.onFault("请求失败");
                 }
             } else if (e instanceof UnknownHostException) {//域名解析失败
-                //                ToastManager.showShortToast("域名解析失败");
                 mOnSuccessAndFaultListener.onFault("域名解析失败");
             } else {
-                //                ToastManager.showShortToast("error:" + e.getMessage());
                 mOnSuccessAndFaultListener.onFault("error:" + e.getMessage());
             }
         } catch (Exception e2) {

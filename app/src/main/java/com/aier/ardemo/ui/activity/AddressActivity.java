@@ -27,7 +27,8 @@ public class AddressActivity extends BaseActivity {
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
-
+        String addr =SharedPreferencesUtil.getString(this,"addr","");
+        et_add.setText(addr);
     }
 
     @Override

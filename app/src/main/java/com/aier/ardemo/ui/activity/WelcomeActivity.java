@@ -18,11 +18,15 @@ import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.Apk_dialog;
+import com.aier.ardemo.model.WeatherResponseBean;
+import com.aier.ardemo.netapi.HttpApi;
+import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.netsubscribe.CheckAPPVersionSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.DeviceidUtil;
+import com.aier.ardemo.utils.GsonUtils;
 import com.aier.ardemo.utils.Md5Secret;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.AppDownload;
@@ -30,6 +34,7 @@ import com.aier.ardemo.weight.AppDownload;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +43,12 @@ import java.util.TimerTask;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WelcomeActivity extends BaseActivity implements AppDownload.Callback{
     private static String TAG ="WelcomeActivity";
@@ -89,10 +100,10 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                 ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
             }else {
                 isShowGuidance();
-                // checkAppVersion();
+              //   checkAppVersion();
             }
         }else {
-            isShowGuidance();
+               isShowGuidance();
            // checkAppVersion();
         }
     }
@@ -119,7 +130,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
                     isShowGuidance();
-               //     checkAppVersion();
+                 //   checkAppVersion();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
@@ -130,9 +141,10 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     }
 
     private void checkAppVersion() {
+        try {
         JSONObject obj =new JSONObject();
         JSONObject object1 =new JSONObject();
-        try {
+
             Long timestamp = new Date().getTime();
             obj.put("appId","");
             obj.put("method","NKCLOUDAPI_GETLASTAPP");
@@ -153,30 +165,60 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 //            Gson gsons = new Gson();
 //            String postInfoStr = gsons.toJson(myRequestBody);
 //            Log.i("xxx","postInfoStr " + postInfoStr);
+
+
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
+            CheckAPPVersionSubscribe.getAppVer(body,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+                @Override
+                public void onSuccess(String result) {
+                    Log.i("sss","  result" + result);
+                   // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
+
+                  //  Log.i("sss","sss"+weather.toString());
+                  //  showWeatherText(weather);
+                     String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
+                     SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
+                     updataApp("");
+                }
+
+                @Override
+                public void onFault(String errorMsg) {
+                    showToast(errorMsg);
+                }
+            }));
         }catch (Exception e){
-           e.getMessage();
+            e.getMessage();
         }
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .baseUrl(URLConstant.BASE_URL)
+//                .build();
+//        HttpApi service = retrofit.create(HttpApi.class);
+//        Call<ResponseBody> call = service.getAppVerForBody(body);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                // 已经转换为想要的类型了
+//                try {
+//                    String str = response.body().string();
+//
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                t.printStackTrace();
+//            }
+//
+//
+//        });
 
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
 
-        CheckAPPVersionSubscribe.getAppVer(body,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                Log.i("sss","  result" + result);
-               // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
 
-              //  Log.i("sss","sss"+weather.toString());
-              //  showWeatherText(weather);
-                 String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
-                 SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
-                 updataApp("");
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                showToast(errorMsg);
-            }
-        }));
 
     }
 
@@ -225,8 +267,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     protected int getLayout() {
         return R.layout.activity_wel;
     }
-
-
 
     private Runnable runnable = () -> isShowGuidance();
 

@@ -409,14 +409,14 @@ public class ARFragment extends Fragment {
              */
             if (mARController != null) {
                 if(num ==1){
-                    mARController.switchCase("10301883", 5);//切换黑胡桃
-                    current_produce = "10301883";
+                    mARController.switchCase("10302537", 5);//切换黑胡桃
+                    current_produce = "10302537";
                 }else if(num ==2){
-                    mARController.switchCase("10301878", 5);//切换模型白腊木
-                    current_produce = "10301878";
+                    mARController.switchCase("10302518", 5);//切换模型白腊木
+                    current_produce = "10302518";
                 }else if(num ==3){
-                    mARController.switchCase("10301899", 5);//切换模型 红橡木
-                    current_produce = "10301899";
+                    mARController.switchCase("10302527", 5);//切换模型 红橡木
+                    current_produce = "10302527";
                 }else if(num ==10){
                     Intent intent =new Intent(arActivity,ShoppingActivity.class);
                     Bundle bundle = new Bundle();

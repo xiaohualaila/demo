@@ -41,8 +41,10 @@ public class OrderInfoActivity extends BaseActivity {
                amount = bundle.getInt("amount");
            }
           String  add = SharedPreferencesUtil.getString(this,"addr","");
-          if(TextUtils.isEmpty(add)){
+          if(!TextUtils.isEmpty(add)){
               addr.setText(add);
+          }else {
+              addr.setText("");
           }
     }
 
@@ -119,8 +121,11 @@ public class OrderInfoActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String result = data.getStringExtra("result");//得到新Activity 关闭后返回的数据
-        addr.setText(result);
+        if(data!=null){
+            String result = data.getStringExtra("result");//得到新Activity 关闭后返回的数据
+            addr.setText(result);
+        }
+
     }
 
 }
