@@ -3,8 +3,6 @@ package com.aier.ardemo.ui.fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
@@ -24,21 +21,11 @@ import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.karics.library.zxing.android.CaptureActivity;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import master.flame.danmaku.danmaku.model.BaseDanmaku;
-import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.model.IDanmakus;
-import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
-import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
-import master.flame.danmaku.ui.widget.DanmakuView;
 import top.littlefogcat.danmakulib.danmaku.DanmakuLayout;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
