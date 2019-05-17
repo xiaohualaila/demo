@@ -74,10 +74,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.BaiduVoiceActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTop" >
-
-        </activity>
-
+            android:launchMode="singleTop" />
         <activity
                 android:name=".ui.activity.ARActivity"
                 android:resizeableActivity="false"
