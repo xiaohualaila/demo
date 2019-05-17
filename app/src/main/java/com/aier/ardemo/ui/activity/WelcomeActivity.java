@@ -56,6 +56,9 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.RECORD_AUDIO};
 
     Apk_dialog apk_dialog;
@@ -112,12 +115,10 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     private boolean hasNecessaryPermission() {
         List<String> permissionsList = new ArrayList();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (String permission : ALL_PERMISSIONS) {
                 if (ActivityCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED) {
                     permissionsList.add(permission);
                 }
-            }
         }
         return permissionsList.size() == 0;
     }
@@ -129,8 +130,8 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             case 1123: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
-                    isShowGuidance();
-                 //   checkAppVersion();
+                     isShowGuidance();
+                    //   checkAppVersion();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
@@ -268,15 +269,11 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         return R.layout.activity_wel;
     }
 
-    private Runnable runnable = () -> isShowGuidance();
-
-
     @Override
     public void callProgress(int progress) {
         if (progress >= 100) {
             runOnUiThread(() -> {
                 apk_dialog.dismiss();
-
                 install(path);
             });
 

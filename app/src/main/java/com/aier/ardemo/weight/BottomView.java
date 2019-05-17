@@ -13,7 +13,7 @@ import com.aier.ardemo.R;
 
 
 public class BottomView extends LinearLayout implements View.OnClickListener{
-    private ImageView home,my;
+    private ImageView home,my,yuyin;
     private int before_state = 1;
     private BottomCallBack bottomCallBack;
     private LinearLayout ll_home,ll_my;
@@ -36,10 +36,12 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
         my = view.findViewById(R.id.iv_my);
         iv_home_text = view.findViewById(R.id.iv_home_text);
         iv_my_text = view.findViewById(R.id.iv_my_text);
+        yuyin = view.findViewById(R.id.iv_yuyin);
         ll_home.setOnClickListener(this);
         ll_my.setOnClickListener(this);
         iv_home_text.setOnClickListener(this);
         iv_my_text.setOnClickListener(this);
+        yuyin.setOnClickListener(this);
     }
 
     @Override
@@ -51,11 +53,14 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
             case R.id.ll_my:
                 setBottomViewState(2);
                 break;
-            case R.id.iv_home_text:
-                setBottomViewState(1);
-                break;
-            case R.id.iv_my_text:
-                setBottomViewState(2);
+//            case R.id.iv_home_text:
+//                setBottomViewState(1);
+//                break;
+//            case R.id.iv_my_text:
+//                setBottomViewState(2);
+//                break;
+            case R.id.iv_yuyin:
+                bottomCallBack.setTabCallBack(3);
                 break;
         }
     }
@@ -67,9 +72,9 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
                 my.setImageResource(R.drawable.my);
                 iv_home_text.setTextColor(getResources().getColor(R.color.colorPrimary));
                 iv_my_text.setTextColor(getResources().getColor(R.color.tab_bg));
-                bottomCallBack.setCallBack(1);
+                bottomCallBack.setTabCallBack(1);
             } else if (mAccount == 2) {
-                bottomCallBack.setCallBack(2);
+                bottomCallBack.setTabCallBack(2);
                 home.setImageResource(R.drawable.home);
                 my.setImageResource(R.drawable.my_);
                 iv_home_text.setTextColor(getResources().getColor(R.color.tab_bg));
@@ -80,6 +85,6 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
         }
     }
     public interface BottomCallBack{
-        void setCallBack(int num);
+        void setTabCallBack(int num);
     }
 }

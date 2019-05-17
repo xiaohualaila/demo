@@ -1,20 +1,12 @@
 package com.aier.ardemo.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
@@ -25,26 +17,20 @@ import com.aier.ardemo.ui.fragment.WeatherFragment;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
+import com.baidu.speech.EventManager;
+import com.baidu.speech.EventManagerFactory;
 import com.google.gson.Gson;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 
-public class MainActivity extends BaseActivity implements BottomView.BottomCallBack{
+
+public class MainActivity extends BaseActivity implements BottomView.BottomCallBack {
     @BindView(R.id.bottom_view)
     BottomView bottomView;
     private static String TAG ="MainActivity";
-    /**
-     * 需要手动申请的权限
-     */
-    private static final String[] ALL_PERMISSIONS = new String[] {
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    Manifest.permission.CAMERA,
-                                    Manifest.permission.RECORD_AUDIO};
+
     private Fragment mCurrentFrag;
     private FragmentManager fm;
  //   private Fragment homeFragment;
@@ -64,6 +50,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         int screenHeight = dm.heightPixels;
         Log.i("sss"," screenWidth"+screenWidth);
         Log.i("sss"," screenHeight"+screenHeight);
+
     }
 
 
@@ -91,17 +78,15 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     }
 
 
-    @OnClick({R.id.fab})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fab:
-
-                DialogFragment dialogFragment = DialogFragment.getInstance();
-                dialogFragment.show(getSupportFragmentManager(), () -> dialogFragment.dismiss());
-                break;
-        }
-
-    }
+//    @OnClick({R.id.fab})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.fab:
+//
+//                break;
+//        }
+//
+//    }
 
 
     public void goToArActivity(){
@@ -123,13 +108,19 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
 
     @Override
-    public void setCallBack(int num) {
+    public void setTabCallBack(int num) {
         switch (num){
             case 1:
                 switchContent(weatherFragment);
                 break;
             case 2:
                 switchContent(myFragment);
+                break;
+            case 3:
+                startActiviys(BaiduVoiceActivity.class);
+
+//                DialogFragment dialogFragment = DialogFragment.getInstance();
+//                dialogFragment.show(getSupportFragmentManager(), () -> dialogFragment.dismiss());
                 break;
         }
     }
@@ -154,6 +145,5 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             mCurrentFrag = to;
         }
     }
-
 
 }
