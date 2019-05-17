@@ -33,7 +33,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
+//https://blog.csdn.net/u010296640/article/details/72731324  拍照代码参照
 public class PersonInfoActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
