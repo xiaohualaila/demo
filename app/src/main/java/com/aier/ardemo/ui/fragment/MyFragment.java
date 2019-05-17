@@ -21,6 +21,9 @@ import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.karics.library.zxing.android.CaptureActivity;
+
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import master.flame.danmaku.danmaku.model.IDanmakus;
@@ -48,8 +51,8 @@ public class MyFragment extends BaseFragment {
     EditText mEtSend;
     @BindView(R.id.float_btn)
     ImageView float_btn;
-    @BindView(R.id.ll_danmu)
-    LinearLayout ll_danmu;
+    @BindView(R.id.ll_et)
+    LinearLayout ll_et;
     boolean isBind = false;
 
     private static String path = "/sdcard/myHead/";// sd路径
@@ -102,7 +105,7 @@ public class MyFragment extends BaseFragment {
 
 
     private void showHeadPic() {
-        Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");// 从SD卡中找头像，转换成Bitmap
+        Bitmap bt = BitmapFactory.decodeFile(path + "crop_image.jpg");// 从SD卡中找头像，转换成Bitmap
         if (bt != null) {
             Bitmap pic = AdjustBitmap.getCircleBitmap(bt);
             my_photo.setImageBitmap(pic);
@@ -145,11 +148,15 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.float_btn:
                 if(isShowDanmu){
-                    ll_danmu.setVisibility(View.GONE);
+                    ll_et.setVisibility(View.GONE);
+
+
                     isShowDanmu=false;
                     float_btn.setImageResource(R.drawable.danmu_gray);
                 }else {
-                    ll_danmu.setVisibility(View.VISIBLE);
+                    ll_et.setVisibility(View.VISIBLE);
+
+
                     isShowDanmu=true;
                     float_btn.setImageResource(R.drawable.danmu_blue);
                 }
