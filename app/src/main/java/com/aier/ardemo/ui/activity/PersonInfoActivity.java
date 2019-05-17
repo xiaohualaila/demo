@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -44,7 +43,6 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
     ImageView my_photo;
     Person person;
 
-    private Bitmap head;// 头像Bitmap
     private static String path = "/sdcard/myHead/";// sd路径
     private Uri imageUri;//相机拍照图片保存地址
     private Uri outputUri;//裁剪万照片保存地址
@@ -109,8 +107,6 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
         // 在相册中选取
         tv_select_gallery.setOnClickListener(v -> {
             openAlbum();
-
-
             dialog.dismiss();
         });
         // 调用照相机
@@ -205,7 +201,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
                     handleImageOnKitKat(data);
                 } else {
                     // 4.4以下系统使用这个方法处理图片
-                   // handleImageBeforeKitKat(data);
+                    handleImageBeforeKitKat(data);
                 }
                 break;
             case 2:
@@ -272,6 +268,9 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
      intent.putExtra("noFaceDetection", true);//取消人脸识别
      startActivityForResult(intent, 6);
 }
-
-
+    private void handleImageBeforeKitKat(Intent data) {
+        Uri uri = data.getData();
+        imagePath = getImagePath(uri, null);
+        cropPhoto(uri);
+    }
 }
