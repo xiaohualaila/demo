@@ -1,14 +1,21 @@
 package com.aier.ardemo.ui.activity;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,10 +27,11 @@ import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -38,13 +46,16 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
 
     private Bitmap head;// 头像Bitmap
     private static String path = "/sdcard/myHead/";// sd路径
-
+    private Uri imageUri;//相机拍照图片保存地址
+    private Uri outputUri;//裁剪万照片保存地址
+    private String imagePath;//打开相册选择照片的路径
+    private boolean isClickCamera;//是否是拍照裁剪
     @Override
     protected void initViews() {
         tv_title.setText("个人信息");
         my_photo.setOnClickListener(this);
 
-        Bitmap bt = BitmapFactory.decodeFile(path + "head.jpg");// 从SD卡中找头像，转换成Bitmap
+        Bitmap bt = BitmapFactory.decodeFile(path + "crop_image.jpg");// 从SD卡中找头像，转换成Bitmap
         if (bt != null) {
             Bitmap pic = AdjustBitmap.getCircleBitmap(bt);
             my_photo.setImageBitmap(pic);
@@ -67,8 +78,6 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
     protected int getLayout() {
         return R.layout.activity_person_info;
     }
-
-
 
     @OnClick({R.id.iv_back,R.id.ok_name,R.id.delete_name,R.id.my_photo})
     public void onClick(View view) {
@@ -99,52 +108,128 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
         TextView tv_select_camera =  view.findViewById(R.id.tv_select_camera);
         // 在相册中选取
         tv_select_gallery.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, null);
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-            startActivityForResult(intent, 1);
+            openAlbum();
+
+
             dialog.dismiss();
         });
         // 调用照相机
         tv_select_camera.setOnClickListener(v -> {
-            Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent2.putExtra(MediaStore.EXTRA_OUTPUT,
-                    Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "head.jpg")));
-            startActivityForResult(intent2, 2);// 采用ForResult打开
+            openCamera();
             dialog.dismiss();
         });
         dialog.setView(view);
         dialog.show();
     }
 
+    // 打开相册
+    private void openAlbum() {
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent, 5);
+     }
+
+    @TargetApi(19)
+    private void handleImageOnKitKat(Intent data) {
+        imagePath = null;
+        Uri uri = data.getData();
+        Log.d("TAG", "handleImageOnKitKat: uri is " + uri);
+        if (DocumentsContract.isDocumentUri(this, uri)) {
+            // 如果是document类型的Uri，则通过document id处理
+            String docId = DocumentsContract.getDocumentId(uri);
+            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                String id = docId.split(":")[1]; // 解析出数字格式的id
+                 String selection = MediaStore.Images.Media._ID + "=" + id;
+                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // 如果是content类型的Uri，则使用普通方式处理
+             imagePath = getImagePath(uri, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            // 如果是file类型的Uri，直接获取图片路径即可
+             imagePath = uri.getPath();
+        }
+        cropPhoto(uri);
+    }
+
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        // 通过Uri和selection来获取真实的图片路径
+         Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+         if (cursor != null) {
+             if (cursor.moveToFirst()) {
+                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+             }
+             cursor.close();
+         }
+         return path;
+    }
+
+    /**
+     * 拍照
+     */
+    private void openCamera() {
+        // 创建File对象，用于存储拍照后的图片
+        File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+        try {
+            if (outputImage.exists()) {
+                outputImage.delete();
+            }
+            outputImage.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (Build.VERSION.SDK_INT < 24) {
+            imageUri = Uri.fromFile(outputImage);
+        } else {
+            //Android 7.0系统开始 使用本地真实的Uri路径不安全,使用FileProvider封装共享Uri
+            // 参数二:fileprovider绝对路径 com.dyb.testcamerademo：项目包名
+             imageUri = FileProvider.getUriForFile(this, "com.aier.ardemo.fileprovider", outputImage);
+        }
+        // 启动相机程序
+        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, 2);
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    cropPhoto(data.getData());// 裁剪图片
+            case 5:
+                if (Build.VERSION.SDK_INT >= 19) { // 4.4及以上系统使用这个方法处理图片
+                    handleImageOnKitKat(data);
+                } else {
+                    // 4.4以下系统使用这个方法处理图片
+                   // handleImageBeforeKitKat(data);
                 }
-
                 break;
             case 2:
-                if (resultCode == RESULT_OK) {
-                    File temp = new File(Environment.getExternalStorageDirectory() + "/head.jpg");
-                    cropPhoto(Uri.fromFile(temp));// 裁剪图片
-                }
-
+                cropPhoto(imageUri);//裁剪图片
                 break;
-            case 3:
-                if (data != null) {
-                    Bundle extras = data.getExtras();
-                    head = extras.getParcelable("data");
-                    if (head != null) {
-                        // TODO: 2019/4/26  上传服务器代码
 
-                        setPicToView(head);// 保存在SD卡中
-                        Bitmap pic = AdjustBitmap.getCircleBitmap(head);
+            case 6:
+                //显示最后的照片
+                isClickCamera = true;
+                if (resultCode == RESULT_OK) {
+                    Bitmap bitmap = null;
+                    try {
+                        if (isClickCamera) {
+                            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(outputUri));
+                        } else {
+                            bitmap = BitmapFactory.decodeFile(imagePath);
+                        }
+                        Bitmap pic = AdjustBitmap.getCircleBitmap(bitmap);
                         my_photo.setImageBitmap(pic);// 用ImageView显示出来
-
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
+
                 break;
             default:
                 break;
@@ -152,49 +237,41 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-    /**
-     * 调用系统的裁剪功能
-     *
-     * @param uri
-     */
-    public void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 150);
-        intent.putExtra("outputY", 150);
-        intent.putExtra("return-data", true);
-        startActivityForResult(intent, 3);
-    }
 
-    private void setPicToView(Bitmap mBitmap) {
-        String sdStatus = Environment.getExternalStorageState();
-        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-            return;
-        }
-        FileOutputStream b = null;
-        File file = new File(path);
-        file.mkdirs();// 创建文件夹
-        String fileName = path + "head.jpg";// 图片名字
-        try {
-            b = new FileOutputStream(fileName);
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // 关闭流
-                b.flush();
-                b.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    /**
+     * 裁剪图片
+     */
+    private void cropPhoto(Uri uri) {
+         // 创建File对象，用于存储裁剪后的图片，避免更改原图
+         File file = new File(path, "crop_image.jpg");
+         try {
+             if (file.exists()) {
+                 file.delete();
+             }
+            file.createNewFile();
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+     outputUri = Uri.fromFile(file);
+     Intent intent = new Intent("com.android.camera.action.CROP");
+     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+     }
+     intent.setDataAndType(uri, "image/*");
+     //裁剪图片的宽高比例
+    intent.putExtra("aspectX", 1);
+    intent.putExtra("aspectY", 1);
+    intent.putExtra("crop", "true");//可裁剪
+    // 裁剪后输出图片的尺寸大小
+   //  intent.putExtra("outputX", 400);
+   //  intent.putExtra("outputY", 200);
+     intent.putExtra("scale", true);//支持缩放
+     intent.putExtra("return-data", false);
+     intent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
+     intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());//输出图片格式
+     intent.putExtra("noFaceDetection", true);//取消人脸识别
+     startActivityForResult(intent, 6);
+}
 
 
 }
