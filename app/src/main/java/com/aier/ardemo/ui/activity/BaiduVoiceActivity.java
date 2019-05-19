@@ -10,29 +10,48 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
+import com.aier.ardemo.model.WeatherResponseBean;
+import com.aier.ardemo.netapi.HttpApi;
+import com.aier.ardemo.netapi.URLConstant;
+import com.aier.ardemo.netsubscribe.YuyinSubscribe;
+import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
+import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
+import com.aier.ardemo.netutils.RetrofitFactory2;
+import com.aier.ardemo.utils.GsonUtils;
 import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BaiduVoiceActivity extends AppCompatActivity implements EventListener {
 
     private static final String TAG = "BaiduVoiceActivity";
     private Button btnStartRecord;
     private Button btnStopRecord;
-    private TextView tvResult;
-    private TextView tvParseResult;
+//    private TextView tvResult;
+//    private TextView tvParseResult;
     private EventManager asr;
 
     private boolean logTime = true;
@@ -43,7 +62,7 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_baidu);
         initView();
-        initPermission();
+
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
         btnStartRecord.setOnClickListener(new View.OnClickListener() {
@@ -64,87 +83,32 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
     }
 
     private void initView() {
-        tvResult =  findViewById(R.id.tvResult);
-        tvParseResult =  findViewById(R.id.tvParseResult);
         btnStartRecord =  findViewById(R.id.btnStartRecord);
         btnStopRecord =  findViewById(R.id.btnStopRecord);
         btnStopRecord.setVisibility(View.GONE);
     }
-    /**
-     * android 6.0 以上需要动态申请权限
-     */
-    private void initPermission() {
-        String permissions[] = {Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.INTERNET,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        ArrayList<String> toApplyList = new ArrayList<String>();
-        for (String perm :permissions){
-            if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(this, perm)) {
-                toApplyList.add(perm);
-                //进入到这里代表没有权限.
-
-            }
-        }
-        String tmpList[] = new String[toApplyList.size()];
-        if (!toApplyList.isEmpty()){
-            ActivityCompat.requestPermissions(this, toApplyList.toArray(tmpList), 123);
-        }
-
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        // 此处为android 6.0以上动态授权的回调，用户自行实现。
-    }
 
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
-        String result = "";
 
-        if (length > 0 && data.length > 0) {
-            result += ", 语义解析结果：" + new String(data, offset, length);
-        }
         if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_READY)) {
             // 引擎准备就绪，可以开始说话
-            result += "引擎准备就绪，可以开始说话";
-
         } else if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_BEGIN)) {
             // 检测到用户的已经开始说话
-            result += "检测到用户的已经开始说话";
-
         } else if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_END)) {
             // 检测到用户的已经停止说话
-            result += "检测到用户的已经停止说话";
-            if (params != null && !params.isEmpty()) {
-                result += "params :" + params + "\n";
-            }
         } else if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL)) {
             // 临时识别结果, 长语音模式需要从此消息中取出结果
-            result += "识别临时识别结果";
-            if (params != null && !params.isEmpty()) {
-                result += "params :" + params + "\n";
-            }
             parseAsrPartialJsonData(params);
         } else if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_FINISH)) {
             // 识别结束， 最终识别结果或可能的错误
-            result += "识别结束";
             btnStartRecord.setEnabled(true);
             asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
-            if (params != null && !params.isEmpty()) {
-                result += "params :" + params + "\n";
-            }
             Log.d(TAG, "Result Params:"+params);
             parseAsrFinishJsonData(params);
         }
-        printResult(result);
-    }
-    private void printResult(String text) {
-        tvResult.append(text + "\n");
     }
     private void start() {
-        tvResult.setText("");
         btnStartRecord.setEnabled(false);
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
@@ -158,7 +122,6 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
         String json = null; //可以替换成自己的json
         json = new JSONObject(params).toString(); // 这里可以替换成你需要测试的json
         asr.send(event, json, null, 0, 0);
-        printResult("输入参数：" + json);
     }
     private void stop() {
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
@@ -177,7 +140,8 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
         Log.d(TAG, "resultType:"+resultType);
         if(resultType != null && resultType.equals("final_result")){
             final_result = jsonData.getBest_result();
-//            tvParseResult.setText("解析结果：" + final_result);
+            Log.i("sss","解析结果：" + final_result);
+
         }
     }
     private void parseAsrFinishJsonData(String data) {
@@ -186,13 +150,81 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
         AsrFinishJsonData jsonData = gson.fromJson(data, AsrFinishJsonData.class);
         String desc = jsonData.getDesc();
         if(desc !=null && desc.equals("Speech Recognize success.")){
-            tvParseResult.setText("解析结果:" + final_result);
+            Log.i("sss","解析结果:" + final_result);
+            if(final_result!=null){
+                getQueryData(final_result);
+              //  getYuyinQueryData(final_result);
+
+
+            }
         }else{
             String errorCode = "\n错误码:" + jsonData.getError();
             String errorSubCode = "\n错误子码:"+ jsonData.getSub_error();
             String errorResult = errorCode + errorSubCode;
-            tvParseResult.setText("解析错误,原因是:" + desc + "\n" + errorResult);
+            Log.i("sss","解析错误,原因是:" + desc + "\n" + errorResult);
         }
     }
 
+
+    private void getYuyinQueryData(String data){
+          YuyinSubscribe.getYuyinDataForQuery(data, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            @Override
+            public void onSuccess(String result) {
+                Log.i("sss","sss"+result);
+
+
+            }
+
+            @Override
+            public void onFault(String errorMsg) {
+                Log.i("sss","sss"+ errorMsg);
+                //失败
+              //  Toast.makeText(this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
+            }
+        },this));
+
+    }
+
+
+
+    private void getQueryData(String data) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(URLConstant.YUYIN_URL)
+                .build();
+        HttpApi service = retrofit.create(HttpApi.class);
+        Call<ResponseBody> call = service.getYuyinDataForQuery("YUBAI",data);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // 已经转换为想要的类型了
+                try {
+                    String str = response.body().string();
+                    JSONObject obj =new JSONObject(str);
+                    Log.i("sss",obj.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+
+        });
+
+    }
+
+    public void dotdd(View view) {
+
+        getQueryData("今天天气怎么样");
+
+    }
 }
