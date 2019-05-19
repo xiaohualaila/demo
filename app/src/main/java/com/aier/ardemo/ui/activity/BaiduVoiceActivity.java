@@ -1,40 +1,28 @@
 package com.aier.ardemo.ui.activity;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
-import com.aier.ardemo.model.WeatherResponseBean;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
-import com.aier.ardemo.netsubscribe.YuyinSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
-import com.aier.ardemo.netutils.RetrofitFactory2;
-import com.aier.ardemo.utils.GsonUtils;
 import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,8 +38,7 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
     private static final String TAG = "BaiduVoiceActivity";
     private Button btnStartRecord;
     private Button btnStopRecord;
-//    private TextView tvResult;
-//    private TextView tvParseResult;
+
     private EventManager asr;
 
     private boolean logTime = true;
@@ -108,6 +95,7 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
             parseAsrFinishJsonData(params);
         }
     }
+
     private void start() {
         btnStartRecord.setEnabled(false);
         Map<String, Object> params = new LinkedHashMap<String, Object>();
@@ -123,6 +111,7 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
         json = new JSONObject(params).toString(); // 这里可以替换成你需要测试的json
         asr.send(event, json, null, 0, 0);
     }
+
     private void stop() {
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
     }
@@ -144,6 +133,7 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
 
         }
     }
+
     private void parseAsrFinishJsonData(String data) {
         Log.d(TAG, "parseAsrFinishJsonData data:"+data);
         Gson gson = new Gson();
@@ -153,8 +143,6 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
             Log.i("sss","解析结果:" + final_result);
             if(final_result!=null){
                 getQueryData(final_result);
-              //  getYuyinQueryData(final_result);
-
 
             }
         }else{
@@ -164,27 +152,6 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
             Log.i("sss","解析错误,原因是:" + desc + "\n" + errorResult);
         }
     }
-
-
-    private void getYuyinQueryData(String data){
-          YuyinSubscribe.getYuyinDataForQuery(data, new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                Log.i("sss","sss"+result);
-
-
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                Log.i("sss","sss"+ errorMsg);
-                //失败
-              //  Toast.makeText(this, "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
-            }
-        },this));
-
-    }
-
 
 
     private void getQueryData(String data) {
@@ -208,9 +175,6 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
                     e.printStackTrace();
                 }
 
-
-
-
             }
 
             @Override
@@ -219,12 +183,6 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
             }
 
         });
-
     }
 
-    public void dotdd(View view) {
-
-        getQueryData("今天天气怎么样");
-
-    }
 }

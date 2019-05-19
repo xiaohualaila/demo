@@ -18,8 +18,7 @@
         android:text="stop"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="20dp"
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
@@ -37,8 +36,8 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="20dp"
+
         android:orientation="vertical">
         <View
             android:layout_width="match_parent"
@@ -54,4 +53,5 @@
                 android:text="parse_result" />
         </ScrollView>
     </LinearLayout>
+
 </LinearLayout>

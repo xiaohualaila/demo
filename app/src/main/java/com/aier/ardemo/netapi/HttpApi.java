@@ -4,6 +4,8 @@ import com.aier.ardemo.model.BaseRequestBean;
 import com.aier.ardemo.model.WeatherRequestBean;
 import com.aier.ardemo.model.WeatherResponseBean;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -54,4 +56,8 @@ public interface HttpApi {
 
     @POST("")
     Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);
+
+    @GET("query")
+    Call<ResponseBody> getYuyinDataForQuery(@Query("type") String type, @Query("data") String data);
+
 }
