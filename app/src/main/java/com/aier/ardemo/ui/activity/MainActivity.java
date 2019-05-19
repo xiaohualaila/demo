@@ -67,7 +67,10 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             GloData.setPersons(userDatas);
         }else {
             Person person =new Person();
-            person.setUsername("");
+            person.setId("111");
+            person.setUsername("小虎");
+            person.setAddress("杭州");
+            person.setAddress("男");
             GloData.setPersons(person);
         }
     }

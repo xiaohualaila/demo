@@ -3,6 +3,7 @@ package com.aier.ardemo;
 import android.app.Application;
 
 import com.aier.ardemo.utils.NetUtils;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 
 public class BaseApplication extends Application {
@@ -13,6 +14,8 @@ public class BaseApplication extends Application {
         super.onCreate();
         appContext = this;
         NetUtils.setContext(this);
+        //初始化DBFLOW
+        FlowManager.init(this);
     }
 
     public static Application getAppContext() {

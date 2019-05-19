@@ -2,7 +2,7 @@
  * Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
  */
 apply plugin: 'com.android.application'
-
+def dbflow_version = "4.2.1"
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -23,17 +23,15 @@ android {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
-    packagingOptions{
-        doNotStrip "*/*/libvad.dnn.so"
-        doNotStrip "*/*/libbd_easr_s1_merge_normal_20151216.dat.so"
-    }
 }
 
 buildscript {
     repositories {
         mavenCentral()
     }
+
 }
+
 
 
 dependencies {
@@ -79,6 +77,13 @@ dependencies {
     implementation 'com.github.ctiao:dfm:0.4.2'
     //弹幕
     implementation project(path: ':danmakulib')
+
+    //https://www.jianshu.com/p/9fe0e179f5bf  数据库
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    // sql-cipher database encyrption (optional)
+    implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
 
 
 }

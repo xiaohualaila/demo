@@ -5,27 +5,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.aier.ardemo.R;
+import com.aier.ardemo.adapter.ChatGroupAdapter;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
+import com.aier.ardemo.bean.GloData;
+import com.aier.ardemo.bean.GroupChatDB;
+import com.aier.ardemo.bean.Neighbor;
+import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
-import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
-import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
+import com.aier.ardemo.ui.base.BaseActivity;
 import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
 import com.google.gson.Gson;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.NameAlias;
+import com.raizlabs.android.dbflow.sql.language.OrderBy;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.ModelAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
+import butterknife.BindView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,47 +49,91 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BaiduVoiceActivity extends AppCompatActivity implements EventListener {
+public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     private static final String TAG = "BaiduVoiceActivity";
-    private Button btnStartRecord;
-    private Button btnStopRecord;
+
+    @BindView(R.id.btnStartRecord)
+    Button btnStartRecord;
+    @BindView(R.id.listview)
+    ListView listview;
 
     private EventManager asr;
 
     private boolean logTime = true;
 
     private String final_result;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_baidu);
-        initView();
 
+    //当前群组的聊天记录
+    private List<GroupChatDB> list = new ArrayList<>();
+    private ChatGroupAdapter adapter;
+    //当前用户信息
+
+    private String mTextMessage;
+    public Person person;//个人信息
+
+    ModelAdapter<GroupChatDB> manager;
+    //获取最后一条数据的时间
+    private GroupChatDB fastGroupChat = new GroupChatDB();
+    @Override
+    protected void initViews() {
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
-        btnStartRecord.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                start();
-            }
-        });
-        btnStopRecord.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                stop();
-            }
-        });
-
+        btnStartRecord.setOnClickListener(v -> start());
     }
 
-    private void initView() {
-        btnStartRecord =  findViewById(R.id.btnStartRecord);
-        btnStopRecord =  findViewById(R.id.btnStopRecord);
-        btnStopRecord.setVisibility(View.GONE);
+    @Override
+    protected void initDate(Bundle savedInstanceState) {
+        manager = FlowManager.getModelAdapter(GroupChatDB.class);
+        person = GloData.getPerson();
+
+        GroupChatDB userGroupChat = new GroupChatDB();
+        userGroupChat.username = person.getUsername();
+        userGroupChat.headimg = person.getHeadimg();
+        userGroupChat.uid = person.getId();
+
+
+        list = getData();
+        if (list != null && list.size() == 0) {
+            userGroupChat.createtime = getDate();
+            mTextMessage = "大家好,我是羽白";
+            userGroupChat.message = mTextMessage;
+            userGroupChat.save();
+           // manager.insert(userGroupChat);
+            list = getData();
+        }
+        judgeListView();
+        fastGroupChat = list.get(list.size() - 1);
+        adapter = new ChatGroupAdapter(this, list);
+        listview.setAdapter(adapter);
     }
+
+
+    void judgeListView() {
+        if (list.size() > 8) {
+            listview.setStackFromBottom(true);
+            listview.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        } else {
+            listview.setStackFromBottom(false);
+            listview.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
+        }
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.activity_baidu;
+    }
+
+
+
+
+
+    List<GroupChatDB> getData() {
+        List<GroupChatDB> data= SQLite.select().from(GroupChatDB.class).queryList();
+        return data;
+    }
+
+
 
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
@@ -142,8 +202,8 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
         if(desc !=null && desc.equals("Speech Recognize success.")){
             Log.i("sss","解析结果:" + final_result);
             if(final_result!=null){
+                mySelfMessage(final_result);
                 getQueryData(final_result);
-
             }
         }else{
             String errorCode = "\n错误码:" + jsonData.getError();
@@ -151,6 +211,20 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
             String errorResult = errorCode + errorSubCode;
             Log.i("sss","解析错误,原因是:" + desc + "\n" + errorResult);
         }
+    }
+
+    private void mySelfMessage(String data) {
+        GroupChatDB userGroupChat =new GroupChatDB();
+        userGroupChat.createtime = getDate();
+        userGroupChat.message = data;
+        userGroupChat.username = person.getUsername();
+        userGroupChat.headimg = "";
+        userGroupChat.uid = "111";
+        userGroupChat.save();
+        list.add(userGroupChat);
+        adapter.notifyDataSetChanged();
+        listview.setSelection(listview.getCount() - 1);
+        judgeListView();
     }
 
 
@@ -169,6 +243,20 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
                     String str = response.body().string();
                     JSONObject obj =new JSONObject(str);
                     Log.i("sss",obj.toString());
+
+                    String result = obj.optString("result");
+                    GroupChatDB userGroupChat =new GroupChatDB();
+                    userGroupChat.createtime = getDate();
+                    userGroupChat.message = result;
+                    userGroupChat.username = "羽白";
+                    userGroupChat.headimg = "";
+                    userGroupChat.uid = "112";
+                    userGroupChat.save();
+                    list.add(userGroupChat);
+                    adapter.notifyDataSetChanged();
+                    listview.setSelection(listview.getCount() - 1);
+                    judgeListView();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -183,6 +271,13 @@ public class BaiduVoiceActivity extends AppCompatActivity implements EventListen
             }
 
         });
+    }
+
+    //获取日期
+    private String getDate() {
+        SimpleDateFormat myDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        return myDateFormat.format(curDate);
     }
 
 }
