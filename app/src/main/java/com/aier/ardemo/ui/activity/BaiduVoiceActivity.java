@@ -1,13 +1,18 @@
 package com.aier.ardemo.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
+import com.aier.ardemo.adapter.ChatAdapter;
 import com.aier.ardemo.adapter.ChatGroupAdapter;
+import com.aier.ardemo.adapter.ProduceAdapter;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
 import com.aier.ardemo.bean.GloData;
@@ -21,9 +26,7 @@ import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
 import com.google.gson.Gson;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.structure.ModelAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -48,7 +51,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     @BindView(R.id.btnStartRecord)
     TextView btnStartRecord;
     @BindView(R.id.ls)
-    ListView listview;
+    RecyclerView mRecyclerView;
 
     private EventManager asr;
 
@@ -58,20 +61,12 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     //当前群组的聊天记录
     private List<GroupChatDB> list = new ArrayList<>();
-    private ChatGroupAdapter adapter;
+    private ChatAdapter adapter;
     //当前用户信息
 
     private String mTextMessage;
     public Person person;//个人信息
-
-
-
-    @Override
-    protected void initViews() {
-        asr = EventManagerFactory.create(this, "asr");
-        asr.registerListener(this); //  EventListener 中 onEvent方法
-        btnStartRecord.setOnClickListener(v -> start());
-    }
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -87,21 +82,39 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             userGroupChat.save();
             list = getData();
         }
-        judgeListView();
-        adapter = new ChatGroupAdapter(this, list);
-        listview.setAdapter(adapter);
-    }
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager.setStackFromEnd(true);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
+//        judgeListView();
+        adapter = new ChatAdapter(list,this);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(adapter);
+    }
 
     void judgeListView() {
-        if (list.size() > 8) {
-            listview.setStackFromBottom(true);
-            listview.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-        } else {
-            listview.setStackFromBottom(false);
-            listview.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
-        }
+        linearLayoutManager.scrollToPositionWithOffset(50, 0);//先要滚动到这个位置
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                View target = linearLayoutManager.findViewByPosition(50);//然后才能拿到这个View
+                if (target != null) {
+                    linearLayoutManager.scrollToPositionWithOffset(50,
+                            mRecyclerView.getMeasuredHeight() - target.getMeasuredHeight());//滚动偏移到底部
+                }
+            }
+        });
     }
+
+    @Override
+    protected void initViews() {
+        asr = EventManagerFactory.create(this, "asr");
+        asr.registerListener(this); //  EventListener 中 onEvent方法
+        btnStartRecord.setOnClickListener(v -> start());
+    }
+
+
+
 
     @Override
     protected int getLayout() {
@@ -208,8 +221,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         userGroupChat.save();
         list.add(userGroupChat);
         adapter.notifyDataSetChanged();
-        listview.setSelection(listview.getCount() - 1);
-        judgeListView();
+        mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
     }
 
 
@@ -226,11 +238,13 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                 // 已经转换为想要的类型了
                 try {
                     String str = response.body().string();
-                    JSONObject obj =new JSONObject(str);
-                    Log.i("sss",obj.toString());
-                    String result = obj.optString("result");
-                    String image = obj.optString("imagereply");
-                    showMessage(result,"112",image,"羽白","");
+                    if(str!=null){
+                        JSONObject obj =new JSONObject(str);
+                        Log.i("sss",obj.toString());
+                        String result = obj.optString("result");
+                        String image = obj.optString("imagereply");
+                        showMessage(result,"112",image,"羽白","");
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
