@@ -160,7 +160,7 @@ public class SpeechController {
     }
 
     public void initView(ViewGroup container) {
-        final View view = View.inflate(mContext, R.layout.view_speech, null);
+        final View view = View.inflate(mContext, R.layout.view_dialog_speech, null);
         container.addView(view);
         mSpeechButton = view.findViewById(R.id.btn_speech);
         mSpeechButton.setText("正在语音识别");

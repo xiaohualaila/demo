@@ -15,6 +15,7 @@ import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.GroupChatDB;
 import com.aier.ardemo.bean.Person;
+import com.aier.ardemo.dialog.SpeekView;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.ui.base.BaseActivity;
@@ -52,6 +53,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.sv)
+    SpeekView speekView;
     private EventManager asr;
 
     private boolean logTime = true;
@@ -67,6 +70,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     public Person person;//个人信息
     private LinearLayoutManager linearLayoutManager;
     private boolean isStop = true;
+//    private SpeechSynthesizer mSpeechSynthesizer;//百度语音合成客户端
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -143,6 +147,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             btnStartRecord.setEnabled(true);
             btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_white));
             btnStartRecord.setText("点击说话");
+            speekView.setVisibility(View.GONE);
             isStop = true;
             asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
             Log.d(TAG, "Result Params:"+params);
@@ -151,6 +156,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     private void start() {
+        speekView.setVisibility(View.VISIBLE);
         btnStartRecord.setText("停止说话");
         btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_gray));
         isStop = false;
