@@ -34,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import butterknife.BindView;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -49,7 +50,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     TextView btnStartRecord;
     @BindView(R.id.ls)
     RecyclerView mRecyclerView;
-
+    @BindView(R.id.tv_title)
+    TextView tv_title;
     private EventManager asr;
 
     private boolean logTime = true;
@@ -68,6 +70,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
+        tv_title.setText("羽白智能机器人");
         person = GloData.getPerson();
         list = getData();
         if (list != null && list.size() == 0) {
@@ -95,7 +98,6 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     protected void initViews() {
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
-
         btnStartRecord.setOnClickListener(v -> {
             if(isStop){
                 start();
@@ -103,6 +105,15 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                 stop();
             }
         });
+    }
+
+    @OnClick({R.id.iv_back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+        }
     }
 
     @Override
@@ -140,7 +151,6 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     private void start() {
-//        btnStartRecord.setEnabled(false);
         btnStartRecord.setText("停止说话");
         btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_gray));
         isStop = false;
@@ -215,9 +225,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         if(list.size()>8){
             mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
         }
-
     }
-
 
     private void getQueryData(String data) {
         Retrofit retrofit = new Retrofit.Builder()
