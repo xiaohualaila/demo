@@ -32,6 +32,9 @@ public class GroupChatDB  extends BaseModel  {
     public String headimg;
 
     @Column
+    public String image;
+
+    @Column
     public String uid;
 
 

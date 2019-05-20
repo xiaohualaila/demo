@@ -1,12 +1,10 @@
 package com.aier.ardemo.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ChatGroupAdapter;
@@ -14,7 +12,6 @@ import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.GroupChatDB;
-import com.aier.ardemo.bean.Neighbor;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
@@ -25,14 +22,10 @@ import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.NameAlias;
-import com.raizlabs.android.dbflow.sql.language.OrderBy;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.ModelAdapter;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +33,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import butterknife.BindView;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -54,8 +46,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     private static final String TAG = "BaiduVoiceActivity";
 
     @BindView(R.id.btnStartRecord)
-    Button btnStartRecord;
-    @BindView(R.id.listview)
+    TextView btnStartRecord;
+    @BindView(R.id.ls)
     ListView listview;
 
     private EventManager asr;
@@ -72,9 +64,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     private String mTextMessage;
     public Person person;//个人信息
 
-    ModelAdapter<GroupChatDB> manager;
-    //获取最后一条数据的时间
-    private GroupChatDB fastGroupChat = new GroupChatDB();
+
+
     @Override
     protected void initViews() {
         asr = EventManagerFactory.create(this, "asr");
@@ -84,26 +75,19 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
-        manager = FlowManager.getModelAdapter(GroupChatDB.class);
         person = GloData.getPerson();
-
-        GroupChatDB userGroupChat = new GroupChatDB();
-        userGroupChat.username = person.getUsername();
-        userGroupChat.headimg = person.getHeadimg();
-        userGroupChat.uid = person.getId();
-
-
         list = getData();
         if (list != null && list.size() == 0) {
+            GroupChatDB userGroupChat = new GroupChatDB();
+            userGroupChat.username = "羽白";
+            userGroupChat.uid = "112";
             userGroupChat.createtime = getDate();
-            mTextMessage = "大家好,我是羽白";
+            mTextMessage = "您好,我是羽白人工智能机器人小羽。";
             userGroupChat.message = mTextMessage;
             userGroupChat.save();
-           // manager.insert(userGroupChat);
             list = getData();
         }
         judgeListView();
-        fastGroupChat = list.get(list.size() - 1);
         adapter = new ChatGroupAdapter(this, list);
         listview.setAdapter(adapter);
     }
@@ -124,16 +108,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         return R.layout.activity_baidu;
     }
 
-
-
-
-
     List<GroupChatDB> getData() {
         List<GroupChatDB> data= SQLite.select().from(GroupChatDB.class).queryList();
         return data;
     }
-
-
 
     @Override
     public void onEvent(String name, String params, byte[] data, int offset, int length) {
@@ -150,6 +128,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         } else if (name.equals(SpeechConstant.CALLBACK_EVENT_ASR_FINISH)) {
             // 识别结束， 最终识别结果或可能的错误
             btnStartRecord.setEnabled(true);
+            btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_white));
+            btnStartRecord.setText("点击说话");
             asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
             Log.d(TAG, "Result Params:"+params);
             parseAsrFinishJsonData(params);
@@ -158,6 +138,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     private void start() {
         btnStartRecord.setEnabled(false);
+        btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_gray));
+        btnStartRecord.setText("正在识别语音");
+
+
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
         event = SpeechConstant.ASR_START;
@@ -202,7 +186,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         if(desc !=null && desc.equals("Speech Recognize success.")){
             Log.i("sss","解析结果:" + final_result);
             if(final_result!=null){
-                mySelfMessage(final_result);
+                showMessage(final_result,person.getId(),"",person.getUsername(),person.getHeadimg());
                 getQueryData(final_result);
             }
         }else{
@@ -213,13 +197,14 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         }
     }
 
-    private void mySelfMessage(String data) {
+    private void showMessage(String data,String uid,String img,String name,String headImg) {
         GroupChatDB userGroupChat =new GroupChatDB();
         userGroupChat.createtime = getDate();
         userGroupChat.message = data;
-        userGroupChat.username = person.getUsername();
-        userGroupChat.headimg = "";
-        userGroupChat.uid = "111";
+        userGroupChat.username = name;
+        userGroupChat.headimg = headImg;
+        userGroupChat.image = img;
+        userGroupChat.uid = uid;
         userGroupChat.save();
         list.add(userGroupChat);
         adapter.notifyDataSetChanged();
@@ -243,20 +228,9 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                     String str = response.body().string();
                     JSONObject obj =new JSONObject(str);
                     Log.i("sss",obj.toString());
-
                     String result = obj.optString("result");
-                    GroupChatDB userGroupChat =new GroupChatDB();
-                    userGroupChat.createtime = getDate();
-                    userGroupChat.message = result;
-                    userGroupChat.username = "羽白";
-                    userGroupChat.headimg = "";
-                    userGroupChat.uid = "112";
-                    userGroupChat.save();
-                    list.add(userGroupChat);
-                    adapter.notifyDataSetChanged();
-                    listview.setSelection(listview.getCount() - 1);
-                    judgeListView();
-
+                    String image = obj.optString("imagereply");
+                    showMessage(result,"112",image,"羽白","");
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {

@@ -221,6 +221,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
                         }
                         Bitmap pic = AdjustBitmap.getCircleBitmap(bitmap);
                         my_photo.setImageBitmap(pic);// 用ImageView显示出来
+                        person.setHeadimg(path +"crop_image.jpg");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }

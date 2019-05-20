@@ -15,10 +15,7 @@
             android:id="@+id/tv_sendtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#bfbfbf"
-            android:padding="2dp"
-            android:textColor="#ffffff"
-            android:textSize="12sp"/>
+            style="@style/chat_text_date_style"/>
 
     </LinearLayout>
 
@@ -43,10 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_userhead"
-            android:gravity="center"
-            android:text="小梅"
-            android:textColor="#818181"
-            android:textSize="15sp"/>
+            style="@style/chat_text_name_style" />
 
         <TextView
             android:id="@+id/tv_chatcontent"
@@ -63,5 +57,4 @@
             android:textSize="15sp"/>
 
     </RelativeLayout>
-
 </LinearLayout>
