@@ -6,13 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ChatAdapter;
-import com.aier.ardemo.adapter.ChatGroupAdapter;
-import com.aier.ardemo.adapter.ProduceAdapter;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
 import com.aier.ardemo.bean.GloData;
@@ -67,6 +64,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     private String mTextMessage;
     public Person person;//个人信息
     private LinearLayoutManager linearLayoutManager;
+    private boolean isStop = true;
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -83,38 +81,34 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             list = getData();
         }
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        linearLayoutManager.setStackFromEnd(true);
+        if(list.size()>8){
+            linearLayoutManager.setStackFromEnd(true);
+        }
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-//        judgeListView();
         adapter = new ChatAdapter(list,this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
-    }
-
-    void judgeListView() {
-        linearLayoutManager.scrollToPositionWithOffset(50, 0);//先要滚动到这个位置
-        mRecyclerView.post(new Runnable() {
-            @Override
-            public void run() {
-                View target = linearLayoutManager.findViewByPosition(50);//然后才能拿到这个View
-                if (target != null) {
-                    linearLayoutManager.scrollToPositionWithOffset(50,
-                            mRecyclerView.getMeasuredHeight() - target.getMeasuredHeight());//滚动偏移到底部
-                }
-            }
-        });
     }
 
     @Override
     protected void initViews() {
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
-        btnStartRecord.setOnClickListener(v -> start());
+
+        btnStartRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isStop){
+
+                    start();
+                }else {
+
+                    stop();
+                }
+            }
+        });
     }
-
-
-
 
     @Override
     protected int getLayout() {
@@ -143,6 +137,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             btnStartRecord.setEnabled(true);
             btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_white));
             btnStartRecord.setText("点击说话");
+            isStop = true;
             asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
             Log.d(TAG, "Result Params:"+params);
             parseAsrFinishJsonData(params);
@@ -150,11 +145,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     private void start() {
-        btnStartRecord.setEnabled(false);
+//        btnStartRecord.setEnabled(false);
+        btnStartRecord.setText("停止说话");
         btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_gray));
-        btnStartRecord.setText("正在识别语音");
-
-
+        isStop = false;
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
         event = SpeechConstant.ASR_START;
@@ -170,6 +164,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     private void stop() {
+        btnStartRecord.setEnabled(false);
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
     }
 
@@ -178,6 +173,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         super.onDestroy();
         asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0);
     }
+
     private void parseAsrPartialJsonData(String data) {
         Log.d(TAG, "parseAsrPartialJsonData data:"+data);
         Gson gson = new Gson();
@@ -221,7 +217,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         userGroupChat.save();
         list.add(userGroupChat);
         adapter.notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
+        if(list.size()>8){
+            mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
+        }
+
     }
 
 
