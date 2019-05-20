@@ -96,16 +96,11 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
 
-        btnStartRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isStop){
-
-                    start();
-                }else {
-
-                    stop();
-                }
+        btnStartRecord.setOnClickListener(v -> {
+            if(isStop){
+                start();
+            }else {
+                stop();
             }
         });
     }
