@@ -44,7 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-//https://blog.csdn.net/sinat_38892960/article/details/88015158 语音合成
+
 public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     private static final String TAG = "BaiduVoiceActivity";
@@ -58,8 +58,6 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     @BindView(R.id.sv)
     SpeekView speekView;
     private EventManager asr;
-
-    private boolean logTime = true;
 
     private String final_result;
 

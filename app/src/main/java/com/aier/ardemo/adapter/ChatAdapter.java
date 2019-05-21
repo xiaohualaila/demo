@@ -17,6 +17,7 @@ import com.aier.ardemo.bean.GroupChatDB;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.ImageUtils;
 import com.aier.ardemo.weight.CircleImageView;
+import com.aier.ardemo.weight.ScaleImageView;
 
 import java.util.List;
 
@@ -52,8 +53,13 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  holderLeft.iv_userhead.setImageResource(R.drawable.xiaobai);
                  if(!TextUtils.isEmpty(groupChat.image)){
                      Log.i("sss","图片地址"+groupChat.image);
-                     holderLeft.iv_image.setVisibility(View.VISIBLE);
+//                     ImageUtils.image(context,groupChat.image, holderLeft.iv_image);
+//                     holderLeft.iv_image.setVisibility(View.VISIBLE);
+
+                     ScaleImageView imageView =holderLeft.iv_image;
+                     imageView.setInitSize(imageView.getWidth(), imageView.getHeight());
                      ImageUtils.image(context,groupChat.image, holderLeft.iv_image);
+                     holderLeft.iv_image.setVisibility(View.VISIBLE);
                  }else{
                      holderLeft.iv_image.setVisibility(View.GONE);
                  }
@@ -64,7 +70,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  holderRight.tvUserName.setText(groupChat.username);
                  holderRight.tvContent.setText(groupChat.message);
                  Bitmap bt = BitmapFactory.decodeFile(groupChat.headimg);// 从SD卡中找头像，转换成Bitmap
-                 Log.i("sss","图片地址"+groupChat.headimg);
                  if (bt != null) {
                      Bitmap pic = AdjustBitmap.getCircleBitmap(bt);
                      holderRight.iv_userhead.setImageBitmap(pic);
@@ -92,7 +97,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ViewHolderLeft extends RecyclerView.ViewHolder{
         TextView tvSendTime,tvUserName,tvContent;
         CircleImageView iv_userhead;
-        ImageView iv_image;
+        ScaleImageView iv_image;
 
         public ViewHolderLeft(View itemView) {
             super(itemView);

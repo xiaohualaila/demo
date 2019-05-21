@@ -74,7 +74,7 @@ dependencies {
     //弹幕
     implementation project(path: ':danmakulib')
 
-    //https://www.jianshu.com/p/9fe0e179f5bf  数据库
+    // DBFlow数据库
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
