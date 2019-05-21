@@ -23,6 +23,8 @@ import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
 import com.baidu.speech.asr.SpeechConstant;
+import com.baidu.tts.client.SpeechSynthesizer;
+import com.baidu.tts.client.TtsMode;
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.json.JSONException;
@@ -42,7 +44,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+//https://blog.csdn.net/sinat_38892960/article/details/88015158 语音合成
 public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     private static final String TAG = "BaiduVoiceActivity";
@@ -70,7 +72,12 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     public Person person;//个人信息
     private LinearLayoutManager linearLayoutManager;
     private boolean isStop = true;
-//    private SpeechSynthesizer mSpeechSynthesizer;//百度语音合成客户端
+
+    //百度语音合成
+    protected String appId = "16021623";//百度语音申请的appID
+    protected String appKey = "ZI0SDxDIWvtMnHvs2scKXC2x";//appKey
+    protected String secretKey = "ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk";//secretKey
+    private SpeechSynthesizer synthesizer;//语音合成对象
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -96,6 +103,16 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         adapter = new ChatAdapter(list,this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
+        //百度语音合成
+        synthesizer = SpeechSynthesizer.getInstance(); //设置当前的Context
+        synthesizer.setContext(this);
+        synthesizer.setAppId(appId);
+        synthesizer.setApiKey(appKey, secretKey);
+        synthesizer.auth(TtsMode.ONLINE); // 纯在线 // 设置参数
+//        synthesizer.setParam(SpeechSynthesizer.PARAM_AUDIO_ENCODE, SpeechSynthesizer.AUDIO_ENCODE_PCM);
+//        synthesizer.setParam(SpeechSynthesizer.PARAM_AUDIO_RATE, SpeechSynthesizer.AUDIO_BITRATE_PCM);
+//        synthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0");
+        synthesizer.initTts(TtsMode.ONLINE);//纯在线模式
     }
 
     @Override
@@ -183,6 +200,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     protected void onDestroy() {
         super.onDestroy();
         asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0);
+        synthesizer.release();
     }
 
     private void parseAsrPartialJsonData(String data) {
@@ -252,6 +270,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                         String result = obj.optString("result");
                         String image = obj.optString("imagereply");
                         showMessage(result,"112",image,"羽白","");
+                        speak(result);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -275,5 +294,21 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         return myDateFormat.format(curDate);
     }
+
+    /**
+     * 播放语音。语音合成
+     */
+    private void speak(String content) {
+        int result = synthesizer.speak(content);
+        Log.d("test", "speak" + result);
+    }
+    /**
+     * 暂停播放。仅调用speak后生效 语音合成
+     */
+    private void pause() {
+        int result = synthesizer.pause();
+        Log.d("test", "pause:" + result);
+    }
+
 
 }

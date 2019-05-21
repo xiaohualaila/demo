@@ -37,14 +37,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         initViews();
     }
 
-    protected abstract void initViews();
 
     protected abstract void initDate(Bundle savedInstanceState);
 
+    protected abstract void initViews();
 
     protected abstract int getLayout();
-
-
 
     @Override
     protected void onDestroy() {

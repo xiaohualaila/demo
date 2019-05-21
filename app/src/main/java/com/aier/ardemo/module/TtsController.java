@@ -28,9 +28,9 @@ public class TtsController {
      * 用户自定义设置appId，appKey，secretKey
      * http://ai.baidu.com/sdk#tts
      */
-    protected String APPID = "com.baidu.speech.APP_ID";
-    protected String APIKEY = "com.baidu.speech.API_KEY";
-    protected String SECRETKEY = "com.baidu.speech.SECRET_KEY";
+    protected String APPID = "16021623";
+    protected String APIKEY = "ZI0SDxDIWvtMnHvs2scKXC2x";
+    protected String SECRETKEY = "ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk";
 
     private Tts mTts;
 
