@@ -79,7 +79,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
-        tv_title.setText("羽白智能机器人");
+        tv_title.setText("智能语音助手");
         person = GloData.getPerson();
         list = getData();
         if (list != null && list.size() == 0) {
