@@ -50,9 +50,9 @@ public interface HttpApi {
     @POST("nkcloudapi")
     Observable<ResponseBody> getAppVerForBody(@Body RequestBody body);
 
-//    @Headers({"Content-Type: application/json","Accept: application/json"})
-//    @POST("nkcloudapi")
-//    Call<ResponseBody> getAppVerForBody(@Body RequestBody body);
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("nkcleartext")
+    Call<ResponseBody> getAppVerForBody2(@Body RequestBody body);
 
     @POST("")
     Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);

@@ -14,25 +14,22 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.Apk_dialog;
-import com.aier.ardemo.model.WeatherResponseBean;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.netsubscribe.CheckAPPVersionSubscribe;
 import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
 import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.utils.DESUtil;
+import com.aier.ardemo.utils.DesUtils;
 import com.aier.ardemo.utils.DeviceidUtil;
-import com.aier.ardemo.utils.GsonUtils;
-import com.aier.ardemo.utils.Md5Secret;
+import com.aier.ardemo.utils.Md5Util;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.AppDownload;
-
 import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -102,16 +99,14 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             if (!hasNecessaryPermission()) {
                 ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
             }else {
-                isShowGuidance();
-              //   checkAppVersion();
+               // isShowGuidance();
+                checkAppVersion2();
             }
         }else {
-               isShowGuidance();
-           // checkAppVersion();
+              // isShowGuidance();
+                checkAppVersion2();
         }
     }
-
-
 
     private boolean hasNecessaryPermission() {
         List<String> permissionsList = new ArrayList();
@@ -130,8 +125,8 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             case 1123: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
-                     isShowGuidance();
-                    //   checkAppVersion();
+                    // isShowGuidance();
+                       checkAppVersion2();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
@@ -143,88 +138,123 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     private void checkAppVersion() {
         try {
-        JSONObject obj =new JSONObject();
-        JSONObject object1 =new JSONObject();
+            JSONObject obj =new JSONObject();
+            JSONObject object1 =new JSONObject();
 
             Long timestamp = new Date().getTime();
-            obj.put("appId","");
+            obj.put("appId", URLConstant.APPID);
             obj.put("method","NKCLOUDAPI_GETLASTAPP");
-            obj.put("timestamp",timestamp);//System.currentTimeMillis(),
-            obj.put("clienttype","Android");
+            obj.put("timestamp",timestamp);
+            obj.put("clienttype","WEB");
             obj.put("object",object1);
-            String md5_str = Md5Secret.md5("   "+"NKCLOUDAPI_GETLASTAPP"+ timestamp +"Android" +object1.toString());
+            String md5_str = Md5Util.getMd5(URLConstant.APPID+"NKCLOUDAPI_GETLASTAPP"+ timestamp +"WEB" +object1.toString());
             obj.put("secret",md5_str);
-            Log.i("xxx",obj.toString());
+            Log.i(TAG,obj.toString());
 
-//            MyRequestBody myRequestBody = new MyRequestBody();
-//            myRequestBody.setAppId("");
-//            myRequestBody.setMethod("NKCLOUDAPI_GETLASTAPP");
-//            myRequestBody.setTimestamp(timestamp);
-//            myRequestBody.setClienttype("Android");
-//            myRequestBody.setObject(object1.toString());
-//            myRequestBody.setSecret(md5_str);
-//            Gson gsons = new Gson();
-//            String postInfoStr = gsons.toJson(myRequestBody);
-//            Log.i("xxx","postInfoStr " + postInfoStr);
+            String desStr = DESUtil.encrypt(obj.toString());//DES加密
+            Log.i(TAG,desStr);
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),desStr);
+//            CheckAPPVersionSubscribe.getAppVer(body,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+//                @Override
+//                public void onSuccess(String result) {
+//                    Log.i(TAG,"  result" + result);
+//                   // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
+//
+//                  //  Log.i("sss","sss"+weather.toString());
+//                  //  showWeatherText(weather);
+//                     String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
+//                     SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
+//                     updataApp("");
+//                }
+//
+//                @Override
+//                public void onFault(String errorMsg) {
+//                    Log.i(TAG,"  errorMsg" + errorMsg);
+//                    showToast(errorMsg);
+//                }
+//            }));
 
-
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
-            CheckAPPVersionSubscribe.getAppVer(body,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(URLConstant.BASE_URL_LOCAL)
+                    .build();
+            HttpApi service = retrofit.create(HttpApi.class);
+            Call<ResponseBody> call = service.getAppVerForBody2(body);
+            call.enqueue(new Callback<ResponseBody>() {
                 @Override
-                public void onSuccess(String result) {
-                    Log.i("sss","  result" + result);
-                   // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    // 已经转换为想要的类型了
+                    try {
+                        String str = response.body().string();
 
-                  //  Log.i("sss","sss"+weather.toString());
-                  //  showWeatherText(weather);
-                     String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
-                     SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
-                     updataApp("");
+                        Log.i(TAG,"返回数据 " + str);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 @Override
-                public void onFault(String errorMsg) {
-                    showToast(errorMsg);
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                    Log.i(TAG,"  errorMsg" + t.getMessage());
                 }
-            }));
+
+
+            });
+
         }catch (Exception e){
             e.getMessage();
         }
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .baseUrl(URLConstant.BASE_URL)
-//                .build();
-//        HttpApi service = retrofit.create(HttpApi.class);
-//        Call<ResponseBody> call = service.getAppVerForBody(body);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                // 已经转换为想要的类型了
-//                try {
-//                    String str = response.body().string();
-//
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                t.printStackTrace();
-//            }
-//
-//
-//        });
-
-
 
 
     }
 
+    private void checkAppVersion2() {
+        try {
+            JSONObject obj =new JSONObject();
+            JSONObject obj1 =new JSONObject();
+            obj.put("method","NKCLOUDAPI_GETLASTAPP");
+            obj.put("params",obj1);
+
+            Log.i(TAG,obj.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
+            Retrofit retrofit = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(URLConstant.BASE_URL_LOCAL)
+                    .build();
+            HttpApi service = retrofit.create(HttpApi.class);
+            Call<ResponseBody> call = service.getAppVerForBody2(body);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    // 已经转换为想要的类型了
+                    try {
+                        String str = response.body().string();
+                        Log.i(TAG,"返回数据 " + str);
+                        isShowGuidance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                    Log.i(TAG,"  errorMsg" + t.getMessage());
+                }
+            });
+
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+
+    }
+
+
     private void updataApp(String url) {
-         path = Environment.getExternalStorageDirectory()+"/zhsq/" + "南康家居防伪.apk" ;
+         path = Environment.getExternalStorageDirectory()+"/nkjj/" + "南康家居防伪.apk" ;
         apk_dialog = new Apk_dialog( WelcomeActivity.this );
         if (apk_dialog != null && apk_dialog.isShowing()) {
             return;

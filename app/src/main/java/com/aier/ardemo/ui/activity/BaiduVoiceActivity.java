@@ -121,6 +121,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         asr.registerListener(this); //  EventListener 中 onEvent方法
         btnStartRecord.setOnClickListener(v -> {
             if(isStop){
+                synthesizer.stop();
                 start();
             }else {
                 stop();
@@ -270,6 +271,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                         String result = obj.optString("result");
                         String image = obj.optString("imagereply");
                         showMessage(result,"112",image,"羽白","");
+                        synthesizer.stop();
                         speak(result);
                     }
                 } catch (IOException e) {
@@ -309,6 +311,5 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         int result = synthesizer.pause();
         Log.d("test", "pause:" + result);
     }
-
 
 }
