@@ -41,12 +41,11 @@ public class WebActivity extends BaseActivity {
     SafeWebView mWebView;
     @BindView(R.id.tv_title)
     TextView tv_title;
-   // private String id, title, url;
     private String codedContent;
     private int  type = 1;
     @Override
     protected void initViews() {
-//        title = getIntent().getStringExtra("title");
+
         codedContent = getIntent().getStringExtra("codedContent");
         type = getIntent().getIntExtra("type", 1);
 
@@ -60,16 +59,12 @@ public class WebActivity extends BaseActivity {
             mWebView.loadUrl(codedContent);
         }else {
             tv_title.setText("芯片溯源");
-            String str = codedContent.substring(0,4);
-            if (str.equals("https")){
-                mWebView.loadUrl(codedContent);
-            }else {
-                mWebView.loadUrl("http://zcc.zq12369.com/nkapp/index.html#/tracesource");
-            }
+            mWebView.loadUrl(codedContent);
+        //    zcc.zq12369.com/nkapp/index.html#/tracesource?id=0003
         }
 
-        Log.i("sss",codedContent);
-        //   mWebView.loadUrl("file:///android_asset/test.html");
+        Log.i(TAG,codedContent);
+
     }
 
     @Override

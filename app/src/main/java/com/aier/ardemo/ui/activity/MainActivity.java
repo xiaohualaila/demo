@@ -1,5 +1,6 @@
 package com.aier.ardemo.ui.activity;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -106,8 +107,17 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     }
 
     public void goToVRVideoActivity(){
-        Intent intent = new Intent(this, VRActivity.class);
+//        Intent intent = new Intent(this, VRActivity.class);
+//        startActivity(intent);
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+      /**知道要跳转应用的包命与目标Activity*/
+        ComponentName componentName = new ComponentName("com.aier.myapplication", "com.aier.myapplication.MainActivity");
+        intent.setComponent(componentName);
+        intent.putExtra("", "");//这里Intent传值
         startActivity(intent);
+
+
     }
 
 
