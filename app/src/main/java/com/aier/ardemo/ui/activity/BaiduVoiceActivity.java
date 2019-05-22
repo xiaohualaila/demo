@@ -14,12 +14,12 @@ import android.widget.TextView;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ChatAdapter;
+import com.aier.ardemo.arview.LoadingView;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.GroupChatDB;
 import com.aier.ardemo.bean.Person;
-import com.aier.ardemo.dialog.SpeekView;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.ui.base.BaseActivity;
@@ -59,8 +59,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.sv)
-    SpeekView speekView;
+    @BindView(R.id.load_view)
+    LoadingView load_view;
     private EventManager asr;
 
     private String final_result;
@@ -121,6 +121,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 
     @Override
     protected void initViews() {
+        load_view.setMsg("正在识别");
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
         btnStartRecord.setOnTouchListener((v, event) -> {
@@ -178,7 +179,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             btnStartRecord.setEnabled(true);
             btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_white));
             btnStartRecord.setText("点击说话");
-            speekView.setVisibility(View.GONE);
+            load_view.setVisibility(View.GONE);
 
             asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
             Log.d(TAG, "Result Params:"+params);
@@ -187,7 +188,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     private void start() {
-        speekView.setVisibility(View.VISIBLE);
+        load_view.setVisibility(View.VISIBLE);
         btnStartRecord.setText("停止说话");
         btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_gray));
 

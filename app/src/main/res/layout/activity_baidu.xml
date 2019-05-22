@@ -39,8 +39,8 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.aier.ardemo.dialog.SpeekView
-        android:id="@+id/sv"
+    <com.aier.ardemo.arview.LoadingView
+        android:id="@+id/load_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

@@ -165,6 +165,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         mModule.setSpeechRecogListener(speechRecogListener);
 //        mModule.setPluginContainer(mPluginContainer);
         lv_loading = findViewById(R.id.lv_loading);
+        lv_loading.setMsg("正在加载");
         arBottomBtn = findViewById(R.id.ar_bottom_btn);
         arBottomBtn.setARBottomCallBack(this);
 

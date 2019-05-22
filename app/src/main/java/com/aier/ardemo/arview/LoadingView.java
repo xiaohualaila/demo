@@ -16,7 +16,7 @@ public class LoadingView extends FrameLayout {
     /**
      * loading msg
      */
-    //private TextView mMsg;
+    private TextView mMsg;
 
     /**
      * 构造函数
@@ -59,8 +59,8 @@ public class LoadingView extends FrameLayout {
         Activity activity = null;
         if (context instanceof Activity) {
             activity = (Activity) context;
-            activity.getLayoutInflater().inflate(R.layout.view_loading, this, true);
-
+           View view = activity.getLayoutInflater().inflate(R.layout.view_loading, this, true);
+            mMsg = view.findViewById(R.id.tv_loading_message);
         }
     }
 
@@ -69,22 +69,22 @@ public class LoadingView extends FrameLayout {
      *
      * @param resourceId 资源id
      */
-//    public void setMsg(int resourceId) {
-//        if (mMsg != null) {
-//            mMsg.setText(resourceId);
-//        }
-//    }
+    public void setMsg(int resourceId) {
+        if (mMsg != null) {
+            mMsg.setText(resourceId);
+        }
+    }
 
     /**
      * 设置显示提示文案
      *
      * @param msg msg
      */
-//    public void setMsg(String msg) {
-//        if (mMsg != null) {
-//            mMsg.setText(msg);
-//        }
-//    }
+    public void setMsg(String msg) {
+        if (mMsg != null) {
+            mMsg.setText(msg);
+        }
+    }
 
     /**
      * 显示
