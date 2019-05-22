@@ -1,10 +1,14 @@
 package com.aier.ardemo.ui.activity;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -69,14 +73,13 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     private String mTextMessage;
     public Person person;//个人信息
     private LinearLayoutManager linearLayoutManager;
-    private boolean isStop = true;
 
     //百度语音合成
     protected String appId = "16021623";//百度语音申请的appID
     protected String appKey = "ZI0SDxDIWvtMnHvs2scKXC2x";//appKey
     protected String secretKey = "ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk";//secretKey
     private SpeechSynthesizer synthesizer;//语音合成对象
-
+    private MediaPlayer mediaPlayer;
     @Override
     protected void initDate(Bundle savedInstanceState) {
         tv_title.setText("智能语音助手");
@@ -111,19 +114,31 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
 //        synthesizer.setParam(SpeechSynthesizer.PARAM_AUDIO_RATE, SpeechSynthesizer.AUDIO_BITRATE_PCM);
 //        synthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, "0");
         synthesizer.initTts(TtsMode.ONLINE);//纯在线模式
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
     @Override
     protected void initViews() {
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
-        btnStartRecord.setOnClickListener(v -> {
-            if(isStop){
-                synthesizer.stop();
-                start();
-            }else {
-                stop();
+        btnStartRecord.setOnTouchListener((v, event) -> {
+            int  action = event.getAction();
+            switch (action){
+                case MotionEvent.ACTION_DOWN:
+                    synthesizer.stop();
+                    if(mediaPlayer.isPlaying()){
+                        mediaPlayer.stop();
+                        mediaPlayer.reset();
+                    }
+                    start();
+                    break;
+                case  MotionEvent.ACTION_UP:
+                    stop();
+                    break;
             }
+            return true;
         });
     }
 
@@ -142,8 +157,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     List<GroupChatDB> getData() {
-        List<GroupChatDB> data= SQLite.select().from(GroupChatDB.class).queryList();
-        return data;
+    List<GroupChatDB> data= SQLite.select().from(GroupChatDB.class).queryList();
+    return data;
     }
 
     @Override
@@ -164,7 +179,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_white));
             btnStartRecord.setText("点击说话");
             speekView.setVisibility(View.GONE);
-            isStop = true;
+
             asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
             Log.d(TAG, "Result Params:"+params);
             parseAsrFinishJsonData(params);
@@ -175,7 +190,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         speekView.setVisibility(View.VISIBLE);
         btnStartRecord.setText("停止说话");
         btnStartRecord.setBackground(getResources().getDrawable(R.drawable.speak_btn_gray));
-        isStop = false;
+
         Map<String, Object> params = new LinkedHashMap<String, Object>();
         String event = null;
         event = SpeechConstant.ASR_START;
@@ -200,6 +215,11 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         super.onDestroy();
         asr.send(SpeechConstant.ASR_CANCEL, "{}", null, 0, 0);
         synthesizer.release();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private void parseAsrPartialJsonData(String data) {
@@ -241,6 +261,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         userGroupChat.username = name;
         userGroupChat.headimg = headImg;
         userGroupChat.image = img;
+    //    userGroupChat.voice = voice;
         userGroupChat.uid = uid;
         userGroupChat.save();
         list.add(userGroupChat);
@@ -268,9 +289,24 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                         Log.i("sss",obj.toString());
                         String result = obj.optString("result");
                         String image = obj.optString("imagereply");
+
                         showMessage(result,"112",image,"羽白","");
-                        synthesizer.stop();
-                        speak(result);
+                        String voice = obj.optString("voice");
+                        if(TextUtils.isEmpty(voice)){
+                            speak(result);
+                        }else {
+                            mediaPlayer.setDataSource(voice);
+                            // 通过异步的方式装载媒体资源
+                            mediaPlayer.prepareAsync();
+                            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                @Override
+                                public void onPrepared(MediaPlayer mp) {
+                                    // 装载完毕 开始播放流媒体
+                                    mediaPlayer.start();
+                                }
+                            });
+                        }
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

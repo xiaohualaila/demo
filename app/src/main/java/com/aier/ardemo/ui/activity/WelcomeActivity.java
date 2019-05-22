@@ -231,7 +231,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                     // 已经转换为想要的类型了
                     try {
                         String str = response.body().string();
-                        Log.i(TAG,"返回数据 " + str);
+                  //      Log.i(TAG,"返回数据 " + str);
                         isShowGuidance();
                     } catch (Exception e) {
                         e.printStackTrace();
