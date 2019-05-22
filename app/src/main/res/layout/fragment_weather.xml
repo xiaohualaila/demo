@@ -10,27 +10,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include layout="@layout/weather_item"/>
-        <ImageView
-            android:id="@+id/tv_check"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_bg"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:background="@drawable/check_pic"
-            android:layout_margin="10dp"/>
-        <ImageView
-            android:id="@+id/tv_zhen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_check"
-            app:layout_constraintLeft_toLeftOf="@+id/tv_check"
-            app:layout_constraintRight_toRightOf="@+id/tv_check"
-            android:layout_marginBottom="@dimen/dp10"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/zhenpin"
-            android:gravity="center" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

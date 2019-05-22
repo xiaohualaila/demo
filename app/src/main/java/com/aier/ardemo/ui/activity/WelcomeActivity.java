@@ -11,7 +11,9 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
@@ -64,6 +66,23 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     String path;
     @Override
     protected void initDate(Bundle savedInstanceState) {
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int width = metric.widthPixels;  // 屏幕宽度（像素）
+        int height = metric.heightPixels;  // 屏幕高度（像素）
+        float density = metric.density;  // 屏幕密度（0.75 / 1.0 / 1.5）
+        int densityDpi = metric.densityDpi;  // 屏幕密度DPI（120 / 160 / 240）
+        Log.i("sss","width  "+ width);
+        Log.i("sss","height  "+ height);
+        Log.i("sss","density  "+ density);
+        Log.i("sss","densityDpi  "+ densityDpi);
+      //  drawable-ldpi          120DPI
+      //  drawable-mdpi        160DPI
+      //  drawable-hdpi         240DPI
+      //  drawable-xhdpi       320DPI
+      //  drawalbe-xxhdpi     480DPI
+      //  drawable-xxxhdpi    640DPI
+
 
         Timer time = new Timer();
         TimerTask tk = new TimerTask() {

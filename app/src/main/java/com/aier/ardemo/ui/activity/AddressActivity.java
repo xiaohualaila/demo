@@ -46,7 +46,7 @@ public class AddressActivity extends BaseActivity {
             case R.id.tv_determine:
                 String addr =et_add.getText().toString().trim();
                 if(TextUtils.isEmpty(addr)){
-                    showToast("地址不能为空!");
+                    toastShort("地址不能为空!");
                     return;
                 }
                 SharedPreferencesUtil.putString(this,"addr",addr);

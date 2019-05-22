@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.aier.ardemo.R;
@@ -22,7 +23,7 @@ import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
 import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
-import com.aier.ardemo.utils.NetUtils;
+import com.aier.ardemo.utils.NetUtil;
 import com.karics.library.zxing.android.CaptureActivity;
 
 import java.io.IOException;
@@ -37,38 +38,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static android.app.Activity.RESULT_OK;
+
 
 
 public class WeatherFragment extends BaseFragment {
     @BindView(R.id.tv_city)
     TextView tv_city;
-//    @BindView(R.id.tv_time)
-//    TextView tv_time;
+    @BindView(R.id.iv_weather)
+    ImageView iv_weather;
     @BindView(R.id.tv_wendu)
     TextView tv_wendu;
-    @BindView(R.id.tv_tianqi)
-    TextView tv_tianqi;
-    @BindView(R.id.tv_to_tianqi)
-    TextView tv_to_tianqi;
-    @BindView(R.id.tv_to_tem1)
-    TextView tv_to_tem1;
-    @BindView(R.id.tv_to_tem2)
-    TextView tv_to_tem2;
-    @BindView(R.id.tv_shidu_)
-    TextView tv_shidu_;
-    @BindView(R.id.tv_fengli_)
-    TextView tv_fengli_;
-    @BindView(R.id.tv_ye_tianqi)
-    TextView tv_ye_tianqi;
-    @BindView(R.id.tv_ye_tem1)
-    TextView tv_ye_tem1;
-    @BindView(R.id.tv_ye_tem2)
-    TextView tv_ye_tem2;
-    @BindView(R.id.tv_air_)
-    TextView tv_air_;
-    @BindView(R.id.tv_air_quality_)
-    TextView tv_air_quality_;
     @BindView(R.id.rv_order_info)
     RecyclerView mRecyclerView;
 
@@ -160,37 +139,27 @@ public class WeatherFragment extends BaseFragment {
         WeatherResponseBean.DataBean dataBean =  dataBeanList.get(0);
         WeatherResponseBean.DataBean dataBean_tomorrow =  dataBeanList.get(0);
         tv_city.setText(weathe.getCity());
-//        tv_time.setText(weathe.getUpdate_time());
-        tv_wendu.setText(dataBean.getTem());
-        tv_tianqi.setText(dataBean.getWea());
-        tv_to_tianqi.setText(dataBean.getWea());
-        tv_to_tem1.setText(dataBean.getTem2());
-        tv_to_tem2.setText(dataBean.getTem1());
-        tv_shidu_.setText(dataBean.getHumidity()+"");
+        tv_wendu.setText(dataBean.getTem());//dataBean.getWea()天气
 
-        List<String> strings =dataBean.getWin();
-        if(strings.size()>0){
-            tv_fengli_.setText(dataBean.getWin_speed()+" "+strings.get(0));
-        }
-        tv_air_.setText(dataBean.getAir()+"");
-        tv_air_quality_.setText(dataBean.getAir_level());
-        tv_ye_tem1.setText(dataBean_tomorrow.getTem2());
-        tv_ye_tem2.setText(dataBean_tomorrow.getTem2());
+
+
+
+
 
     }
 
 
-    @OnClick({R.id.tv_check,R.id.tv_zhen,R.id.tv_vr_video})
+    @OnClick({R.id.iv_check,R.id.iv_zhen,R.id.tv_vr_video})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_check:
+            case R.id.iv_check:
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
                 intent.putExtra("from","wheather");
                 startActivity(intent);
              //   startActivityForResult(intent, REQUEST_CODE_SCAN);
                 break;
-            case R.id.tv_zhen:
-                if(!NetUtils.isNetworkConnected()){
+            case R.id.iv_zhen:
+                if(!NetUtil.isConnected(mActivity)){
                     showToast("网络异常，请检查网络！");
                     return;
                 }

@@ -17,7 +17,6 @@ import com.aier.ardemo.utils.SharedPreferencesUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-
 public class OrderInfoActivity extends BaseActivity {
 
 
@@ -69,7 +68,7 @@ public class OrderInfoActivity extends BaseActivity {
             case R.id.tv_submit:
                 String str =addr.getText().toString();
                 if(TextUtils.isEmpty(str)){
-                    showToast("请添加收货地址！");
+                    toastShort("请添加收货地址！");
                     return;
                 }
                 payDialog();
@@ -125,7 +124,6 @@ public class OrderInfoActivity extends BaseActivity {
             String result = data.getStringExtra("result");//得到新Activity 关闭后返回的数据
             addr.setText(result);
         }
-
     }
 
 }

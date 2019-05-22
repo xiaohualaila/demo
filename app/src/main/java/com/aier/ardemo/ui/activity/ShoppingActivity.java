@@ -86,7 +86,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
             @Override
             public void onFault(String errorMsg) {
                 //失败
-              showToast("请求失败");
+                toastShort("请求失败");
             }
         },this));
 
@@ -138,7 +138,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                 break;
             case R.id.bt_submit:
                 if(myAmount==0){
-                    showToast("没有要提交的订单！");
+                    toastShort("没有要提交的订单！");
                       return;
                 }
 
