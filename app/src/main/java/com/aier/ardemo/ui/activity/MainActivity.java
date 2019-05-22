@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
       /**知道要跳转应用的包命与目标Activity*/
-        ComponentName componentName = new ComponentName("com.aier.myapplication", "com.aier.myapplication.MainActivity");
+        ComponentName componentName = new ComponentName("com.panoeye.peplayer", "com.panoeye.peplayer.MainActivity");
         intent.setComponent(componentName);
         intent.putExtra("", "");//这里Intent传值
         startActivity(intent);
