@@ -34,7 +34,7 @@ public class RetrofitFactory {
     public String TAG = "RetrofitFactory";
     //TODO 填写自己的包名
     public static final String CACHE_NAME = "ar";
-    public static String BASE_URL = URLConstant.BASE_URL;
+    public static String BASE_URL = URLConstant.BASE_URL_LOCAL;
     private static final int DEFAULT_CONNECT_TIMEOUT = 30;
     private static final int DEFAULT_WRITE_TIMEOUT = 30;
     private static final int DEFAULT_READ_TIMEOUT = 30;

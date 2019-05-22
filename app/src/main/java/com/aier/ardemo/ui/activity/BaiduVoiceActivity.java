@@ -298,12 +298,9 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                             mediaPlayer.setDataSource(voice);
                             // 通过异步的方式装载媒体资源
                             mediaPlayer.prepareAsync();
-                            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                @Override
-                                public void onPrepared(MediaPlayer mp) {
-                                    // 装载完毕 开始播放流媒体
-                                    mediaPlayer.start();
-                                }
+                            mediaPlayer.setOnPreparedListener(mp -> {
+                                // 装载完毕 开始播放流媒体
+                                mediaPlayer.start();
                             });
                         }
 

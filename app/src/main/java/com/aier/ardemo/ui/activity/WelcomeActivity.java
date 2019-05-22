@@ -216,8 +216,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             JSONObject obj1 =new JSONObject();
             obj.put("method","NKCLOUDAPI_GETLASTAPP");
             obj.put("params",obj1);
-
-            Log.i(TAG,obj.toString());
             RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
             Retrofit retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
@@ -231,7 +229,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                     // 已经转换为想要的类型了
                     try {
                         String str = response.body().string();
-                  //      Log.i(TAG,"返回数据 " + str);
+                        Log.i(TAG,"返回数据 " + str);
                         isShowGuidance();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -241,6 +239,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     t.printStackTrace();
+                    isShowGuidance();
                     Log.i(TAG,"  errorMsg" + t.getMessage());
                 }
             });
