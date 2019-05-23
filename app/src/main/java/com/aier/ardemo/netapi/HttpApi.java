@@ -46,22 +46,21 @@ public interface HttpApi {
     @Streaming//使用Streaming 方式 Retrofit 不会一次性将ResponseBody 读取进入内存，否则文件很多容易OOM
     Call<ResponseBody> downloadFile(@Url String fileUrl);//返回值使用 ResponseBody 之后会对ResponseBody 进行读取
 
+
+    @POST("")
+    Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);
+
+
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")
     Observable<ResponseBody> getAppVerForBody(@Body RequestBody body);
 
-    @Headers({"Content-Type: application/json","Accept: application/json"})
-    @POST("nkcleartext")
-    Call<ResponseBody> getAppVerForBody2(@Body RequestBody body);//版本更新
-
-    @POST("")
-    Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);
 
     @GET("query")
     Call<ResponseBody> getYuyinDataForQuery(@Query("type") String type, @Query("data") String data);
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")
-    Call<ResponseBody> getWenzhangDataForBody(@Body RequestBody body);//首页文章列表
+    Call<ResponseBody> getDataForBody(@Body RequestBody body);//首页文章列表
 
 }

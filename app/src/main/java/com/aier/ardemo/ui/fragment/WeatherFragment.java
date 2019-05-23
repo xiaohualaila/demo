@@ -81,14 +81,14 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
     protected void init() {
         ac = (MainActivity) getActivity();
         initData();
-        getWeatherData();
         initTablayout();
         initRecycView();
     }
 
     private void initData() {
+        getWeatherData();
         getWenzhangData();
-
+        getOrderData();
 
 
     }
@@ -183,11 +183,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
     }
 
 
-    /**
-     * 请求天气预报的数据
-     * OnSuccessAndFaultSub 我只是加了错误处理和请求的loading，可以自己根据项目的业务修改
-     * new OnSuccessAndFaultSub（第一个参数:成功or失败的回调，第二个参数:上下文，可以不填，控制dialog的）
-     */
+    //首页文章列表
     private void getWenzhangData() {
         try {
             JSONObject object =new JSONObject();
@@ -201,7 +197,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
                     .baseUrl(URLConstant.BASE_URL_LOCAL)
                     .build();
             HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getWenzhangDataForBody(body);
+            Call<ResponseBody> call = service.getDataForBody(body);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -218,14 +214,54 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
                                 tv_toutiao_content.setText(dataBeanList.get(currentIndex).getTitle());
                                 heartinterval();
                             }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                }
+
+
+            });
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+    }
+
+
+    //订单列表
+    private void getOrderData() {
+        try {
+            JSONObject object =new JSONObject();
+            JSONObject obj1 =new JSONObject();
+            object.put("method","NKCLOUDAPI_GETORDERLIST");
+            obj1.put("user_account","");
+            obj1.put("index",1);
+            obj1.put("count",10);
+            object.put("params",obj1);
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),object.toString());
+            Retrofit retrofit = new Retrofit.Builder()
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(URLConstant.BASE_URL_LOCAL)
+                    .build();
+            HttpApi service = retrofit.create(HttpApi.class);
+            Call<ResponseBody> call = service.getDataForBody(body);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    // 已经转换为想要的类型了
+                    try {
+                        if( response.body()!=null){
+                            String str = response.body().string();
+                            Log.i("SSSS","str " +str);
 
                         }
-
-
-
-
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

@@ -119,11 +119,11 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                 ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
             }else {
                // isShowGuidance();
-                checkAppVersion2();
+                checkAppVersion();
             }
         }else {
               // isShowGuidance();
-                checkAppVersion2();
+                checkAppVersion();
         }
     }
 
@@ -145,7 +145,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
                     // isShowGuidance();
-                       checkAppVersion2();
+                       checkAppVersion();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
@@ -155,81 +155,8 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         }
     }
 
+
     private void checkAppVersion() {
-        try {
-            JSONObject obj =new JSONObject();
-            JSONObject object1 =new JSONObject();
-
-            Long timestamp = new Date().getTime();
-            obj.put("appId", URLConstant.APPID);
-            obj.put("method","NKCLOUDAPI_GETLASTAPP");
-            obj.put("timestamp",timestamp);
-            obj.put("clienttype","WEB");
-            obj.put("object",object1);
-            String md5_str = Md5Util.getMd5(URLConstant.APPID+"NKCLOUDAPI_GETLASTAPP"+ timestamp +"WEB" +object1.toString());
-            obj.put("secret",md5_str);
-            Log.i(TAG,obj.toString());
-
-            String desStr = DESUtil.encrypt(obj.toString());//DES加密
-            Log.i(TAG,desStr);
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),desStr);
-//            CheckAPPVersionSubscribe.getAppVer(body,new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-//                @Override
-//                public void onSuccess(String result) {
-//                    Log.i(TAG,"  result" + result);
-//                   // WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
-//
-//                  //  Log.i("sss","sss"+weather.toString());
-//                  //  showWeatherText(weather);
-//                     String versionName = DeviceidUtil.getAppVersionName(WelcomeActivity.this);
-//                     SharedPreferencesUtil.putString(WelcomeActivity.this,"app_ver",versionName);
-//                     updataApp("");
-//                }
-//
-//                @Override
-//                public void onFault(String errorMsg) {
-//                    Log.i(TAG,"  errorMsg" + errorMsg);
-//                    showToast(errorMsg);
-//                }
-//            }));
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL_LOCAL)
-                    .build();
-            HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getAppVerForBody2(body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    // 已经转换为想要的类型了
-                    try {
-                        String str = response.body().string();
-
-                        Log.i(TAG,"返回数据 " + str);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                    Log.i(TAG,"  errorMsg" + t.getMessage());
-                }
-
-
-            });
-
-        }catch (Exception e){
-            e.getMessage();
-        }
-
-
-    }
-
-    private void checkAppVersion2() {
         try {
             JSONObject obj =new JSONObject();
             JSONObject obj1 =new JSONObject();
@@ -241,7 +168,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                     .baseUrl(URLConstant.BASE_URL_LOCAL)
                     .build();
             HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getAppVerForBody2(body);
+            Call<ResponseBody> call = service.getDataForBody(body);
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -266,7 +193,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         }catch (Exception e){
             e.getMessage();
         }
-
 
     }
 
