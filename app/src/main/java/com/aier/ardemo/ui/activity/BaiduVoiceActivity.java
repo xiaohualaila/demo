@@ -122,6 +122,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     @Override
     protected void initViews() {
         load_view.setMsg("正在识别");
+        load_view.setVisibility(View.GONE);
         asr = EventManagerFactory.create(this, "asr");
         asr.registerListener(this); //  EventListener 中 onEvent方法
         btnStartRecord.setOnTouchListener((v, event) -> {

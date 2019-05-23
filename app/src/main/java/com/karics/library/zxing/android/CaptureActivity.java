@@ -215,6 +215,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 				finish();
 			}else {
 				Intent intent = new Intent(this, WebActivity.class);
+				intent.putExtra("title", "南康智能家具产业联盟防伪系统");
 				intent.putExtra("codedContent", rawResult.getText());
 				intent.putExtra("type", 1);
 				startActivity(intent);

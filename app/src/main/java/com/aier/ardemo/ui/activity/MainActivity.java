@@ -23,6 +23,7 @@ import com.baidu.speech.EventManagerFactory;
 import com.google.gson.Gson;
 
 
+
 import butterknife.BindView;
 
 
@@ -120,6 +121,14 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
     }
 
+
+    public void goToWebActivity(String url,String title){
+        Intent intent1 = new Intent(this, WebActivity.class);
+        intent1.putExtra("codedContent", url);
+        intent1.putExtra("title", title);
+        intent1.putExtra("type", 3);
+        startActivity(intent1);
+    }
 
     @Override
     public void setTabCallBack(int num) {

@@ -83,6 +83,7 @@ public class NfcActivity  extends BaseNfcActivity {
 
                     String textRecord = new String(record.getPayload()).trim();
                     Intent intent1 = new Intent(this, WebActivity.class);
+                    intent1.putExtra("title", "芯片溯源");
                     intent1.putExtra("codedContent", textRecord);
                     intent1.putExtra("type", 2);
                     startActivity(intent1);

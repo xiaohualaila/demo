@@ -42,10 +42,11 @@ public class WebActivity extends BaseActivity {
     @BindView(R.id.tv_title)
     TextView tv_title;
     private String codedContent;
+    private String title;
     private int  type = 1;
     @Override
     protected void initViews() {
-
+        title = getIntent().getStringExtra("title");
         codedContent = getIntent().getStringExtra("codedContent");
         type = getIntent().getIntExtra("type", 1);
 
@@ -54,14 +55,10 @@ public class WebActivity extends BaseActivity {
         initWebSettings();
         initListener();
        // initinject();
-        if(type ==1){
-            tv_title.setText("南康智能家具产业联盟防伪系统");
-            mWebView.loadUrl(codedContent);
-        }else {
-            tv_title.setText("芯片溯源");
+            tv_title.setText(title);
             mWebView.loadUrl(codedContent);
         //    zcc.zq12369.com/nkapp/index.html#/tracesource?id=0003
-        }
+
 
         Log.i(TAG,codedContent);
 

@@ -16,6 +16,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!-- 要求当前设备必须要有NFC芯片 -->
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
 

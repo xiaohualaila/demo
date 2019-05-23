@@ -36,7 +36,7 @@
             android:gravity="center"
             android:layout_centerVertical="true"
             android:textColor="@color/white"
-            android:background="@drawable/vr_blue_btn"
+            android:background="@drawable/blue_btn"
             android:text="绑定手机"/>
     </RelativeLayout>
     <View

@@ -13,6 +13,7 @@ public class BaseApplication extends Application {
         appContext = this;
         //初始化DBFLOW
         FlowManager.init(this);
+
     }
 
     public static Application getAppContext() {

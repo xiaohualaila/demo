@@ -32,9 +32,10 @@ public class ProduceAdapter extends RecyclerView.Adapter<ProduceAdapter.ViewHold
     public void onBindViewHolder(ProduceAdapter.ViewHolder holder, int position) {
         Produces produces = list.get(position);
         if(position==0){
-            holder.iv.setImageResource(R.drawable.vr_blue);
+            holder.iv.setImageResource(R.drawable.round_blue);
         }else {
-            holder.iv.setImageResource(R.drawable.vr_blue_1);
+            holder.iv.setImageResource(R.drawable.round_white);
+            holder.tv_addr.setBackgroundResource(R.drawable.left_line_gray);
         }
         holder.tv_time.setText(produces.getTime());
         holder.tv_addr.setText(produces.getAddress());

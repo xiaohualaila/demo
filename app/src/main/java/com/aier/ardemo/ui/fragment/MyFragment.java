@@ -75,7 +75,7 @@ public class MyFragment extends BaseFragment {
 //            img.setVisibility(View.VISIBLE);
          //   tv_no_data.setVisibility(View.GONE);
         }else {
-            tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_blue_btn));
+            tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue_btn));
             tv_bind_phone.setText("绑定手机");
         //    img.setVisibility(View.GONE);
          //   tv_no_data.setVisibility(View.VISIBLE);
@@ -138,7 +138,7 @@ public class MyFragment extends BaseFragment {
                     startActivityForResult(intent,123);
                 }else {
                     showToast("取消绑定成功！");
-                    tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_blue_btn));
+                    tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue_btn));
                     tv_bind_phone.setText("绑定手机");
                     isBind = false;
                  //   img.setVisibility(View.GONE);

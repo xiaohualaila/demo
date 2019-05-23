@@ -52,12 +52,16 @@ public interface HttpApi {
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")
-    Call<ResponseBody> getAppVerForBody2(@Body RequestBody body);
+    Call<ResponseBody> getAppVerForBody2(@Body RequestBody body);//版本更新
 
     @POST("")
     Observable<ResponseBody> getGoodsDataForQuery(@Query("city") String city);
 
     @GET("query")
     Call<ResponseBody> getYuyinDataForQuery(@Query("type") String type, @Query("data") String data);
+
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("nkcleartext")
+    Call<ResponseBody> getWenzhangDataForBody(@Body RequestBody body);//首页文章列表
 
 }

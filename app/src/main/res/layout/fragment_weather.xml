@@ -1,45 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg"
     android:scrollbars="none">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <include layout="@layout/weather_item"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <View
-                android:id="@+id/line"
-                android:layout_width="4dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="@dimen/dp10"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="@color/colorPrimary"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="VR在线溯源"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/line"
-                android:layout_marginLeft="10dp"
-                android:textColor="@color/text_" />
-            <TextView
-                android:id="@+id/tv_vr_video"
-                android:layout_width="@dimen/dp60"
-                android:layout_height="@dimen/dp30"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:background="@drawable/vr_blue_btn"
-                android:textColor="@color/white"
-                android:layout_marginRight="10dp"
-                android:text="VR"/>
-        </RelativeLayout>
+        <include layout="@layout/toutiao_item"/>
+        <include layout="@layout/vr_suyuan_item"/>
         <TextView
             android:id="@+id/tv_info_tip"
             android:layout_width="match_parent"
@@ -47,27 +19,9 @@
             android:gravity="center"
             android:visibility="gone"
             android:text="暂时没有信息"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_order_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_"
-            android:layout_marginLeft="@dimen/dp10"
-            android:layout_marginRight="@dimen/dp10"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="进度追溯如下:"/>
-        <include layout="@layout/progress_state_2"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="center"
-            android:text="快递"/>
+
+
+        <include layout="@layout/tablayout_item"/>
+
     </LinearLayout>
 </ScrollView>
