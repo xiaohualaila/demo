@@ -297,13 +297,25 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                         if(TextUtils.isEmpty(voice)){
                             speak(result);
                         }else {
-                            mediaPlayer.setDataSource(voice);
-                            // 通过异步的方式装载媒体资源
-                            mediaPlayer.prepareAsync();
-                            mediaPlayer.setOnPreparedListener(mp -> {
-                                // 装载完毕 开始播放流媒体
-                                mediaPlayer.start();
-                            });
+                            try {
+                                mediaPlayer.setDataSource(voice);
+                                // 通过异步的方式装载媒体资源
+                                mediaPlayer.prepareAsync();
+                                mediaPlayer.setOnPreparedListener(mp -> {
+                                    // 装载完毕 开始播放流媒体
+                                    mediaPlayer.start();
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (IllegalArgumentException e) {
+                                e.printStackTrace();
+                            } catch (SecurityException e) {
+                                e.printStackTrace();
+                            } catch (IllegalStateException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
                     }
