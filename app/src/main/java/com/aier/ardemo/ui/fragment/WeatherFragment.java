@@ -64,6 +64,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
     RecyclerView rv_courier;
     @BindView(R.id.tv_toutiao_content)
     TextView tv_toutiao_content;
+
     private MainActivity ac;
     ProduceAdapter mAdapter;
     CourierAdapter courierAdapter;
@@ -86,11 +87,11 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
     }
 
     private void initData() {
-        getWeatherData();
-        getWenzhangData();
-        getOrderData();
-
-
+        if(NetUtil.isConnected(mActivity)){
+            getWeatherData();
+            getWenzhangData();
+            getOrderData();
+        }
     }
 
     private void initTablayout() {
@@ -188,13 +189,12 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
         try {
             JSONObject object =new JSONObject();
             JSONObject obj1 =new JSONObject();
-
             object.put("method","NKCLOUDAPI_GETARTICLIST");
             object.put("params",obj1);
             RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),object.toString());
             Retrofit retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL_LOCAL)
+                    .baseUrl(URLConstant.BASE_URL)
                     .build();
             HttpApi service = retrofit.create(HttpApi.class);
             Call<ResponseBody> call = service.getDataForBody(body);
@@ -248,7 +248,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
             RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),object.toString());
             Retrofit retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL_LOCAL)
+                    .baseUrl(URLConstant.BASE_URL)
                     .build();
             HttpApi service = retrofit.create(HttpApi.class);
             Call<ResponseBody> call = service.getDataForBody(body);
@@ -307,7 +307,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
     }
 
 
-    @OnClick({R.id.iv_check,R.id.iv_zhen,R.id.tv_vr_video,R.id.tv_toutiao_content})
+    @OnClick({R.id.iv_check,R.id.iv_zhen,R.id.tv_vr_video,R.id.toutiao_item})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_check:
@@ -326,9 +326,11 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
             case R.id.tv_vr_video:
                 ac.goToVRVideoActivity();
                 break;
-            case R.id.tv_toutiao_content:
-                WenzhangModel.ResultBean.DataBean bean =dataBeanList.get(currentIndex);
-                ac.goToWebActivity(bean.getUrl(),bean.getTitle());
+            case R.id.toutiao_item:
+                if(dataBeanList!=null){
+                    WenzhangModel.ResultBean.DataBean bean =dataBeanList.get(currentIndex);
+                    ac.goToWebActivity(bean.getUrl(),bean.getTitle());
+                }
                 break;
         }
 

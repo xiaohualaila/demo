@@ -57,11 +57,15 @@ public class WebActivity extends BaseActivity {
        // initinject();
            if(title.length()>15){
                tv_title.setTextSize(14f);
+           }else {
+               tv_title.setText(title);
            }
 
-            tv_title.setText(title);
-            mWebView.loadUrl(codedContent);
-        //    zcc.zq12369.com/nkapp/index.html#/tracesource?id=0003
+           if(type==2){
+               mWebView.loadUrl("https:"+codedContent);
+           }else {
+               mWebView.loadUrl(codedContent);
+           }
 
 
         Log.i(TAG,codedContent);

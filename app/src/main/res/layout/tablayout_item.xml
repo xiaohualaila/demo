@@ -8,11 +8,10 @@
     android:padding="5dp"
     android:orientation="vertical">
     <android.support.design.widget.TabLayout
-        android:layout_height="50dp"
         android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:id="@+id/tablayout"
-        app:tabGravity="center"
-        app:tabMode="fixed"
+
         app:tabTextColor="@color/gray_2"
         app:tabSelectedTextColor="@color/blue"
         app:tabIndicatorColor="@color/blue"

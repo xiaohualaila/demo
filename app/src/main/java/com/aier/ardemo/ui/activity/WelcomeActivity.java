@@ -76,12 +76,12 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         Log.i("sss","height  "+ height);
         Log.i("sss","density  "+ density);
         Log.i("sss","densityDpi  "+ densityDpi);
-      //  drawable-ldpi          120DPI
+      //  drawable-ldpi        120DPI
       //  drawable-mdpi        160DPI
-      //  drawable-hdpi         240DPI
+      //  drawable-hdpi        240DPI
       //  drawable-xhdpi       320DPI
-      //  drawalbe-xxhdpi     480DPI
-      //  drawable-xxxhdpi    640DPI
+      //  drawalbe-xxhdpi      480DPI
+      //  drawable-xxxhdpi     640DPI
 
 
         Timer time = new Timer();
@@ -118,12 +118,12 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             if (!hasNecessaryPermission()) {
                 ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
             }else {
-               // isShowGuidance();
-                checkAppVersion();
+                isShowGuidance();
+                //checkAppVersion();
             }
         }else {
-              // isShowGuidance();
-                checkAppVersion();
+               isShowGuidance();
+              //  checkAppVersion();
         }
     }
 
@@ -144,8 +144,8 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             case 1123: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
-                    // isShowGuidance();
-                       checkAppVersion();
+                     isShowGuidance();
+                     //  checkAppVersion();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
