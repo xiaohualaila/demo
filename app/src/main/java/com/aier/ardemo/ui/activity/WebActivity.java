@@ -39,8 +39,8 @@ public class WebActivity extends BaseActivity {
     LinearLayout main;
     @BindView(R.id.web_view)
     SafeWebView mWebView;
-    @BindView(R.id.tv_title)
-    TextView tv_title;
+//    @BindView(R.id.tv_title)
+//    TextView tv_title;
     private String codedContent;
     private String title;
     private int  type = 1;
@@ -55,11 +55,11 @@ public class WebActivity extends BaseActivity {
         initWebSettings();
         initListener();
        // initinject();
-           if(title.length()>15){
-               tv_title.setTextSize(14f);
-           }else {
-               tv_title.setText(title);
-           }
+//           if(title.length()>15){
+//               tv_title.setTextSize(14f);
+//           }else {
+//               tv_title.setText(title);
+//           }
 
            if(type==2){
                mWebView.loadUrl("https:"+codedContent);
@@ -82,14 +82,14 @@ public class WebActivity extends BaseActivity {
         return R.layout.activity_web;
     }
 
-    @OnClick(R.id.iv_back)
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_back:
-                finish();
-                break;
-        }
-    }
+//    @OnClick(R.id.iv_back)
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.iv_back:
+//                finish();
+//                break;
+//        }
+//    }
 
 
     private void initinject() {

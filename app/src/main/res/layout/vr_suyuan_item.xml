@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:id="@+id/ll_suyuan"
     android:background="@drawable/border"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
     android:layout_marginLeft="@dimen/dp10"
     android:layout_marginRight="10dp"
     android:padding="5dp"

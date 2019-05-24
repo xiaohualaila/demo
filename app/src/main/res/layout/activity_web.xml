@@ -10,8 +10,8 @@
     android:id="@+id/main"
     tools:context=".ui.activity.WebActivity">
 
-    <include
-        layout="@layout/title_layout"/>
+    <!--<include-->
+        <!--layout="@layout/title_layout"/>-->
 
     <com.aier.ardemo.weight.SafeWebView
         android:id="@+id/web_view"

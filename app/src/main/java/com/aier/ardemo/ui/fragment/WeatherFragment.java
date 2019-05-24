@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.CourierAdapter;
 import com.aier.ardemo.adapter.ProduceAdapter;
+import com.aier.ardemo.model.Order;
 import com.aier.ardemo.model.Produces;
 import com.aier.ardemo.model.WeatherResponseBean;
 import com.aier.ardemo.model.WenzhangModel;
@@ -117,20 +118,30 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
 
     private List<Produces> getDataOrder() {
         List<Produces> list = new ArrayList();
+        list.add(new Produces("2019-5-10 18:10:07","厂家已经发给快递公司"));
+        list.add(new Produces("2019-4-27 12:10:07","厂家已经接单生产"));
         list.add(new Produces("2019-4-11 16:12:07","您购买了志林实木椅子"));
-        list.add(new Produces("2011-4-27 12:10:07","厂家已经接单生产"));
-        list.add(new Produces("2011-4-27 18:10:07","厂家已经发xxxxxxxxxxxxxxxxxxxxxxxxxx货"));
         return list;
     }
 
     private List<Produces> getTab1Data() {
-
-        list.add(new Produces("2019-4-11 16:12:07","备料完成"));
-        list.add(new Produces("2011-4-27 12:10:07","排程完成"));
-        list.add(new Produces("2011-4-27 18:10:07","您的订单已组装生成完成"));
+        list.add(new Produces("2019-4-27 18:10:07","客户最终确认设计方案"));
+        list.add(new Produces("2019-4-20 18:10:07","修改设计方案完成"));
+        list.add(new Produces("2019-4-15 12:10:07","客户提出修改设计方案"));
+        list.add(new Produces("2019-4-11 16:12:07","设计初步完成"));
         return list;
     }
 
+    private List<Produces> getTab2Data() {
+        list.add(new Produces("2019-5-20 18:10:07","您的订单已组装生成完成"));
+        list.add(new Produces("2019-5-12 12:10:07","排程完成"));
+        list.add(new Produces("2019-5-1 16:12:07","备料完成"));
+        return list;
+    }
+    private List<Produces> getTab3Data() {
+        list.add(new Produces("","暂无数据"));
+        return list;
+    }
     /**
      * 请求天气预报的数据
      * OnSuccessAndFaultSub 我只是加了错误处理和请求的loading，可以自己根据项目的业务修改
@@ -241,7 +252,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
             JSONObject object =new JSONObject();
             JSONObject obj1 =new JSONObject();
             object.put("method","NKCLOUDAPI_GETORDERLIST");
-            obj1.put("user_account","");
+            obj1.put("user_account","test");
             obj1.put("index",1);
             obj1.put("count",10);
             object.put("params",obj1);
@@ -260,6 +271,19 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
                         if( response.body()!=null){
                             String str = response.body().string();
                             Log.i("SSSS","str " +str);
+                            Order order = GsonUtils.fromJson(str, Order.class);
+                            if(order.isSuccess()){
+                              Order.ResultBean resultBean = order.getResult();
+                              Order.ResultBean.DataBeanX dataBeanX = resultBean.getData();
+                                List<Order.ResultBean.DataBeanX.DataBean> dataBeanList = dataBeanX.getData();
+                                if(dataBeanList.size()>0){
+                                    Order.ResultBean.DataBeanX.DataBean bean = dataBeanList.get(0);
+
+                                    bean.getOrder_id();
+                                }
+
+                            }
+
 
                         }
                     } catch (IOException e) {
@@ -340,6 +364,29 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
 //选中了tab的逻辑
+        int position =tab.getPosition();
+       switch (position){
+           case 0:
+               list.clear();
+               getTab1Data();
+               courierAdapter.notifyDataSetChanged();
+               break;
+           case 1:
+               list.clear();
+               getTab2Data();
+               courierAdapter.notifyDataSetChanged();
+               break;
+           case 2:
+               list.clear();
+               getTab3Data();
+               courierAdapter.notifyDataSetChanged();
+               break;
+           case 3:
+               list.clear();
+               getTab3Data();
+               courierAdapter.notifyDataSetChanged();
+               break;
+       }
 
     }
 
