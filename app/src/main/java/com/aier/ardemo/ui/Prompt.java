@@ -110,7 +110,8 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
     private Context mContext;
     private TabLayoutView tabLayoutView;
-    private ImageView iv_tian,iv_xian,iv_jian;
+    private ImageView iv_tian,iv_xian,iv_jian,iv_dian;
+    private boolean isVisi = false;
     /**
      * 构造函数
      *
@@ -159,6 +160,8 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 //        mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
         tabLayoutView = findViewById(R.id.tab_view);
         tabLayoutView.setBottomCallBack(this);
+        iv_dian = findViewById(R.id.iv_dian);
+        iv_dian.setOnClickListener(this);
 
         mDuMixCallback = this;
         mModule = new Module(mContext, mARController);
@@ -205,6 +208,19 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 break;
             case R.id.iv_jian:
                 showToast();
+                break;
+            case R.id.iv_dian:
+                if(!isVisi){
+                    iv_tian.setVisibility(VISIBLE);
+                    iv_xian.setVisibility(VISIBLE);
+                    iv_jian.setVisibility(VISIBLE);
+                    isVisi =true;
+                }else {
+                    iv_tian.setVisibility(GONE);
+                    iv_xian.setVisibility(GONE);
+                    iv_jian.setVisibility(GONE);
+                    isVisi =false;
+                }
                 break;
         }
     }
