@@ -11,15 +11,12 @@ import android.util.Log;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
-import com.aier.ardemo.dialog.DialogFragment;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.ui.fragment.FirstFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
-import com.aier.ardemo.ui.fragment.WeatherFragment;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
-import com.baidu.speech.EventManager;
-import com.baidu.speech.EventManagerFactory;
 import com.google.gson.Gson;
 
 
@@ -42,7 +39,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     @Override
     protected void initViews() {
         fm = getSupportFragmentManager();
-        weatherFragment = new WeatherFragment();
+        weatherFragment = new FirstFragment();
         myFragment = new MyFragment();
         switchContent(weatherFragment);
         bottomView.setBottomCallBack(this);

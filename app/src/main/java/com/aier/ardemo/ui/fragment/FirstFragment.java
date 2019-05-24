@@ -2,16 +2,13 @@ package com.aier.ardemo.ui.fragment;
 
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
@@ -32,7 +29,6 @@ import com.karics.library.zxing.android.CaptureActivity;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +46,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
+public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
     @BindView(R.id.tv_city)
     TextView tv_city;
     @BindView(R.id.iv_weather)
@@ -76,7 +72,7 @@ public class WeatherFragment extends BaseFragment implements TabLayout.OnTabSele
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_weather;
+        return R.layout.fragment_first;
     }
 
     @Override

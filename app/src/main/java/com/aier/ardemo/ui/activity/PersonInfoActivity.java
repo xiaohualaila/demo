@@ -87,6 +87,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
                 String name = et_name.getText().toString().trim();
                 person.setUsername(name);
                 SharedPreferencesUtil.putString(this, "usersData", "usersData", new Gson().toJson(person));
+                toastShort("保存成功！");
                 break;
             case R.id.delete_name:
                 et_name.setText("");
