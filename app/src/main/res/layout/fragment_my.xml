@@ -82,12 +82,12 @@
         android:layout_height="wrap_content"
         android:background="@color/grayc4"
         android:orientation="horizontal"
-        android:paddingLeft="12dp"
-        android:paddingTop="8dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
         android:visibility="gone"
         android:layout_alignParentBottom="true"
-        android:paddingRight="12dp"
-        android:paddingBottom="8dp">
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp">
 
         <EditText
             android:id="@+id/etSend"
