@@ -95,8 +95,4 @@
         android:layout_height="wrap_content"
         android:background="@color/content_bg"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-
-
-
 </android.support.constraint.ConstraintLayout>
