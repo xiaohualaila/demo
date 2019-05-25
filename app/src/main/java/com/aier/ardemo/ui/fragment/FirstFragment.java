@@ -114,9 +114,8 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
 
     private List<Produces> getDataOrder() {
         List<Produces> list = new ArrayList();
-        list.add(new Produces("2019-5-10 18:10:07","厂家已经发给快递公司"));
-        list.add(new Produces("2019-4-27 12:10:07","厂家已经接单生产"));
-        list.add(new Produces("2019-4-11 16:12:07","您购买了志林实木椅子"));
+        list.add(new Produces("2019-5-28 12:10:07","厂家已经接单生产"));
+        list.add(new Produces("2019-5-28 16:12:07","您购买了实木椅子"));
         return list;
     }
 
