@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.aier.ardemo.dialog.DialogSelectFragment;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.aier.ardemo.ui.activity.ShoppingActivity;
@@ -113,7 +114,7 @@ public class ARFragment extends Fragment {
     /**
      * 扫描云点控制器
      */
-    private CornerPointController mCornerPointController;
+//    private CornerPointController mCornerPointController;
 
     private int mCameraPriWidth = 1280;
     private int mCameraPriHeight = 720;
@@ -219,9 +220,9 @@ public class ARFragment extends Fragment {
             mARRenderer = null;
         }
 
-        if (mCornerPointController != null) {
-            mCornerPointController.release();
-        }
+//        if (mCornerPointController != null) {
+//            mCornerPointController.release();
+//        }
 
         ARControllerManager.getInstance(getActivity()).release();
 
@@ -404,6 +405,8 @@ public class ARFragment extends Fragment {
 
         @Override
         public void onSwitchModel(int num) {
+         //   arActivity.showDialog();
+
             /**
              * 此处可以切换模型
              */
@@ -445,6 +448,8 @@ public class ARFragment extends Fragment {
                 }
 
             }
+
+
         }
 
         @Override

@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.aier.ardemo.callback.PromptCallback;
+import com.aier.ardemo.dialog.DialogSelectFragment;
 import com.aier.ardemo.module.Module;
 import com.aier.ardemo.module.PaddleController;
 import com.aier.ardemo.arview.ARControllerManager;
@@ -32,6 +33,7 @@ import com.baidu.ar.util.Res;
 import com.baidu.ar.util.UiThreadUtil;
 
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -112,6 +114,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private TabLayoutView tabLayoutView;
     private ImageView iv_tian,iv_xian,iv_jian,iv_dian;
     private boolean isVisi = false;
+
     /**
      * 构造函数
      *
@@ -510,8 +513,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private void showToast() {
         UiThreadUtil.runOnUiThread(() -> Toast.makeText(mContext,"功能正在开发当中", Toast.LENGTH_SHORT).show());
     }
-
-
 
     SpeechRecogListener speechRecogListener = new SpeechRecogListener() {
         @Override

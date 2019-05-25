@@ -114,8 +114,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         intent.setComponent(componentName);
         intent.putExtra("", "");//这里Intent传值
         startActivity(intent);
-
-
     }
 
 
