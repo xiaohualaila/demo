@@ -81,18 +81,15 @@ public class MyFragment extends BaseFragment {
         //    img.setVisibility(View.GONE);
          //   tv_no_data.setVisibility(View.VISIBLE);
         }
-        mEtSend.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEND) {
-                    mDanmakuLayout.send(mEtSend.getText().toString(), "#D81B60");
-                    mEtSend.setText("");
-                    mEtSend.clearFocus();
-                    hideIme();
-                    return true;
-                }
-                return false;
+        mEtSend.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_ACTION_SEND) {
+                mDanmakuLayout.send(mEtSend.getText().toString(), "#D81B60");
+                mEtSend.setText("");
+                mEtSend.clearFocus();
+                hideIme();
+                return true;
             }
+            return false;
         });
     }
     private void hideIme() {
