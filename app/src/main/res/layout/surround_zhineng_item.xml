@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="电竞椅"/>
+                android:text="智能床头柜"/>
             <ImageView
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp60"
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="智能床"/>
+                android:text="智能衣架"/>
             <ImageView
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp60"
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="智能柜子"/>
+                android:text="实木桌椅"/>
             <ImageView
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp60"
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="智能床"/>
+                android:text="智能窗头灯"/>
             <ImageView
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp60"
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="智能桌椅"/>
+                android:text="实木沙发"/>
             <ImageView
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp60"
@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:text="智能木桶"/>
+                android:text="实木衣柜"/>
             <ImageView
                 android:layout_width="@dimen/dp60"
                 android:layout_height="@dimen/dp60"
