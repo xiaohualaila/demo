@@ -29,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87"
+        app:layout_constraintVertical_bias="0.86"
         ></com.aier.ardemo.weight.ArBottomBtn>
 
 
@@ -86,7 +86,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/ar_bottom_btn"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/xian_pic"/>
+        android:src="@drawable/round_hj"/>
 
     <com.aier.ardemo.weight.TabLayoutView
         android:id="@+id/tab_view"
