@@ -114,8 +114,10 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
 
     private List<Produces> getDataOrder() {
         List<Produces> list = new ArrayList();
-        list.add(new Produces("2019-5-28 12:10:07","厂家已经接单生产"));
-        list.add(new Produces("2019-5-28 16:12:07","您购买了实木椅子"));
+        list.add(new Produces("2019-5-25 10:20:25","中国家具智能制造创新中心开始生产您的椅子备料，您可以点击VR按钮查看生产过程"));
+        list.add(new Produces("2019-5-255 10:18:32","您的智能实木椅子设计完毕"));
+        list.add(new Produces("2019-5-255 09:15:16","江西分寸制造所开始设计您的个性化椅子"));
+        list.add(new Produces("2019-5-255 09:10:32","您定制了高端智能实木椅"));
         return list;
     }
 

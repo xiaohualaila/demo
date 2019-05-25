@@ -32,10 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:background="@color/white"
-                android:layout_marginLeft="@dimen/dp10"
-                android:layout_marginRight="@dimen/dp10"
-                android:layout_marginBottom="@dimen/dp10"
+                android:background="@drawable/border"
+                android:layout_margin="@dimen/dp10"
                 android:padding="10dp"
                 android:orientation="horizontal">
                 <ImageView
@@ -99,7 +97,7 @@
                 android:layout_marginRight="@dimen/dp10"
                 android:layout_marginBottom="@dimen/dp10"
                 android:orientation="vertical"
-                android:background="@color/white">
+                android:background="@drawable/border">
                 <TextView
                     android:id="@+id/tv_total"
                     android:layout_width="match_parent"
@@ -180,17 +178,19 @@
                         android:textColor="@color/text_"
                         android:text="支付宝支付"/>
                 </RelativeLayout>
-                <TextView
-                    android:id="@+id/tv_submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:layout_marginTop="30dp"
-                    android:textColor="@color/white"
-                    android:text="确定"/>
-            </LinearLayout>
 
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_submit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/blue_btn"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/dp20"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:textColor="@color/white"
+                android:text="确定"/>
             <!--订单-->
             <!--<RelativeLayout-->
                 <!--android:id="@+id/rl_order_info"-->

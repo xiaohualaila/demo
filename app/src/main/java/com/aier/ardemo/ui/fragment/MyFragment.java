@@ -17,6 +17,7 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.activity.PersonInfoActivity;
+import com.aier.ardemo.ui.activity.SetUpActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
@@ -129,7 +130,7 @@ public class MyFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_setup:
-                startActivity(new Intent(getActivity(), PersonInfoActivity.class));
+                startActivity(new Intent(getActivity(), SetUpActivity.class));
                 break;
             case R.id.tv_bind_phone:
                 if(!isBind){

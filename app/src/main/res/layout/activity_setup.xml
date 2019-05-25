@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/my_bg"
+    android:orientation="vertical">
+    <include layout="@layout/title_layout"/>
+        <LinearLayout
+            android:id="@+id/person_info"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/border"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp18"
+                android:textColor="@color/text_"
+                android:gravity="left"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="个人信息"/>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:src="@drawable/right"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp18"
+            android:textColor="@color/text_"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="收获地址"/>
+
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/right"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/border"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginLeft="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp18"
+            android:textColor="@color/text_"
+            android:gravity="left"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="版本更新"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:src="@drawable/right"/>
+
+    </LinearLayout>
+</LinearLayout>

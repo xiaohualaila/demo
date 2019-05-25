@@ -11,16 +11,17 @@
         android:layout_height="120dp"
         android:padding="5dp"
         android:gravity="start"
-        android:background="@drawable/et_add"/>
+        android:layout_margin="10dp"
+        android:background="@drawable/border"/>
     <TextView
         android:id="@+id/tv_determine"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp40"
         android:gravity="center"
-        android:background="@color/title_black"
+        android:background="@drawable/blue_btn"
         android:textColor="@color/white"
-        android:layout_marginLeft="@dimen/dp10"
-        android:layout_marginRight="@dimen/dp10"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
         android:layout_marginTop="200dp"
         android:text="确  定"/>
 </LinearLayout>
