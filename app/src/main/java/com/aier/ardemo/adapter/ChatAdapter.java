@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GroupChatDB;
@@ -71,14 +72,20 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  leftHolderImg.tvSendTime.setText(groupChat.createtime);
                  leftHolderImg.tvUserName.setText(groupChat.username);
                  leftHolderImg.iv_userhead.setImageResource(R.drawable.xiaobai);
+
+             //    ImageView imageView = new ImageView(context);
+           //      ImageUtils.image(context,groupChat.image,imageView);
+               //  leftHolderImg.ll_img.addView(imageView);
+
+
                  if(!TextUtils.isEmpty(groupChat.image)){
                      Log.i("sss","图片地址"+groupChat.image);
-//                     ImageUtils.image(context,groupChat.image, holderLeft.iv_image);
-//                     holderLeft.iv_image.setVisibility(View.VISIBLE);
-
-                     ScaleImageView imageView =leftHolderImg.iv_image;
-                     imageView.setInitSize(imageView.getWidth(), imageView.getHeight());
                      ImageUtils.image(context,groupChat.image, leftHolderImg.iv_image);
+
+//
+//                     ScaleImageView imageView =leftHolderImg.iv_image;
+//                     imageView.setInitSize(imageView.getWidth(), imageView.getHeight());
+//                     ImageUtils.image(context,groupChat.image, leftHolderImg.iv_image);
                  }
                  break;
          }
@@ -114,14 +121,16 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class ViewHolderLeftImg extends RecyclerView.ViewHolder{
         TextView tvSendTime,tvUserName;
         CircleImageView iv_userhead;
-        ScaleImageView iv_image;
-
+        ImageView iv_image;
+       // LinearLayout ll_img;
         public ViewHolderLeftImg(View itemView) {
             super(itemView);
             tvSendTime =  itemView.findViewById(R.id.tv_sendtime);
             tvUserName =  itemView.findViewById(R.id.tv_username);
             iv_userhead =  itemView.findViewById(R.id.iv_userhead);
             iv_image =  itemView.findViewById(R.id.img);
+          //  ll_img= itemView.findViewById(R.id.ll_img);
+
         }
     }
 
