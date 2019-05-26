@@ -1,6 +1,7 @@
 package com.aier.ardemo.weight;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -13,10 +14,9 @@ import com.aier.ardemo.R;
 
 
 public class BottomView extends LinearLayout implements View.OnClickListener{
-    private ImageView home,my,yuyin;
+    private ImageView yuyin;
     private int before_state = 1;
     private BottomCallBack bottomCallBack;
-    private LinearLayout ll_home,ll_my;
     private TextView iv_home_text,iv_my_text;
     public void setBottomCallBack(BottomCallBack bottomCallBack) {
         this.bottomCallBack = bottomCallBack;
@@ -30,15 +30,9 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
         super(context, attrs);
       View view = LayoutInflater.from(context).inflate(R.layout.bottom_view, this);
 
-        ll_home = view.findViewById(R.id.ll_home);
-        ll_my = view.findViewById(R.id.ll_my);
-        home = view.findViewById(R.id.iv_home);
-        my = view.findViewById(R.id.iv_my);
         iv_home_text = view.findViewById(R.id.iv_home_text);
         iv_my_text = view.findViewById(R.id.iv_my_text);
         yuyin = view.findViewById(R.id.iv_yuyin);
-        ll_home.setOnClickListener(this);
-        ll_my.setOnClickListener(this);
         iv_home_text.setOnClickListener(this);
         iv_my_text.setOnClickListener(this);
         yuyin.setOnClickListener(this);
@@ -47,18 +41,13 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.ll_home:
+
+            case R.id.iv_home_text:
                 setBottomViewState(1);
                 break;
-            case R.id.ll_my:
+            case R.id.iv_my_text:
                 setBottomViewState(2);
                 break;
-//            case R.id.iv_home_text:
-//                setBottomViewState(1);
-//                break;
-//            case R.id.iv_my_text:
-//                setBottomViewState(2);
-//                break;
             case R.id.iv_yuyin:
                 bottomCallBack.setTabCallBack(3);
                 break;
@@ -68,17 +57,29 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
     private void setBottomViewState(int mAccount) {
         if (before_state != mAccount) {
             if (mAccount == 1) {
-                home.setImageResource(R.drawable.home_);
-                my.setImageResource(R.drawable.my);
+
                 iv_home_text.setTextColor(getResources().getColor(R.color.colorPrimary));
+                Drawable drawable_home_= getResources().getDrawable(R.drawable.home_);
+                drawable_home_.setBounds(0,0,drawable_home_.getMinimumWidth(),drawable_home_.getMinimumHeight());
+                iv_home_text.setCompoundDrawables(null,drawable_home_,null,null);
+
                 iv_my_text.setTextColor(getResources().getColor(R.color.tab_bg));
+                Drawable drawable_my = getResources().getDrawable(R.drawable.my);
+                drawable_my.setBounds(0,0,drawable_my.getMinimumWidth(),drawable_my.getMinimumHeight());
+                iv_my_text.setCompoundDrawables(null,drawable_my,null,null);
                 bottomCallBack.setTabCallBack(1);
             } else if (mAccount == 2) {
                 bottomCallBack.setTabCallBack(2);
-                home.setImageResource(R.drawable.home);
-                my.setImageResource(R.drawable.my_);
                 iv_home_text.setTextColor(getResources().getColor(R.color.tab_bg));
+
+                Drawable drawable_home = getResources().getDrawable(R.drawable.home);
+                drawable_home.setBounds(0,0,drawable_home.getMinimumWidth(),drawable_home.getMinimumHeight());
+
+                iv_home_text.setCompoundDrawables(null,drawable_home,null,null);
                 iv_my_text.setTextColor(getResources().getColor(R.color.colorPrimary));
+                Drawable drawable_my_ = getResources().getDrawable(R.drawable.my_);
+                drawable_my_.setBounds(0,0,drawable_my_.getMinimumWidth(),drawable_my_.getMinimumHeight());
+                iv_my_text.setCompoundDrawables(null,drawable_my_,null,null);
             }
 
             before_state = mAccount;

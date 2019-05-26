@@ -22,9 +22,15 @@ import com.aier.ardemo.weight.ScaleImageView;
 
 import java.util.List;
 
-public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     List<GroupChatDB> list;
     Context context;
+
+    private ClickImage clickImage;
+
+    public void setOnClickImage(ClickImage clickImage){
+        this.clickImage = clickImage;
+    }
     public ChatAdapter(List<GroupChatDB> list, Context context) {
         this.list = list;
         this.context = context;
@@ -81,7 +87,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  if(!TextUtils.isEmpty(groupChat.image)){
                      Log.i("sss","图片地址"+groupChat.image);
                      ImageUtils.image(context,groupChat.image, leftHolderImg.iv_image);
-
+                     leftHolderImg.iv_image.setOnClickListener(new View.OnClickListener() {
+                         @Override
+                         public void onClick(View v) {
+                             clickImage.doClickImage(groupChat.image);
+                         }
+                     });
 //
 //                     ScaleImageView imageView =leftHolderImg.iv_image;
 //                     imageView.setInitSize(imageView.getWidth(), imageView.getHeight());
@@ -148,4 +159,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+     public interface ClickImage{
+           void doClickImage(String pic);
+    }
 }

@@ -1,5 +1,6 @@
 package com.aier.ardemo.ui.activity;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -49,7 +50,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BaiduVoiceActivity extends BaseActivity implements EventListener {
+public class BaiduVoiceActivity extends BaseActivity implements EventListener ,ChatAdapter.ClickImage{
 
     private static final String TAG = "BaiduVoiceActivity";
 
@@ -105,6 +106,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         adapter = new ChatAdapter(list,this);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(adapter);
+        adapter.setOnClickImage(this);
         //百度语音合成
         synthesizer = SpeechSynthesizer.getInstance(); //设置当前的Context
         synthesizer.setContext(this);
@@ -364,4 +366,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         Log.d("test", "pause:" + result);
     }
 
+    @Override
+    public void doClickImage(String pic) {
+        Intent intent = new Intent(this,ImageActivity.class);
+        intent.putExtra("image",pic);
+        startActivity(intent);
+    }
 }
