@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp10"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:textColor="@color/white"
         android:layout_alignParentTop="true"
         android:textSize="12sp"
@@ -25,26 +25,28 @@
         android:id="@+id/iv_weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_toRightOf="@+id/tv_city"
         android:src="@drawable/weather_pic"/>
     <TextView
         android:id="@+id/tv_wendu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         android:layout_toRightOf="@+id/iv_weather"
         android:layout_marginRight="10dp"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:text="28 C"/>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginTop="160dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="@dimen/dp10"
+        android:layout_marginTop="170dp"
         android:background="@drawable/btn_bg">
         <ImageView
             android:id="@+id/iv_check"
@@ -52,7 +54,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/check_pic" />
         <View
-            android:layout_width="20dp"
+            android:layout_width="30dp"
             android:layout_height="1dp"/>
         <ImageView
             android:id="@+id/iv_zhen"

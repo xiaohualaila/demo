@@ -10,7 +10,7 @@
 
         <Button
             android:id="@+id/btNumber"
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="55dp"
             android:textSize="26sp"
             android:textColor="@color/black"

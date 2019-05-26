@@ -72,17 +72,17 @@ public class PayPassView extends RelativeLayout {
     private void initView() {
         mPassLayout = LayoutInflater.from(mContext).inflate( R.layout.view_paypass_layout, null);
 
-        mImageViewClose  = (ImageView) mPassLayout.findViewById(R.id.iv_close);//关闭
-        mTvForget   = (TextView) mPassLayout.findViewById(R.id.tv_forget);//忘记密码
-        mTvHint     = (TextView) mPassLayout.findViewById(R.id.tv_passText);//提示文字
+        mImageViewClose  =  mPassLayout.findViewById(R.id.iv_close);//关闭
+        mTvForget   =  mPassLayout.findViewById(R.id.tv_forget);//忘记密码
+        mTvHint     =  mPassLayout.findViewById(R.id.tv_passText);//提示文字
         mTvPass     = new TextView[6];                                  //密码控件
-        mTvPass[0]  = (TextView) mPassLayout.findViewById(R.id.tv_pass1);
-        mTvPass[1]  = (TextView) mPassLayout.findViewById(R.id.tv_pass2);
-        mTvPass[2]  = (TextView) mPassLayout.findViewById(R.id.tv_pass3);
-        mTvPass[3]  = (TextView) mPassLayout.findViewById(R.id.tv_pass4);
-        mTvPass[4]  = (TextView) mPassLayout.findViewById(R.id.tv_pass5);
-        mTvPass[5]  = (TextView) mPassLayout.findViewById(R.id.tv_pass6);
-        mGridView   = (GridView) mPassLayout.findViewById(R.id.gv_pass);
+        mTvPass[0]  =  mPassLayout.findViewById(R.id.tv_pass1);
+        mTvPass[1]  =  mPassLayout.findViewById(R.id.tv_pass2);
+        mTvPass[2]  =  mPassLayout.findViewById(R.id.tv_pass3);
+        mTvPass[3]  =  mPassLayout.findViewById(R.id.tv_pass4);
+        mTvPass[4]  =  mPassLayout.findViewById(R.id.tv_pass5);
+        mTvPass[5]  =  mPassLayout.findViewById(R.id.tv_pass6);
+        mGridView   =  mPassLayout.findViewById(R.id.gv_pass);
 
         mImageViewClose.setOnClickListener(new OnClickListener() {
             @Override
@@ -134,7 +134,7 @@ public class PayPassView extends RelativeLayout {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.view_paypass_gridview_item, null);
                 holder = new ViewHolder();
-                holder.btnNumber = (TextView) convertView.findViewById(R.id.btNumber);
+                holder.btnNumber =  convertView.findViewById(R.id.btNumber);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
