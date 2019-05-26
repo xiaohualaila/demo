@@ -35,9 +35,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if(viewType==0){
              view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_item_msg_text_left, parent, false);
             return new ViewHolderLeft(view);
-        }else {
+        }else if(viewType==1){
              view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_item_msg_text_right, parent, false);
             return new ViewHolderRight(view);
+        }else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chatting_item_msg_img_left, parent, false);
+            return new ViewHolderLeftImg(view);
         }
     }
 
@@ -51,18 +54,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  holderLeft.tvUserName.setText(groupChat.username);
                  holderLeft.tvContent.setText(groupChat.message);
                  holderLeft.iv_userhead.setImageResource(R.drawable.xiaobai);
-                 if(!TextUtils.isEmpty(groupChat.image)){
-                     Log.i("sss","图片地址"+groupChat.image);
-//                     ImageUtils.image(context,groupChat.image, holderLeft.iv_image);
-//                     holderLeft.iv_image.setVisibility(View.VISIBLE);
-
-                     ScaleImageView imageView =holderLeft.iv_image;
-                     imageView.setInitSize(imageView.getWidth(), imageView.getHeight());
-                     ImageUtils.image(context,groupChat.image, holderLeft.iv_image);
-                     holderLeft.iv_image.setVisibility(View.VISIBLE);
-                 }else{
-                     holderLeft.iv_image.setVisibility(View.GONE);
-                 }
                  break;
              case 1:
                   ViewHolderRight holderRight = (ViewHolderRight) holder;
@@ -73,6 +64,21 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                  if (bt != null) {
                      Bitmap pic = AdjustBitmap.getCircleBitmap(bt);
                      holderRight.iv_userhead.setImageBitmap(pic);
+                 }
+                 break;
+             case 2://左边图片
+                 ViewHolderLeftImg leftHolderImg = (ViewHolderLeftImg) holder;
+                 leftHolderImg.tvSendTime.setText(groupChat.createtime);
+                 leftHolderImg.tvUserName.setText(groupChat.username);
+                 leftHolderImg.iv_userhead.setImageResource(R.drawable.xiaobai);
+                 if(!TextUtils.isEmpty(groupChat.image)){
+                     Log.i("sss","图片地址"+groupChat.image);
+//                     ImageUtils.image(context,groupChat.image, holderLeft.iv_image);
+//                     holderLeft.iv_image.setVisibility(View.VISIBLE);
+
+                     ScaleImageView imageView =leftHolderImg.iv_image;
+                     imageView.setInitSize(imageView.getWidth(), imageView.getHeight());
+                     ImageUtils.image(context,groupChat.image, leftHolderImg.iv_image);
                  }
                  break;
          }
@@ -86,30 +92,41 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         GroupChatDB groupChat = list.get(position);
-        boolean isComMsg = groupChat.isMsgType();
-        if (isComMsg) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return groupChat.type;
+
     }
 
     class ViewHolderLeft extends RecyclerView.ViewHolder{
         TextView tvSendTime,tvUserName,tvContent;
         CircleImageView iv_userhead;
-        ScaleImageView iv_image;
-
         public ViewHolderLeft(View itemView) {
             super(itemView);
             tvSendTime =  itemView.findViewById(R.id.tv_sendtime);
             tvUserName =  itemView.findViewById(R.id.tv_username);
             tvContent =  itemView.findViewById(R.id.tv_chatcontent);
             iv_userhead =  itemView.findViewById(R.id.iv_userhead);
+        }
+    }
+
+    /**
+     * 左边图片
+     */
+    class ViewHolderLeftImg extends RecyclerView.ViewHolder{
+        TextView tvSendTime,tvUserName;
+        CircleImageView iv_userhead;
+        ScaleImageView iv_image;
+
+        public ViewHolderLeftImg(View itemView) {
+            super(itemView);
+            tvSendTime =  itemView.findViewById(R.id.tv_sendtime);
+            tvUserName =  itemView.findViewById(R.id.tv_username);
+            iv_userhead =  itemView.findViewById(R.id.iv_userhead);
             iv_image =  itemView.findViewById(R.id.img);
         }
     }
 
-     class ViewHolderRight extends RecyclerView.ViewHolder{
+
+    class ViewHolderRight extends RecyclerView.ViewHolder{
          TextView tvSendTime,tvUserName,tvContent;
          ImageView iv_userhead;
 
@@ -121,4 +138,5 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             iv_userhead =  itemView.findViewById(R.id.iv_userhead);
         }
     }
+
 }

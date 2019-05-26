@@ -91,6 +91,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
             userGroupChat.uid = "112";
             userGroupChat.createtime = getDate();
             mTextMessage = "您好,我是羽白人工智能机器人小羽。";
+            userGroupChat.type=0;
             userGroupChat.message = mTextMessage;
             userGroupChat.save();
             list = getData();
@@ -208,6 +209,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
     }
 
     private void stop() {
+        load_view.setVisibility(View.GONE);
         btnStartRecord.setEnabled(false);
         asr.send(SpeechConstant.ASR_STOP, null, null, 0, 0);
     }
@@ -245,7 +247,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         if(desc !=null && desc.equals("Speech Recognize success.")){
             Log.i("sss","解析结果:" + final_result);
             if(final_result!=null){
-                showMessage(final_result,person.getId(),"",person.getUsername(),person.getHeadimg());
+                showMessage(final_result,person.getId(),"",person.getUsername(),person.getHeadimg(),1);//语音识别
                 getQueryData(final_result);
             }
         }else{
@@ -256,14 +258,14 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
         }
     }
 
-    private void showMessage(String data,String uid,String img,String name,String headImg) {
+    private void showMessage(String data,String uid,String img,String name,String headImg,int type) {
         GroupChatDB userGroupChat =new GroupChatDB();
         userGroupChat.createtime = getDate();
         userGroupChat.message = data;
         userGroupChat.username = name;
         userGroupChat.headimg = headImg;
         userGroupChat.image = img;
-    //    userGroupChat.voice = voice;
+        userGroupChat.type = type;
         userGroupChat.uid = uid;
         userGroupChat.save();
         list.add(userGroupChat);
@@ -291,8 +293,13 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener {
                         Log.i("sss",obj.toString());
                         String result = obj.optString("result");
                         String image = obj.optString("imagereply");
-
-                        showMessage(result,"112",image,"羽白","");
+                        /**
+                         * 羽白说
+                         */
+                        if(!TextUtils.isEmpty(image)){
+                            showMessage("","112",image,"羽白","",2);
+                        }
+                        showMessage(result,"112","","羽白","",0);
                         String voice = obj.optString("voice");
                         if(TextUtils.isEmpty(voice)){
                             speak(result);

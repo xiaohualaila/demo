@@ -37,10 +37,13 @@ public class GroupChatDB  extends BaseModel  {
     @Column
     public String uid;
 
-    public boolean isMsgType() {
-        String id = GloData.getPerson().getId()+"";
-        if (id.equals(uid))
-            return true;
-        return false;
-    }
+    @Column
+    public int type;
+
+//    public boolean isMsgType() {
+//        String id = GloData.getPerson().getId()+"";
+//        if (id.equals(uid))
+//            return true;
+//        return false;
+//    }
 }

@@ -38,17 +38,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_userhead" />
-        <TextView
-            android:id="@+id/tv_chatcontent"
+
+        <com.aier.ardemo.weight.ScaleImageView
+            android:id="@+id/img"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_username"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="60dp"
-            android:layout_toRightOf="@id/iv_userhead"
-            android:background="@drawable/you_chat_message"
-            android:gravity="left|center"/>
-
+            android:layout_toRightOf="@id/iv_userhead" />
     </RelativeLayout>
 
 
