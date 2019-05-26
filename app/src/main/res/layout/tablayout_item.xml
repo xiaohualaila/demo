@@ -16,9 +16,14 @@
         app:tabSelectedTextColor="@color/blue"
         app:tabIndicatorColor="@color/blue"
         app:tabBackground="@color/white"/>
-   <android.support.v7.widget.RecyclerView
-       android:id="@+id/rv_courier"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_margin="10dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/rv_courier"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:nestedScrollingEnabled="false" />
+      </RelativeLayout>
 </LinearLayout>

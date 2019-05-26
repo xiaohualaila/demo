@@ -178,14 +178,12 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     t.printStackTrace();
                 }
-
 
             });
 
@@ -280,13 +278,10 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
                                 }
 
                             }
-
-
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
                 }
 
                 @Override
@@ -294,12 +289,10 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
                     t.printStackTrace();
                 }
 
-
             });
         }catch (Exception e){
             e.getMessage();
         }
-
     }
 
 
