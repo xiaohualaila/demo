@@ -87,7 +87,7 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
         if(NetUtil.isConnected(mActivity)){
             getWeatherData();
             getWenzhangData();
-            getOrderData();
+           // getOrderData();
         }
     }
 

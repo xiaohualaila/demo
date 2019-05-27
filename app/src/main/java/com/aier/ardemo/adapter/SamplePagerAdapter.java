@@ -16,7 +16,7 @@ public class SamplePagerAdapter extends PagerAdapter {
 
     private int mSize;
     private int[] imageView = {R.drawable.guidance, R.drawable.guidance2,
-            R.drawable.guidance3, R.drawable.guidance4};
+            R.drawable.guidance3};
     public static Handler mHandler;
 
     public SamplePagerAdapter() {
@@ -49,7 +49,7 @@ public class SamplePagerAdapter extends PagerAdapter {
         ImageView iv_backage = v.findViewById(R.id.iv_backage);
         TextView iv_button = v.findViewById(R.id.iv_button);
         iv_backage.setImageResource(imageView[position]);
-        if (position == 3) {
+        if (position == 2) {
             iv_button.setVisibility(View.VISIBLE);
         }
         iv_button.setOnClickListener(new View.OnClickListener() {

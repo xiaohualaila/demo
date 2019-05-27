@@ -1,5 +1,6 @@
 package com.aier.ardemo.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,8 @@ public class ProduceAdapter extends RecyclerView.Adapter<ProduceAdapter.ViewHold
         Produces produces = list.get(position);
         if(position==0){
             holder.iv.setImageResource(R.drawable.round_blue);
+            holder.tv_addr.setTextColor(Color.parseColor("#458df4"));
+            holder.tv_time.setTextColor(Color.parseColor("#458df4"));
         }else {
             holder.iv.setImageResource(R.drawable.round_white);
             holder.tv_addr.setBackgroundResource(R.drawable.left_line_gray);

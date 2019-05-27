@@ -21,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textColor="@color/blue"
                 android:layout_centerVertical="true"
                 android:text="2011-9-11 12:10:07"/>
 
@@ -33,7 +32,6 @@
         android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue"
         android:layout_marginLeft="5dp"
         android:paddingLeft="12dp"
         android:background="@drawable/left_line_blue" />
