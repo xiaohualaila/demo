@@ -52,7 +52,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     private List<Goods> list;
     private boolean isBuy = false;
     private int myAmount;
-
+    private int pro_num;
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
@@ -126,25 +126,19 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                 bundle.putString("style", goods.getStyle());
                 bundle.putString("material", goods.getMaterial());
                 bundle.putString("pro_id", goods.getPro_id());
-                bundle.putInt("pro_num", myAmount);
+                bundle.putInt("pro_num", pro_num);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
-
-
-
                 break;
         }
     }
 
-
-
-
-
     @Override
-    public void onTotalAmount(int amount) {
+    public void onTotalAmount(int amount,int num) {
         myAmount = amount;
-        Log.i("sss","amount" + amount);
+        pro_num = num;
+        Log.i("sss","amount" + amount + "num" +num);
         tv_sum.setText("￥"+amount);
     }
 }

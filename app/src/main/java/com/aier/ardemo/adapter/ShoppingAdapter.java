@@ -49,7 +49,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
                  int amount =num*goods.getPrice();
                  Total = Total - amount;
-                 listener.onTotalAmount(Total);
+                 listener.onTotalAmount(Total,holder.add_dele_btn.getNumber());
                  holder.add_dele_btn.setNumber(1);
 
             }else {
@@ -57,7 +57,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                 goods.setBuy(true);
 
                 Total = Total + goods.getPrice();
-                listener.onTotalAmount(Total);
+                listener.onTotalAmount(Total,holder.add_dele_btn.getNumber());
 
             }
         });
@@ -72,7 +72,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                     holder.add_dele_btn.setNumber(origin);
                     if(origin!=1){
                         Total +=  goods.getPrice();
-                        listener.onTotalAmount(Total);
+                        listener.onTotalAmount(Total,holder.add_dele_btn.getNumber());
                     }
             }
 
@@ -87,11 +87,11 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                     origin--;
                     holder.add_dele_btn.setNumber(origin);
                     Total -=  goods.getPrice();
-                    listener.onTotalAmount(Total);
+                    listener.onTotalAmount(Total,origin);
                 }
             }
         });
-        listener.onTotalAmount(Total);
+        listener.onTotalAmount(Total,holder.add_dele_btn.getNumber());
 
     }
 
@@ -125,7 +125,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     }
 
     public interface BackTotalAmountClick{
-        void onTotalAmount(int amount);
+        void onTotalAmount(int amount,int num);
     }
 
 
