@@ -48,15 +48,9 @@ public class OrderInfoActivity extends BaseActivity {
     ImageView rb_zhifubao;
     @BindView(R.id.addr)
     TextView addr;
-    private int total;
-    private int price;
-    private String produce_name;
-    private String style;
-    private String material;
-    private String pro_id;
-    private int pro_num;
+    private String produce_name,style,material,pro_id;
+    private int total,price,pro_num;
     private Person person;
-
 
     private boolean isWeixinPay = true;
     @Override
@@ -72,9 +66,9 @@ public class OrderInfoActivity extends BaseActivity {
                pro_id = bundle.getString("pro_id","");
                pro_num = bundle.getInt("pro_num");
            }
-          String  add = SharedPreferencesUtil.getString(this,"addr","");
-          if(!TextUtils.isEmpty(add)){
-              addr.setText(add);
+          String  address = SharedPreferencesUtil.getString(this,"addr","");
+          if(!TextUtils.isEmpty(address)){
+              addr.setText(address);
           }else {
               addr.setText("");
           }
