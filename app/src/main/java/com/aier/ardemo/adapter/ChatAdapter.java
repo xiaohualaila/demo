@@ -141,7 +141,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             iv_userhead =  itemView.findViewById(R.id.iv_userhead);
             iv_image =  itemView.findViewById(R.id.img);
           //  ll_img= itemView.findViewById(R.id.ll_img);
-
         }
     }
 

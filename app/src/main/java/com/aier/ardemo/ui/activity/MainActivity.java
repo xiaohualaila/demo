@@ -15,6 +15,7 @@ import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.fragment.FirstFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
+import com.aier.ardemo.utils.NetUtil;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
@@ -34,7 +35,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
     private Fragment mCurrentFrag;
     private FragmentManager fm;
- //   private Fragment homeFragment;
     private Fragment weatherFragment;
     private Fragment myFragment;
 
@@ -82,18 +82,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         return R.layout.activity_main;
     }
 
-
-//    @OnClick({R.id.fab})
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.fab:
-//
-//                break;
-//        }
-//
-//    }
-
-
     public void goToArActivity(){
         Intent intent = new Intent(this, ARActivity.class);
         Bundle bundle = new Bundle();
@@ -137,10 +125,11 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
                 switchContent(myFragment);
                 break;
             case 3:
-                startActiviys(BaiduVoiceActivity.class);
-
-//                DialogFragment dialogFragment = DialogFragment.getInstance();
-//                dialogFragment.show(getSupportFragmentManager(), () -> dialogFragment.dismiss());
+                if(NetUtil.isConnected(mContext)){
+                    startActiviys(BaiduVoiceActivity.class);
+                }else {
+                    toastLong("网路无法连接请检查网路！");
+                }
                 break;
         }
     }

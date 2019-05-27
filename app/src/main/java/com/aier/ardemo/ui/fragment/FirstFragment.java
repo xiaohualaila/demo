@@ -116,25 +116,25 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
 
     private List<Produces> getDataOrder() {
         List<Produces> list = new ArrayList();
-        list.add(new Produces("2019-5-26 10:20:25","中国家具智能制造创新中心开始生产您的椅子备料，您可以点击VR按钮查看生产过程"));
-        list.add(new Produces("2019-5-26 10:18:32","您的智能实木椅子设计完毕"));
-        list.add(new Produces("2019-5-26 09:15:16","江西分寸制造所开始设计您的个性化椅子"));
-        list.add(new Produces("2019-5-26 09:10:32","您定制了高端智能实木椅"));
+        list.add(new Produces("2019-5-27 10:20:25","中国家具智能制造创新中心开始生产您的椅子备料，您可以点击VR按钮查看生产过程"));
+        list.add(new Produces("2019-5-27 10:18:32","您的智能实木椅子设计完毕"));
+        list.add(new Produces("2019-5-27 09:15:16","江西分寸制造所开始设计您的个性化椅子"));
+        list.add(new Produces("2019-5-27 09:10:32","您定制了高端智能实木椅"));
         return list;
     }
 
     private List<Produces> getTab1Data() {
-        list.add(new Produces("2019-4-27 18:10:07","客户最终确认设计方案"));
-        list.add(new Produces("2019-4-20 18:10:07","修改设计方案完成"));
-        list.add(new Produces("2019-4-15 12:10:07","客户提出修改设计方案"));
-        list.add(new Produces("2019-4-11 16:12:07","设计初步完成"));
+        list.add(new Produces("2019-5-27 18:10:07","客户最终确认设计方案"));
+        list.add(new Produces("2019-5-20 18:10:07","修改设计方案完成"));
+        list.add(new Produces("2019-5-15 12:10:07","客户提出修改设计方案"));
+        list.add(new Produces("2019-5-11 16:12:07","设计初步完成"));
         return list;
     }
 
     private List<Produces> getTab2Data() {
-        list.add(new Produces("2019-5-20 18:10:07","您的订单已组装生成完成"));
-        list.add(new Produces("2019-5-12 12:10:07","排程完成"));
-        list.add(new Produces("2019-5-1 16:12:07","备料完成"));
+        list.add(new Produces("2019-5-27 18:10:07","您的订单已组装生成完成"));
+        list.add(new Produces("2019-5-25 12:10:07","排程完成"));
+        list.add(new Produces("2019-5-20 16:12:07","备料完成"));
         return list;
     }
     private List<Produces> getTab3Data() {
@@ -330,10 +330,6 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_check:
-//                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-//                intent.putExtra("from","wheather");
-//                startActivity(intent);
-             //   startActivityForResult(intent, REQUEST_CODE_SCAN);
                 /*以下是启动我们自定义的扫描活动*/
                 IntentIntegrator intentIntegrator = new IntentIntegrator(ac);
                 intentIntegrator.setBeepEnabled(true);
