@@ -28,7 +28,11 @@ public class AddressActivity extends BaseActivity {
     @Override
     protected void initDate(Bundle savedInstanceState) {
         String addr =SharedPreferencesUtil.getString(this,"addr","");
-        et_add.setText(addr);
+        if(TextUtils.isEmpty(addr)){
+            et_add.setText("江西省赣州市南康区家具小镇");
+        }else {
+            et_add.setText(addr);
+        }
     }
 
     @Override

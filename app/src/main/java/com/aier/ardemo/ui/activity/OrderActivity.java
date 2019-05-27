@@ -1,6 +1,5 @@
 package com.aier.ardemo.ui.activity;
 
-import android.arch.lifecycle.ViewModel;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;

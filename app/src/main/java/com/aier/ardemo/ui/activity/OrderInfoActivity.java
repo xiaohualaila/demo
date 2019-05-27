@@ -8,20 +8,38 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.aier.ardemo.R;
+import com.aier.ardemo.bean.GloData;
+import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.dialog.PayPassDialog;
 import com.aier.ardemo.dialog.PayPassView;
+import com.aier.ardemo.netapi.HttpApi;
+import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.IOException;
 import butterknife.BindView;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderInfoActivity extends BaseActivity {
 
 
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.name)
+    TextView name;
     @BindView(R.id.tv_total)
     TextView tv_total;
     @BindView(R.id.rb_weixin)
@@ -30,14 +48,29 @@ public class OrderInfoActivity extends BaseActivity {
     ImageView rb_zhifubao;
     @BindView(R.id.addr)
     TextView addr;
-    private int amount;
-    private boolean isWeixinPay = true;
+    private int total;
+    private int price;
+    private String produce_name;
+    private String style;
+    private String material;
+    private String pro_id;
+    private int pro_num;
+    private Person person;
 
+
+    private boolean isWeixinPay = true;
     @Override
     protected void initDate(Bundle savedInstanceState) {
+        person = GloData.getPerson();
            Bundle bundle = getIntent().getExtras();
            if(bundle!=null){
-               amount = bundle.getInt("amount");
+               total = bundle.getInt("total");
+               price = bundle.getInt("price");
+               produce_name = bundle.getString("name","");
+               style = bundle.getString("style","");
+               material = bundle.getString("material","");
+               pro_id = bundle.getString("pro_id","");
+               pro_num = bundle.getInt("pro_num");
            }
           String  add = SharedPreferencesUtil.getString(this,"addr","");
           if(!TextUtils.isEmpty(add)){
@@ -49,9 +82,9 @@ public class OrderInfoActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-
+        name.setText(person.getUsername());
         tv_title.setText("订单信息");
-        tv_total.setText("金额：" + amount);
+        tv_total.setText("金额：" + total);
     }
 
     @Override
@@ -98,9 +131,9 @@ public class OrderInfoActivity extends BaseActivity {
                     public void onPassFinish(String passContent) {
                         //6位输入完成,回调
                         Log.i("sss", passContent);
-                        startActivity(new Intent(OrderInfoActivity.this,PaySuccessActivity.class));
-                        finish();
+                        updateOrder();
 
+//
                     }
 
                     @Override
@@ -116,6 +149,76 @@ public class OrderInfoActivity extends BaseActivity {
                     }
                 });
     }
+
+    /**
+     * 上传订单接口
+     */
+    private void updateOrder(){
+             try {
+                JSONObject object =new JSONObject();
+                JSONObject param =new JSONObject();
+                 JSONArray products =new JSONArray();
+                 JSONObject pro =new JSONObject();
+                object.put("method","NKCLOUDAPI_UPDATEORDER");
+                 param.put("user_account","test");//用户
+                 param.put("total_price",total);//总价
+
+
+                 pro.put("commodity",pro_id);//商品id
+                 pro.put("number",pro_num);//商品数量
+                 pro.put("price",price);//商品价格
+                 pro.put("socialcode","111");//
+                 pro.put("style",style);//款式
+                 pro.put("material",material);//材料
+                 products.put(pro);
+
+                 param.put("products",products);
+                object.put("params",param);
+                Log.i("xxxx object",object.toString() );
+
+                RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),object.toString());
+                Retrofit retrofit = new Retrofit.Builder()
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl(URLConstant.BASE_URL)
+                        .build();
+                HttpApi service = retrofit.create(HttpApi.class);
+                Call<ResponseBody> call = service.getDataForBody(body);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        // 已经转换为想要的类型了
+                        try {
+                            if( response.body()!=null){
+                                String str = response.body().string();
+                                Log.i("xxxx","str " +str);
+
+                                startActivity(new Intent(OrderInfoActivity.this,PaySuccessActivity.class));
+                                finish();
+
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        t.printStackTrace();
+                        Log.i("xxxx","str " +t.getMessage());
+                        toastLong("购买失败！");
+                    }
+
+
+                });
+            }catch (Exception e){
+                e.getMessage();
+            }
+
+
+    }
+
+
 
 
     @Override

@@ -1,109 +1,69 @@
 package com.aier.ardemo.ui.activity;
 
-import android.graphics.Matrix;
-import android.graphics.PointF;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
-
+import android.view.WindowManager;
 import com.aier.ardemo.R;
-import com.aier.ardemo.utils.ImageUtils;
+import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.weight.ZoomImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.target.ImageViewTarget;
+import butterknife.BindView;
+import butterknife.OnClick;
 
-public class ImageActivity extends AppCompatActivity implements View.OnTouchListener {
-    private ImageView img_test;
-    // 縮放控制
-    private Matrix matrix = new Matrix();
-    private Matrix savedMatrix = new Matrix();
 
-    // 不同状态的表示：
-    private static final int NONE = 0;
-    private static final int DRAG = 1;
-    private static final int ZOOM = 2;
-    private int mode = NONE;
+/**
+ * Created by Administrator on 2017/4/19.
+ */
 
-    // 定义第一个按下的点，两只接触点的重点，以及出事的两指按下的距离：
-    private PointF startPoint = new PointF();
-    private PointF midPoint = new PointF();
-    private float oriDis = 1f;
+public class ImageActivity extends BaseActivity {
+    @BindView(R.id.img)
+    ZoomImageView img;
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see android.app.Activity#onCreate(android.os.Bundle)
-     */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image);
-        img_test =  this.findViewById(R.id.main_imgZooming);
-        String image = getIntent().getStringExtra("image");
-        ImageUtils.image(this,image,img_test);
+    private  String urlString;
 
-        img_test.setOnTouchListener(this);
-    }
 
-    // 计算两个触摸点之间的距离
-    private float distance(MotionEvent event) {
-        float x = event.getX(0) - event.getX(1);
-        float y = event.getY(0) - event.getY(1);
-        return Float.valueOf(String.valueOf(Math.sqrt(x * x + y * y))) ;
-    }
-
-    // 计算两个触摸点的中点
-    private PointF middle(MotionEvent event) {
-        float x = event.getX(0) + event.getX(1);
-        float y = event.getY(0) + event.getY(1);
-        return new PointF(x / 2, y / 2);
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        ImageView view = (ImageView) v;
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            // 单指
-            case MotionEvent.ACTION_DOWN:
-                matrix.set(view.getImageMatrix());
-                savedMatrix.set(matrix);
-                startPoint.set(event.getX(), event.getY());
-                mode = DRAG;
-                break;
-            // 双指
-            case MotionEvent.ACTION_POINTER_DOWN:
-                oriDis = distance(event);
-                if (oriDis > 10f) {
-                    savedMatrix.set(matrix);
-                    midPoint = middle(event);
-                    mode = ZOOM;
-                }
-                break;
-            // 手指放开
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-                mode = NONE;
-                break;
-            // 单指滑动事件
-            case MotionEvent.ACTION_MOVE:
-                if (mode == DRAG) {
-                    // 是一个手指拖动
-                    matrix.set(savedMatrix);
-                    matrix.postTranslate(event.getX() - startPoint.x, event.getY() - startPoint.y);
-                } else if (mode == ZOOM) {
-                    // 两个手指滑动
-                    float newDist = distance(event);
-                    if (newDist > 10f) {
-                        matrix.set(savedMatrix);
-                        float scale = newDist / oriDis;
-                        matrix.postScale(scale, scale, midPoint.x, midPoint.y);
+    private void getPic(String url, final ZoomImageView img) {
+        Glide.with(this)
+                .load(url)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(new ImageViewTarget<GlideDrawable>(img) {
+                    @Override
+                    protected void setResource(GlideDrawable resource) {
+                        img.setImageDrawable(resource);
                     }
-                }
+                });
+    }
+
+    @OnClick({R.id.btn_back})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back:
+                finish();
                 break;
         }
-        // 设置ImageView的Matrix
-        view.setImageMatrix(matrix);
-        return true;
     }
 
+    @Override
+    protected void initDate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        urlString =intent.getStringExtra("photoUrl");
+    }
 
+    @Override
+    protected void initViews() {
+        getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
+                WindowManager.LayoutParams. FLAG_FULLSCREEN);
+
+        getPic(urlString,img);
+    }
+
+    @Override
+    protected int getLayout() {
+        return  R.layout.dialog_img;
+    }
 }

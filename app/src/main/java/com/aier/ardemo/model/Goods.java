@@ -2,18 +2,24 @@ package com.aier.ardemo.model;
 
 
 public class Goods {
+    private String pro_id;
     private String name;
     private String color;
-    private int amount;
+    private int price;
+    private String style;
+    private String material;
     private boolean isBuy;
 
     public Goods( ) {
     }
 
-    public Goods(String name, String color, int amount,boolean isBuy) {
+    public Goods(String pro_id,String name,String style,String material, String color,int price,boolean isBuy) {
+        this.pro_id = pro_id;
         this.name = name;
+        this.style = style;
+        this.material = material;
         this.color = color;
-        this.amount = amount;
+        this.price = price;
         this.isBuy = isBuy;
     }
 
@@ -33,19 +39,43 @@ public class Goods {
         this.color = color;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public boolean isBuy() {
         return isBuy;
     }
 
     public void setBuy(boolean buy) {
         isBuy = buy;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public String getPro_id() {
+        return pro_id;
+    }
+
+    public void setPro_id(String pro_id) {
+        this.pro_id = pro_id;
     }
 }

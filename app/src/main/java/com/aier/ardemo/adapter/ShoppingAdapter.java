@@ -31,7 +31,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         }
         Goods goods = list.get(position);
         if(goods.isBuy()){
-            Total += goods.getAmount();
+            Total += goods.getPrice();
             holder.iv_choose.setImageResource(R.drawable.success_pic);
         }else {
             holder.iv_choose.setImageResource(R.drawable.not_buy);
@@ -39,7 +39,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
 
         holder.tv_name.setText(goods.getName());
         holder.tv_color.setText(goods.getColor());
-        holder.tv_amount.setText("￥"+goods.getAmount());
+        holder.tv_amount.setText("￥"+goods.getPrice());
 
         holder.iv_choose.setOnClickListener(v -> {
             if (goods.isBuy()){
@@ -47,7 +47,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                 goods.setBuy(false);
                 int num = holder.add_dele_btn.getNumber();
 
-                 int amount =num*goods.getAmount();
+                 int amount =num*goods.getPrice();
                  Total = Total - amount;
                  listener.onTotalAmount(Total);
                  holder.add_dele_btn.setNumber(1);
@@ -56,7 +56,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                 holder.iv_choose.setImageResource(R.drawable.success_pic);
                 goods.setBuy(true);
 
-                Total = Total + goods.getAmount();
+                Total = Total + goods.getPrice();
                 listener.onTotalAmount(Total);
 
             }
@@ -71,7 +71,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                     origin++;
                     holder.add_dele_btn.setNumber(origin);
                     if(origin!=1){
-                        Total +=  goods.getAmount();
+                        Total +=  goods.getPrice();
                         listener.onTotalAmount(Total);
                     }
             }
@@ -86,7 +86,7 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
                 if(origin>1){
                     origin--;
                     holder.add_dele_btn.setNumber(origin);
-                    Total -=  goods.getAmount();
+                    Total -=  goods.getPrice();
                     listener.onTotalAmount(Total);
                 }
             }

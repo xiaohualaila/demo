@@ -368,8 +368,8 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
 
     @Override
     public void doClickImage(String pic) {
-        Intent intent = new Intent(this,ImageActivity.class);
-        intent.putExtra("image",pic);
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("photoUrl",pic);
         startActivity(intent);
     }
 }

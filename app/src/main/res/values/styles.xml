@@ -165,4 +165,8 @@
         <item name="android:textSize">12sp</item>
         <item name="android:gravity">center</item>
     </style>
+    <style name="DialogFullScreen" parent="@android:style/Theme.Holo.DialogWhenLarge">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

@@ -61,40 +61,15 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
         if (bundle != null) {
             String ar_key = bundle.getString(Config.AR_KEY);
             list = new ArrayList();
-            if(ar_key.equals("10301883")){//切换黑胡桃
-                list.add(new Goods("黑胡桃木椅","红黑色",1000,false));
-            }else if(ar_key.equals("10301878")){
-                list.add(new Goods("白腊木","白色",1000,false));
+            if(ar_key.equals("10302537")){//切换黑胡桃
+                list.add(new Goods("10302537","黑胡桃木椅","中年款","黑胡桃木","红黑色",3800,false));
+            }else if(ar_key.equals("10302518")){
+                list.add(new Goods("10302518","白腊木椅","中年款","白腊木","白色",1000,false));
             }else {
-                list.add(new Goods("红橡木","红色",1200,false));
+                list.add(new Goods("10302527","红橡木椅","中年款","红橡木","红色",3000,false));
             }
         }
-
     }
-    private void getOrderData() {
-        OrderSubscribe.getOrderDataForQuery("10301883", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-            @Override
-            public void onSuccess(String result) {
-                Log.i("sss","sss"+result);
-              //  WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
-
-               // Log.i("sss","sss"+weather.toString());
-
-
-            }
-
-            @Override
-            public void onFault(String errorMsg) {
-                //失败
-                toastShort("请求失败");
-            }
-        },this));
-
-
-
-    }
-
-
 
     @Override
     protected void initViews() {
@@ -142,10 +117,16 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                       return;
                 }
 
-
+                Goods goods = list.get(0);
                 Intent intent = new Intent(ShoppingActivity.this, OrderInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("amount", myAmount);
+                bundle.putInt("total", myAmount);
+                bundle.putInt("price", goods.getPrice());
+                bundle.putString("name", goods.getName());
+                bundle.putString("style", goods.getStyle());
+                bundle.putString("material", goods.getMaterial());
+                bundle.putString("pro_id", goods.getPro_id());
+                bundle.putInt("pro_num", myAmount);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
