@@ -14,7 +14,7 @@
         android:layout_height="@dimen/dp25"
         android:padding="5dp"
         android:layout_marginLeft="30dp"
-        android:src="@drawable/not_buy"
+        android:src="@drawable/success_pic"
         android:layout_centerVertical="true"/>
     <TextView
         android:layout_toRightOf="@+id/iv_choose"

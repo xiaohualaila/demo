@@ -50,7 +50,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     ImageView iv_choose;
 
     private List<Goods> list;
-    private boolean isBuy = false;
+    private boolean isBuy = true;
     private int myAmount;
     private int pro_num;
 
@@ -62,11 +62,11 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
             String ar_key = bundle.getString(Config.AR_KEY);
             list = new ArrayList();
             if(ar_key.equals("10302537")){//切换黑胡桃
-                list.add(new Goods("10302537","黑胡桃木椅","中年款","黑胡桃木","红黑色",3800,false));
+                list.add(new Goods("10302537","黑胡桃木椅","中年款","黑胡桃木","红黑色",3800,true));
             }else if(ar_key.equals("10302518")){
-                list.add(new Goods("10302518","白腊木椅","中年款","白腊木","白色",1000,false));
+                list.add(new Goods("10302518","白腊木椅","中年款","白腊木","白色",1000,true));
             }else {
-                list.add(new Goods("10302527","红橡木椅","中年款","红橡木","红色",3000,false));
+                list.add(new Goods("10302527","红橡木椅","中年款","红橡木","红色",3000,true));
             }
         }
     }
