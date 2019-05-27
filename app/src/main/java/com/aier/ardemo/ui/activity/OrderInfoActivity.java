@@ -169,6 +169,7 @@ public class OrderInfoActivity extends BaseActivity {
 
 
             pro.put("commodity_id", "C201905230001");//商品id
+            pro.put("name", produce_name);//商品名称
             pro.put("number", pro_num);//商品数量
             pro.put("price", price);//商品价格
             pro.put("socialcode", "91360782MA37WRYC1C");//
@@ -196,14 +197,13 @@ public class OrderInfoActivity extends BaseActivity {
                             String str = response.body().string();
                             Log.i("xxxx", "str " + str);
 
-                            startActivity(new Intent(OrderInfoActivity.this, PaySuccessActivity.class));
-                            finish();
-
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
+                    }finally {
+                        startActivity(new Intent(OrderInfoActivity.this, PaySuccessActivity.class));
+                        finish();
                     }
-
                 }
 
                 @Override
