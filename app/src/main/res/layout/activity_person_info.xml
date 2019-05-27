@@ -41,6 +41,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="30dp"
         android:layout_width="150dp"
+        android:maxLength="8"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_name"
         android:paddingLeft="5dp"

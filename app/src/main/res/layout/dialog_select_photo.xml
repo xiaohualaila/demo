@@ -6,13 +6,21 @@
     <TextView
         android:id="@+id/tv_select_gallery"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:gravity="center"
+        android:textSize="18sp"
         android:text="相册"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@color/divider"/>
     <TextView
         android:id="@+id/tv_select_camera"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:gravity="center"
+        android:textSize="18sp"
         android:text="相机"/>
 </LinearLayout>

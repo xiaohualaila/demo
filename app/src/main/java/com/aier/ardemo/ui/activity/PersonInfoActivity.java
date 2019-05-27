@@ -245,6 +245,8 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
          try {
              if (file.exists()) {
                  file.delete();
+             }else {
+                 file.mkdirs();
              }
             file.createNewFile();
          } catch (IOException e) {

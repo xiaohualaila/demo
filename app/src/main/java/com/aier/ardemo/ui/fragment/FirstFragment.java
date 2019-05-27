@@ -300,14 +300,18 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
      * 发送心跳数据
      */
     private void heartinterval() {
-        Observable.interval(0, 10, TimeUnit.SECONDS)
+        Observable.interval(2, 10, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     currentIndex ++;
                     if(currentIndex == total){
                         currentIndex =0;
                     }
-                    tv_toutiao_content.setText(dataBeanList.get(currentIndex).getTitle());
+                    try {
+                        tv_toutiao_content.setText(dataBeanList.get(currentIndex).getTitle());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 });
     }
 
