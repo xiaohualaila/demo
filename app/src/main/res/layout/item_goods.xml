@@ -9,9 +9,8 @@
         android:padding="20dp">
         <ImageView
             android:id="@+id/iv_choose"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginRight="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:src="@drawable/not_buy"
             />
