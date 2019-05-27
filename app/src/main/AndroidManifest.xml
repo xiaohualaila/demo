@@ -71,8 +71,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.OrderInfoActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.OrderActivity"
-            android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.activity.PersonInfoActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.activity.AddressActivity"
