@@ -52,8 +52,6 @@ public class NfcActivity  extends BaseNfcActivity {
         });
     }
 
-
-
     @Override
     public void onNewIntent(Intent intent) {
         Log.i("sss",">>>>>>>>>>>>>>ReadTextActivity onNewIntent");

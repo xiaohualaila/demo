@@ -36,6 +36,14 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         }else {
             holder.iv_choose.setImageResource(R.drawable.not_buy);
         }
+        int type = goods.getType();
+        if(type==1){
+            holder.iv_goods_img.setImageResource(R.drawable.pro_type_1);
+        }else if(type==2){
+            holder.iv_goods_img.setImageResource(R.drawable.pro_type_2);
+        }else {
+            holder.iv_goods_img.setImageResource(R.drawable.pro_type_3);
+        }
 
         holder.tv_name.setText(goods.getName());
         holder.tv_color.setText(goods.getColor());
@@ -105,9 +113,10 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name,tv_color,tv_amount;
         AddDeleteView add_dele_btn;
-        ImageView iv_choose;
+        ImageView iv_choose,iv_goods_img;
         ViewHolder(View itemView) {
             super(itemView);
+            iv_goods_img = itemView.findViewById(R.id.iv_goods_img);
             iv_choose = itemView.findViewById(R.id.iv_choose);
             tv_name = itemView.findViewById(R.id.tv_name);
             tv_color = itemView.findViewById(R.id.tv_color);

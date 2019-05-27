@@ -8,18 +8,20 @@ public class Goods {
     private int price;
     private String style;
     private String material;
+    private int type;
     private boolean isBuy;
 
     public Goods( ) {
     }
 
-    public Goods(String pro_id,String name,String style,String material, String color,int price,boolean isBuy) {
+    public Goods(String pro_id,String name,String style,String material, String color,int price,int type,boolean isBuy) {
         this.pro_id = pro_id;
         this.name = name;
         this.style = style;
         this.material = material;
         this.color = color;
         this.price = price;
+        this.type = type;
         this.isBuy = isBuy;
     }
 
@@ -77,5 +79,13 @@ public class Goods {
 
     public void setPro_id(String pro_id) {
         this.pro_id = pro_id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

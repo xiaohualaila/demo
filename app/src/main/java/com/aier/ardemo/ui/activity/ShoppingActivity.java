@@ -62,11 +62,17 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
             String ar_key = bundle.getString(Config.AR_KEY);
             list = new ArrayList();
             if(ar_key.equals("10302537")){//切换黑胡桃
-                list.add(new Goods("10302537","黑胡桃木椅","中年款","黑胡桃木","红黑色",3800,true));
+                list.add(new Goods("10302537","椅座","中年款","黑胡桃木","黑胡桃木",1800,1,true));
+                list.add(new Goods("10302537","椅背","中年款","黑胡桃木","黑胡桃木",1000,3,true));
+                list.add(new Goods("10302537","扶手","中年款","黑胡桃木","黑胡桃木",1000,2,true));
             }else if(ar_key.equals("10302518")){
-                list.add(new Goods("10302518","白腊木椅","中年款","白腊木","白色",1000,true));
+                list.add(new Goods("10302518","椅座","中年款","白腊木","白腊木",500,1,true));
+                list.add(new Goods("10302518","椅背","中年款","白腊木","白腊木",300,3,true));
+                list.add(new Goods("10302518","木扶手","中年款","白腊木","白腊木",200,2,true));
             }else {
-                list.add(new Goods("10302527","红橡木椅","中年款","红橡木","红色",3000,true));
+                list.add(new Goods("10302527","椅座","中年款","红橡木","红橡木",1100,1,true));
+                list.add(new Goods("10302527","椅背","中年款","红橡木","红橡木",1000,3,true));
+                list.add(new Goods("10302527","扶手","中年款","红橡木","红橡木",900,2,true));
             }
         }
     }
