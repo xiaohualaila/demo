@@ -63,7 +63,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/line"
+        android:background="@color/divider"
         android:layout_marginLeft="@dimen/dp10"
         android:layout_marginRight="10dp" />
 </LinearLayout>

@@ -82,7 +82,12 @@ public class OrderInfoActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-        name.setText(person.getUsername());
+        if(!TextUtils.isEmpty(person.getUsername())){
+            name.setText(person.getUsername());
+        }else {
+            name.setText("南康家居");
+            person.setUsername("南康家居");
+        }
         tv_title.setText("订单信息");
         tv_total.setText("金额：" + total);
     }
@@ -129,6 +134,7 @@ public class OrderInfoActivity extends BaseActivity {
                 .setPayClickListener(new PayPassView.OnPayClickListener() {
                     @Override
                     public void onPassFinish(String passContent) {
+                        dialog.dismiss();
                         //6位输入完成,回调
                         Log.i("sss", passContent);
                         updateOrder();
