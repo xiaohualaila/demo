@@ -10,7 +10,6 @@ public class GloData {
 
     public static Person person;
 
-
     public static Person getPerson() {
         return person;
     }

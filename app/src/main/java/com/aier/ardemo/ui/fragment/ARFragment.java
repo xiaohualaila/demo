@@ -108,11 +108,6 @@ public class ARFragment extends Fragment {
      */
     private ImgRecognitionClient mImgRecognitionClient;
 
-    /**
-     * 扫描云点控制器
-     */
-//    private CornerPointController mCornerPointController;
-
     private int mCameraPriWidth = 1280;
     private int mCameraPriHeight = 720;
 
@@ -216,10 +211,6 @@ public class ARFragment extends Fragment {
             mARRenderer.release();
             mARRenderer = null;
         }
-
-//        if (mCornerPointController != null) {
-//            mCornerPointController.release();
-//        }
 
         ARControllerManager.getInstance(getActivity()).release();
 
