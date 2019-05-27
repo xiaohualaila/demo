@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -16,15 +15,11 @@ import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
-import com.aier.ardemo.ui.activity.PersonInfoActivity;
+import com.aier.ardemo.ui.activity.ScanActivity;
 import com.aier.ardemo.ui.activity.SetUpActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
-import com.karics.library.zxing.android.CaptureActivity;
-
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import master.flame.danmaku.danmaku.model.IDanmakus;
@@ -131,9 +126,14 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.tv_bind_phone:
                 if(!isBind){
-                    Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                    intent.putExtra("from","bind");
-                    startActivityForResult(intent,123);
+//                    Intent intent = new Intent(getActivity(), ScanActivity.class);
+//                    startActivityForResult(intent,123);
+                    showToast("绑定成功！");
+                    tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.vr_gray_btn));
+                    tv_bind_phone.setText("取消绑定");
+                    SharedPreferencesUtil.putBoolean(getActivity(),"bind",true);
+                    isBind = true;
+
                 }else {
                     showToast("取消绑定成功！");
                     tv_bind_phone.setBackgroundDrawable(getResources().getDrawable(R.drawable.blue_btn));

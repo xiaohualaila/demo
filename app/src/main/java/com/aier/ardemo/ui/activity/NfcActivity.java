@@ -16,11 +16,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseNfcActivity;
-import com.karics.library.zxing.android.CaptureActivity;
-
 import java.util.Arrays;
 import butterknife.ButterKnife;
 
@@ -49,7 +46,7 @@ public class NfcActivity  extends BaseNfcActivity {
         tv_scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NfcActivity.this, CaptureActivity.class));
+                startActivity(new Intent(NfcActivity.this, ScanActivity.class));
                 finish();
             }
         });

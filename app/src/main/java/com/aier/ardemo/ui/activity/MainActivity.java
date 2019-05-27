@@ -3,6 +3,7 @@ package com.aier.ardemo.ui.activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
@@ -18,7 +19,8 @@ import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
 import com.google.gson.Gson;
-
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 import butterknife.BindView;
@@ -161,6 +163,25 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
                 fm.beginTransaction().hide(mCurrentFrag).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
             mCurrentFrag = to;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                toastLong("没有扫描到结果！");
+            } else {
+                Intent intent = new Intent(this, WebActivity.class);
+                intent.putExtra("title", "南康智能家具产业联盟防伪系统");
+                intent.putExtra("codedContent",result.getContents());
+                intent.putExtra("type", 1);
+                startActivity(intent);
+                Log.i("sss",result.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

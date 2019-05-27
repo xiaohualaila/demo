@@ -2,6 +2,7 @@ package com.aier.ardemo.ui.fragment;
 
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.CourierAdapter;
 import com.aier.ardemo.adapter.ProduceAdapter;
@@ -21,11 +21,13 @@ import com.aier.ardemo.model.WenzhangModel;
 import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.ui.activity.MainActivity;
+import com.aier.ardemo.ui.activity.ScanActivity;
+import com.aier.ardemo.ui.activity.WebActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
 import com.aier.ardemo.utils.NetUtil;
-import com.karics.library.zxing.android.CaptureActivity;
-
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -324,15 +326,20 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
         tv_wendu.setText(dataBean.getTem());//dataBean.getWea()天气
     }
 
-
     @OnClick({R.id.iv_check,R.id.iv_zhen,R.id.tv_vr_video,R.id.toutiao_item})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_check:
-                Intent intent = new Intent(getActivity(), CaptureActivity.class);
-                intent.putExtra("from","wheather");
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), CaptureActivity.class);
+//                intent.putExtra("from","wheather");
+//                startActivity(intent);
              //   startActivityForResult(intent, REQUEST_CODE_SCAN);
+                /*以下是启动我们自定义的扫描活动*/
+                IntentIntegrator intentIntegrator = new IntentIntegrator(ac);
+                intentIntegrator.setBeepEnabled(true);
+                /*设置启动我们自定义的扫描活动，若不设置，将启动默认活动*/
+                intentIntegrator.setCaptureActivity(ScanActivity.class);
+                intentIntegrator.initiateScan();
                 break;
             case R.id.iv_zhen:
                 if(!NetUtil.isConnected(mActivity)){
@@ -357,30 +364,30 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-//选中了tab的逻辑
+    //选中了tab的逻辑
         int position =tab.getPosition();
-       switch (position){
-           case 0:
-               list.clear();
-               getTab1Data();
-               courierAdapter.notifyDataSetChanged();
-               break;
-           case 1:
-               list.clear();
-               getTab2Data();
-               courierAdapter.notifyDataSetChanged();
-               break;
-           case 2:
-               list.clear();
-               getTab3Data();
-               courierAdapter.notifyDataSetChanged();
-               break;
-           case 3:
-               list.clear();
-               getTab3Data();
-               courierAdapter.notifyDataSetChanged();
-               break;
-       }
+           switch (position){
+               case 0:
+                   list.clear();
+                   getTab1Data();
+                   courierAdapter.notifyDataSetChanged();
+                   break;
+               case 1:
+                   list.clear();
+                   getTab2Data();
+                   courierAdapter.notifyDataSetChanged();
+                   break;
+               case 2:
+                   list.clear();
+                   getTab3Data();
+                   courierAdapter.notifyDataSetChanged();
+                   break;
+               case 3:
+                   list.clear();
+                   getTab3Data();
+                   courierAdapter.notifyDataSetChanged();
+                   break;
+           }
 
     }
 
@@ -393,6 +400,7 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
 
 
 }
