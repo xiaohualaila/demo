@@ -1,8 +1,5 @@
 package com.aier.ardemo.ui.fragment;
 
-
-import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,19 +19,15 @@ import com.aier.ardemo.netapi.HttpApi;
 import com.aier.ardemo.netapi.URLConstant;
 import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.activity.ScanActivity;
-import com.aier.ardemo.ui.activity.WebActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.utils.GsonUtils;
 import com.aier.ardemo.utils.NetUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;

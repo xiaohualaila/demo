@@ -6,8 +6,6 @@ package com.aier.ardemo.ui.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.aier.ardemo.dialog.DialogSelectFragment;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.aier.ardemo.ui.activity.ShoppingActivity;
@@ -26,7 +24,6 @@ import com.aier.ardemo.module.MsgType;
 import com.aier.ardemo.ui.Prompt;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.baidu.ar.recg.CornerPoint;
-import com.baidu.ar.recg.CornerPointController;
 import com.baidu.ar.recg.ImgRecognitionClient;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
