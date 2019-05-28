@@ -32,8 +32,6 @@ import com.google.zxing.integration.android.IntentResult;
 
 import butterknife.BindView;
 
-
-
 public class MainActivity extends BaseActivity implements BottomView.BottomCallBack {
     @BindView(R.id.bottom_view)
     BottomView bottomView;
@@ -67,10 +65,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         int screenHeight = dm.heightPixels;
         Log.i("sss"," screenWidth"+screenWidth);
         Log.i("sss"," screenHeight"+screenHeight);
-
     }
-
-
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
