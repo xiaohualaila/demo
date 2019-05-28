@@ -8,15 +8,8 @@
     android:orientation="vertical"
     android:id="@+id/main"
     tools:context=".ui.activity.WebActivity">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/blue"/>
     <com.aier.ardemo.weight.SafeWebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
-
 </LinearLayout>
