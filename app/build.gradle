@@ -66,8 +66,6 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:3.7.0'
 
-    //vr
-    implementation 'com.google.vr:sdk-videowidget:1.10.0'
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     implementation 'com.github.ctiao:dfm:0.4.2'
     //弹幕
@@ -81,7 +79,7 @@ dependencies {
     implementation "com.github.Raizlabs.DBFlow:dbflow-sqlcipher:${dbflow_version}"
 
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
-    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'com.google.zxing:core:3.3.0'//二维码
 
 
 }
