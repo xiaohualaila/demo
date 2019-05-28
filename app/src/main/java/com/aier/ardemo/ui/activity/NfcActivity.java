@@ -24,15 +24,26 @@ import butterknife.ButterKnife;
 public class NfcActivity  extends BaseNfcActivity {
 
     private ImageView iv_back;
-    private TextView tv_scan;
+    private TextView tv_scan,tv_title;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 全透明状态栏
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4 全透明状态栏
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
         iv_back =  findViewById(R.id.iv_back);
         tv_scan = findViewById(R.id.tv_scan);
+        tv_title = findViewById(R.id.tv_title);
+        tv_title.setText("NFC芯片读取");
         iv_back.setOnClickListener(v -> finish());
         tv_scan.setOnClickListener(new View.OnClickListener() {
             @Override
