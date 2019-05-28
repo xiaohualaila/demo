@@ -57,11 +57,9 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     private static final String[] ALL_PERMISSIONS = new String[] {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.INTERNET,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.RECORD_AUDIO};
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA};
 
     Apk_dialog apk_dialog;
     SeekBar seek;
