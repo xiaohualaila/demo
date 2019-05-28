@@ -15,6 +15,7 @@ import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.fragment.FirstFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
+import com.aier.ardemo.utils.CheckAppInstalledUtil;
 import com.aier.ardemo.utils.NetUtil;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.BottomView;
@@ -98,12 +99,20 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 //        Intent intent = new Intent(this, VRActivity.class);
 //        startActivity(intent);
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-      /**知道要跳转应用的包命与目标Activity*/
-        ComponentName componentName = new ComponentName("com.panoeye.peplayer", "com.panoeye.peplayer.OnlineUserSettingActivity");
-        intent.setComponent(componentName);
-        intent.putExtra("", "");//这里Intent传值
-        startActivity(intent);
+       boolean isInStall = CheckAppInstalledUtil.isInstalled(mContext,"com.panoeye.peplayer");
+         if(isInStall){
+             Intent intent = new Intent(Intent.ACTION_MAIN);
+             /**知道要跳转应用的包命与目标Activity*/
+             ComponentName componentName = new ComponentName("com.panoeye.peplayer", "com.panoeye.peplayer.OnlineUserSettingActivity");
+             intent.setComponent(componentName);
+             intent.putExtra("", "");//这里Intent传值
+             startActivity(intent);
+             Log.i("sss","  已下载");
+         }else {
+             Log.i("sss","  未下载");
+             toastLong("未下载VR app");
+         }
+
     }
 
 

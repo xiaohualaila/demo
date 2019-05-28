@@ -136,8 +136,6 @@ public class OrderInfoActivity extends BaseActivity {
                         //6位输入完成,回调
                         //  Log.i("sss", passContent);
                         updateOrder();
-
-//
                     }
 
                     @Override
