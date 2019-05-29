@@ -237,7 +237,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
         if(resultType != null && resultType.equals("final_result")){
             final_result = jsonData.getBest_result();
             Log.i("sss","解析结果：" + final_result);
-
+            btnStartRecord.setEnabled(true);
         }
     }
 
@@ -251,12 +251,16 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
             if(final_result!=null){
                 showMessage(final_result,person.getId(),"",person.getUsername(),person.getHeadimg(),1);//语音识别
                 getQueryData(final_result);
+            }else {
+                btnStartRecord.setEnabled(true);
             }
         }else{
             String errorCode = "\n错误码:" + jsonData.getError();
             String errorSubCode = "\n错误子码:"+ jsonData.getSub_error();
             String errorResult = errorCode + errorSubCode;
             Log.i("sss","解析错误,原因是:" + desc + "\n" + errorResult);
+            toastLong("网路无法连接，请检查网络！");
+            btnStartRecord.setEnabled(true);
         }
     }
 
@@ -339,6 +343,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 t.printStackTrace();
+                toastLong("网路无法连接！");
             }
 
         });
