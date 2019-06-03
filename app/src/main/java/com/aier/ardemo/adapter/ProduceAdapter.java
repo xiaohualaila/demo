@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
-import com.aier.ardemo.model.Produces;
+import com.aier.ardemo.bean.Produces;
 import com.aier.ardemo.weight.AddDeleteView;
 
 import java.util.List;

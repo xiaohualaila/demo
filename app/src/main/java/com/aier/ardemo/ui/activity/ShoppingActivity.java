@@ -13,30 +13,14 @@ import android.widget.TextView;
 import com.aier.ardemo.Config;
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ShoppingAdapter;
-import com.aier.ardemo.dialog.PayPassDialog;
-import com.aier.ardemo.dialog.PayPassView;
-import com.aier.ardemo.model.Goods;
-import com.aier.ardemo.model.WeatherResponseBean;
-import com.aier.ardemo.netapi.HttpApi;
-import com.aier.ardemo.netapi.URLConstant;
-import com.aier.ardemo.netsubscribe.OrderSubscribe;
-import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
-import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
+import com.aier.ardemo.bean.Goods;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.utils.GsonUtils;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.BackTotalAmountClick {
     @BindView(R.id.tv_title)

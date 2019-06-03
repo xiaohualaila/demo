@@ -1,4 +1,4 @@
-package com.aier.ardemo.model;
+package com.aier.ardemo.bean;
 
 
 public class Goods {

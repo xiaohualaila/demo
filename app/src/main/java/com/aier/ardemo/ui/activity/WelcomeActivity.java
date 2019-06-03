@@ -14,7 +14,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
@@ -22,27 +21,17 @@ import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.Apk_dialog;
-import com.aier.ardemo.netapi.HttpApi;
-import com.aier.ardemo.netapi.URLConstant;
-import com.aier.ardemo.netsubscribe.CheckAPPVersionSubscribe;
-import com.aier.ardemo.netutils.OnSuccessAndFaultListener;
-import com.aier.ardemo.netutils.OnSuccessAndFaultSub;
+import com.aier.ardemo.network.URLConstant;
+import com.aier.ardemo.network.request.Request;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.utils.DESUtil;
-import com.aier.ardemo.utils.DesUtils;
-import com.aier.ardemo.utils.DeviceidUtil;
-import com.aier.ardemo.utils.Md5Util;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.weight.AppDownload;
 import org.json.JSONObject;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -168,37 +157,37 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     private void checkAppVersion() {
         try {
-            JSONObject obj =new JSONObject();
-            JSONObject obj1 =new JSONObject();
-            obj.put("method","NKCLOUDAPI_GETLASTAPP");
-            obj.put("params",obj1);
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL_LOCAL)
-                    .build();
-            HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getDataForBody(body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    // 已经转换为想要的类型了
-                    try {
-                        String str = response.body().string();
-                        Log.i(TAG,"返回数据 " + str);
-                        isShowGuidance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                    isShowGuidance();
-                    Log.i(TAG,"  errorMsg" + t.getMessage());
-                }
-            });
+//            JSONObject obj =new JSONObject();
+//            JSONObject obj1 =new JSONObject();
+//            obj.put("method","NKCLOUDAPI_GETLASTAPP");
+//            obj.put("params",obj1);
+//            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
+//            Retrofit retrofit = new Retrofit.Builder()
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .baseUrl(URLConstant.BASE_URL_LOCAL)
+//                    .build();
+//            Request service = retrofit.create(Request.class);
+//            Call<ResponseBody> call = service.getDataForBody(body);
+//            call.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    // 已经转换为想要的类型了
+//                    try {
+//                        String str = response.body().string();
+//                        Log.i(TAG,"返回数据 " + str);
+//                        isShowGuidance();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    t.printStackTrace();
+//                    isShowGuidance();
+//                    Log.i(TAG,"  errorMsg" + t.getMessage());
+//                }
+//            });
 
         }catch (Exception e){
             e.getMessage();

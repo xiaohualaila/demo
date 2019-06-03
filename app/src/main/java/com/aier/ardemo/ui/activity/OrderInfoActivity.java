@@ -1,6 +1,5 @@
 package com.aier.ardemo.ui.activity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,36 +7,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.dialog.PayPassDialog;
 import com.aier.ardemo.dialog.PayPassView;
-import com.aier.ardemo.netapi.HttpApi;
-import com.aier.ardemo.netapi.URLConstant;
+import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.ui.contract.OrderContract;
+import com.aier.ardemo.ui.model.OrderModel;
+import com.aier.ardemo.ui.presenter.OrderPresenter;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class OrderInfoActivity extends BaseActivity {
-
+public class OrderInfoActivity extends BaseActivity implements OrderContract.View {
 
     @BindView(R.id.tv_title)
     TextView tv_title;
@@ -56,9 +40,11 @@ public class OrderInfoActivity extends BaseActivity {
     private Person person;
 
     private boolean isWeixinPay = true;
+    private OrderPresenter presenter;
 
     @Override
     protected void initDate(Bundle savedInstanceState) {
+        presenter = new OrderPresenter(new OrderModel(),this, SchedulerProvider.getInstance());
         person = GloData.getPerson();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -134,8 +120,7 @@ public class OrderInfoActivity extends BaseActivity {
                     public void onPassFinish(String passContent) {
                         dialog.dismiss();
                         //6位输入完成,回调
-                        //  Log.i("sss", passContent);
-                        updateOrder();
+                        presenter.updateOrder(person.getUsername(),total,produce_name,pro_num,price,style,material);
                     }
 
                     @Override
@@ -152,70 +137,6 @@ public class OrderInfoActivity extends BaseActivity {
                 });
     }
 
-    /**
-     * 上传订单接口
-     */
-    private void updateOrder() {
-        try {
-            JSONObject object = new JSONObject();
-            JSONObject param = new JSONObject();
-            JSONArray products = new JSONArray();
-            JSONObject pro = new JSONObject();
-            object.put("method", "NKCLOUDAPI_UPDATEORDER");
-            param.put("user_account", person.getUsername());//用户
-            param.put("total_price", total);//总价
-
-
-            pro.put("commodity_id", "C201905230001");//商品id
-            pro.put("name", produce_name);//商品名称
-            pro.put("number", pro_num);//商品数量
-            pro.put("price", price);//商品价格
-            pro.put("socialcode", "91360782MA37WRYC1C");//
-            pro.put("style", style);//款式
-            pro.put("material", material);//材料
-            products.put(pro);
-
-            param.put("products", products);
-            object.put("params", param);
-            Log.i("xxxx object", object.toString());
-
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), object.toString());
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL)
-                    .build();
-            HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getDataForBody(body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    // 已经转换为想要的类型了
-                    try {
-                        if (response.body() != null) {
-                            String str = response.body().string();
-                            Log.i("xxxx", "str " + str);
-
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }finally {
-                        startActivity(new Intent(OrderInfoActivity.this, PaySuccessActivity.class));
-                        finish();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                    Log.i("xxxx", "str " + t.getMessage());
-                    toastLong("购买失败！");
-                }
-            });
-        } catch (Exception e) {
-            e.getMessage();
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
@@ -224,4 +145,20 @@ public class OrderInfoActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void getDataSuccess() {
+        startActiviys(PaySuccessActivity.class);
+        finish();
+    }
+
+    @Override
+    public void getDataFail() {
+        toastLong("购买失败！");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.despose();
+    }
 }

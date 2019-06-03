@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.R;
-import com.aier.ardemo.model.Goods;
+import com.aier.ardemo.bean.Goods;
 import com.aier.ardemo.weight.AddDeleteView;
 import java.util.List;
 

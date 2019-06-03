@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.aier.ardemo.R;
-import com.aier.ardemo.bean.GroupChatDB;
+import com.aier.ardemo.bean.DBbean.GroupChatDB;
 import com.aier.ardemo.utils.AdjustBitmap;
 import com.aier.ardemo.utils.ImageUtils;
 import com.aier.ardemo.weight.CircleImageView;
-import com.aier.ardemo.weight.ScaleImageView;
 
 import java.util.List;
 

@@ -2,32 +2,22 @@ package com.aier.ardemo.ui.activity;
 
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Color;
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aier.ardemo.R;
-import com.aier.ardemo.model.WenzhangModel;
-import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.utils.NetUtil;
-import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ScanActivity extends AppCompatActivity {

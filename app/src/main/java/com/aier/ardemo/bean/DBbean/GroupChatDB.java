@@ -1,4 +1,4 @@
-package com.aier.ardemo.bean;
+package com.aier.ardemo.bean.DBbean;
 
 import com.aier.ardemo.dbflowdemo.AppDataBase;
 import com.raizlabs.android.dbflow.annotation.Column;

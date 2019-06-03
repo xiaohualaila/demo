@@ -4,10 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.R;
-import com.aier.ardemo.model.Produces;
+import com.aier.ardemo.bean.Produces;
 import com.aier.ardemo.weight.AddDeleteView;
 
 import java.util.List;

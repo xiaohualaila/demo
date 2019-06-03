@@ -19,11 +19,13 @@ import com.aier.ardemo.arview.LoadingView;
 import com.aier.ardemo.baiduSpeechRecognition.AsrFinishJsonData;
 import com.aier.ardemo.baiduSpeechRecognition.AsrPartialJsonData;
 import com.aier.ardemo.bean.GloData;
-import com.aier.ardemo.bean.GroupChatDB;
+import com.aier.ardemo.bean.DBbean.GroupChatDB;
 import com.aier.ardemo.bean.Person;
-import com.aier.ardemo.netapi.HttpApi;
-import com.aier.ardemo.netapi.URLConstant;
+import com.aier.ardemo.bean.YUBAIBean;
+import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.ui.contract.BaiduVoiceContract;
+import com.aier.ardemo.ui.presenter.BaiduVoicePresenter;
 import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
@@ -32,7 +34,6 @@ import com.baidu.tts.client.SpeechSynthesizer;
 import com.baidu.tts.client.TtsMode;
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -43,14 +44,8 @@ import java.util.List;
 import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BaiduVoiceActivity extends BaseActivity implements EventListener ,ChatAdapter.ClickImage{
+public class BaiduVoiceActivity extends BaseActivity implements EventListener ,ChatAdapter.ClickImage, BaiduVoiceContract.View {
 
     private static final String TAG = "BaiduVoiceActivity";
 
@@ -81,8 +76,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
     protected String secretKey = "ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk";//secretKey
     private SpeechSynthesizer synthesizer;//语音合成对象
     private MediaPlayer mediaPlayer;
+    private BaiduVoicePresenter presenter;
     @Override
     protected void initDate(Bundle savedInstanceState) {
+        presenter = new BaiduVoicePresenter(this, SchedulerProvider.getInstance());
         tv_title.setText("智能语音助手");
         person = GloData.getPerson();
         list = getData();
@@ -226,6 +223,7 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
             mediaPlayer.release();
             mediaPlayer = null;
         }
+        presenter.despose();
     }
 
     private void parseAsrPartialJsonData(String data) {
@@ -237,7 +235,6 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
         if(resultType != null && resultType.equals("final_result")){
             final_result = jsonData.getBest_result();
             Log.i("sss","解析结果：" + final_result);
-            btnStartRecord.setEnabled(true);
         }
     }
 
@@ -250,18 +247,16 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
             Log.i("sss","解析结果:" + final_result);
             if(final_result!=null){
                 showMessage(final_result,person.getId(),"",person.getUsername(),person.getHeadimg(),1);//语音识别
-                getQueryData(final_result);
-            }else {
-                btnStartRecord.setEnabled(true);
+                presenter.getYubaiData(final_result);
             }
         }else{
+            //没有识别到
             String errorCode = "\n错误码:" + jsonData.getError();
             String errorSubCode = "\n错误子码:"+ jsonData.getSub_error();
             String errorResult = errorCode + errorSubCode;
             Log.i("sss","解析错误,原因是:" + desc + "\n" + errorResult);
-            toastLong("网路无法连接，请检查网络！");
-            btnStartRecord.setEnabled(true);
         }
+        btnStartRecord.setEnabled(true);
     }
 
     private void showMessage(String data,String uid,String img,String name,String headImg,int type) {
@@ -279,74 +274,6 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
         if(list.size()>8){
             mRecyclerView.scrollToPosition(adapter.getItemCount()-1);
         }
-    }
-
-    private void getQueryData(String data) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(URLConstant.YUYIN_URL)
-                .build();
-        HttpApi service = retrofit.create(HttpApi.class);
-        Call<ResponseBody> call = service.getYuyinDataForQuery("YUBAI",data);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                // 已经转换为想要的类型了
-                try {
-                    String str = response.body().string();
-                    if(str!=null){
-                        JSONObject obj =new JSONObject(str);
-                        Log.i("sss",obj.toString());
-                        String result = obj.optString("result");
-                        String image = obj.optString("imagereply");
-                        /**
-                         * 羽白说
-                         */
-                        if(!TextUtils.isEmpty(image)){
-                            showMessage("","112",image,"羽白","",2);
-                        }
-                        showMessage(result,"112","","羽白","",0);
-                        String voice = obj.optString("voice");
-                        if(TextUtils.isEmpty(voice)){
-                            speak(result);
-                        }else {
-                            try {
-                                mediaPlayer.setDataSource(voice);
-                                // 通过异步的方式装载媒体资源
-                                mediaPlayer.prepareAsync();
-                                mediaPlayer.setOnPreparedListener(mp -> {
-                                    // 装载完毕 开始播放流媒体
-                                    mediaPlayer.start();
-                                });
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (IllegalArgumentException e) {
-                                e.printStackTrace();
-                            } catch (SecurityException e) {
-                                e.printStackTrace();
-                            } catch (IllegalStateException e) {
-                                e.printStackTrace();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-                toastLong("网路无法连接！");
-            }
-
-        });
     }
 
     //获取日期
@@ -376,5 +303,56 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
         Intent intent = new Intent(this, ImageActivity.class);
         intent.putExtra("photoUrl",pic);
         startActivity(intent);
+    }
+
+    @Override
+    public void getDataSuccess(YUBAIBean bean) {
+        try {
+            if (bean != null) {
+                String image = bean.getImagereply();
+                if (!TextUtils.isEmpty(image)) {
+                    showMessage("", "112", image, "羽白", "", 2);
+                }
+                String result = bean.getResult();
+                showMessage(result, "112", "", "羽白", "", 0);
+                String voice = bean.getVoice();
+                if (TextUtils.isEmpty(voice)) {
+                    speak(result);
+                } else {
+                    playVoice(voice);
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getDataFail() {
+        toastShort("请检查网络！");
+    }
+
+    //播放语音
+    private void playVoice(String voice) {
+        try {
+            mediaPlayer.setDataSource(voice);
+            // 通过异步的方式装载媒体资源
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(mp -> {
+                // 装载完毕 开始播放流媒体
+                mediaPlayer.start();
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

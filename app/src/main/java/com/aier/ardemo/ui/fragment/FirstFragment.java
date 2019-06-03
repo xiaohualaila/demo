@@ -4,27 +4,24 @@ import android.support.design.widget.TabLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.CourierAdapter;
 import com.aier.ardemo.adapter.ProduceAdapter;
-import com.aier.ardemo.model.Order;
-import com.aier.ardemo.model.Produces;
-import com.aier.ardemo.model.WeatherResponseBean;
-import com.aier.ardemo.model.WenzhangModel;
-import com.aier.ardemo.netapi.HttpApi;
-import com.aier.ardemo.netapi.URLConstant;
+import com.aier.ardemo.bean.Produces;
+import com.aier.ardemo.bean.ResultBean;
+import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.activity.ScanActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
-import com.aier.ardemo.utils.GsonUtils;
+import com.aier.ardemo.ui.contract.FirstContract;
+import com.aier.ardemo.ui.model.FirstModel;
+import com.aier.ardemo.ui.presenter.FirstPresenter;
 import com.aier.ardemo.utils.NetUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
-import org.json.JSONObject;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -32,16 +29,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
+public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelectedListener, FirstContract.View {
     @BindView(R.id.tv_city)
     TextView tv_city;
     @BindView(R.id.iv_weather)
@@ -63,7 +52,8 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     List<Produces> list = new ArrayList();
     private  int total;
     private  int currentIndex;
-    List<WenzhangModel.ResultBean.DataBean> dataBeanList;
+    List<ResultBean.DataBean> dataBeanList;
+    private FirstPresenter presenter;
 
     @Override
     public int getLayoutId() {
@@ -73,16 +63,16 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     @Override
     protected void init() {
         ac = (MainActivity) getActivity();
+        presenter = new FirstPresenter(new FirstModel(), this, SchedulerProvider.getInstance());
         initData();
-        initTablayout();
-        initRecycView();
     }
 
     private void initData() {
         if(NetUtil.isConnected(mActivity)){
-            getWeatherData();
-            getWenzhangData();
-           // getOrderData();
+            presenter.getWeatherData();
+            presenter.getWenzhangData();
+            initTablayout();
+            initRecycView();
         }
     }
 
@@ -134,162 +124,6 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
         list.add(new Produces("","暂无数据"));
         return list;
     }
-    /**
-     * 请求天气预报的数据
-     * OnSuccessAndFaultSub 我只是加了错误处理和请求的loading，可以自己根据项目的业务修改
-     * new OnSuccessAndFaultSub（第一个参数:成功or失败的回调，第二个参数:上下文，可以不填，控制dialog的）
-     */
-    private void getWeatherData() {
-//        WeatherSubscribe.getWeatherDataForQuery("赣州", new OnSuccessAndFaultSub(new OnSuccessAndFaultListener() {
-//            @Override
-//            public void onSuccess(String result) {
-//                WeatherResponseBean weather = GsonUtils.fromJson(result, WeatherResponseBean.class);
-//
-//                Log.i("sss","sss"+weather.toString());
-//                showWeatherText(weather);
-//            }
-//
-//            @Override
-//            public void onFault(String errorMsg) {
-//                //失败
-//                Toast.makeText(getActivity(), "请求失败：" + errorMsg, Toast.LENGTH_SHORT).show();
-//            }
-//        },getActivity()));
-
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.WEATHER_URL)
-                    .build();
-            HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getWeatherDataForQuery("v1","赣州");
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    // 已经转换为想要的类型了
-                    try {
-                        String str = response.body().string();
-                        WeatherResponseBean weather = GsonUtils.fromJson(str, WeatherResponseBean.class);
-                        showWeatherText(weather);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                }
-
-            });
-
-    }
-
-
-    //首页文章列表
-    private void getWenzhangData() {
-        try {
-            JSONObject object =new JSONObject();
-            JSONObject obj1 =new JSONObject();
-            object.put("method","NKCLOUDAPI_GETARTICLIST");
-            object.put("params",obj1);
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),object.toString());
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL)
-                    .build();
-            HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getDataForBody(body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    // 已经转换为想要的类型了
-                    try {
-                        if( response.body()!=null){
-                            String str = response.body().string();
-                            Log.i("SSSS","str " +str);
-                            WenzhangModel weather = GsonUtils.fromJson(str, WenzhangModel.class);
-                             dataBeanList =  weather.getResult().getData();
-                            if(dataBeanList.size()>0){
-                                total =dataBeanList.size();
-                                currentIndex= 0;
-                                tv_toutiao_content.setText(dataBeanList.get(currentIndex).getTitle());
-                                heartinterval();
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                }
-
-
-            });
-        }catch (Exception e){
-            e.getMessage();
-        }
-
-    }
-
-
-    //订单列表
-    private void getOrderData() {
-        try {
-            JSONObject object =new JSONObject();
-            JSONObject obj1 =new JSONObject();
-            object.put("method","NKCLOUDAPI_GETORDERLIST");
-            obj1.put("user_account","test");
-            obj1.put("index",1);
-            obj1.put("count",10);
-            object.put("params",obj1);
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),object.toString());
-            Retrofit retrofit = new Retrofit.Builder()
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(URLConstant.BASE_URL)
-                    .build();
-            HttpApi service = retrofit.create(HttpApi.class);
-            Call<ResponseBody> call = service.getDataForBody(body);
-            call.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    // 已经转换为想要的类型了
-                    try {
-                        if( response.body()!=null){
-                            String str = response.body().string();
-                            Log.i("SSSS","str " +str);
-                            Order order = GsonUtils.fromJson(str, Order.class);
-                            if(order.isSuccess()){
-                              Order.ResultBean resultBean = order.getResult();
-                              Order.ResultBean.DataBeanX dataBeanX = resultBean.getData();
-                                List<Order.ResultBean.DataBeanX.DataBean> dataBeanList = dataBeanX.getData();
-                                if(dataBeanList.size()>0){
-                                    Order.ResultBean.DataBeanX.DataBean bean = dataBeanList.get(0);
-
-                                    bean.getOrder_id();
-                                }
-
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                    t.printStackTrace();
-                }
-
-            });
-        }catch (Exception e){
-            e.getMessage();
-        }
-    }
-
 
     /**
      * 发送心跳数据
@@ -308,15 +142,6 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
                         e.printStackTrace();
                     }
                 });
-    }
-
-
-    private void showWeatherText(WeatherResponseBean weathe) {
-        List<WeatherResponseBean.DataBean> dataBeanList = weathe.getData();
-        WeatherResponseBean.DataBean dataBean =  dataBeanList.get(0);
-        WeatherResponseBean.DataBean dataBean_tomorrow =  dataBeanList.get(0);
-        tv_city.setText(weathe.getCity());
-        tv_wendu.setText(dataBean.getTem());//dataBean.getWea()天气
     }
 
     @OnClick({R.id.iv_check,R.id.iv_zhen,R.id.tv_vr_video,R.id.toutiao_item})
@@ -342,14 +167,13 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
                 break;
             case R.id.toutiao_item:
                 if(dataBeanList!=null){
-                    WenzhangModel.ResultBean.DataBean bean =dataBeanList.get(currentIndex);
-                    ac.goToWebActivity(bean.getUrl(),bean.getTitle());
+                  ResultBean.DataBean bean =dataBeanList.get(currentIndex);
+                  ac.goToWebActivity(bean.getUrl(),bean.getTitle());
                 }
                 break;
         }
 
     }
-
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
@@ -391,5 +215,31 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     }
 
 
+    @Override
+    public void getWeatherDataSuccess(String city, String wendu) {
+        tv_city.setText(city);
+        tv_wendu.setText(wendu);//dataBean.getWea()天气
+    }
 
+    @Override
+    public void getWenzhangDataSuccess(ResultBean bean) {
+          dataBeanList = bean.getData();
+        if(dataBeanList.size()>0){
+            total =dataBeanList.size();
+            currentIndex= 0;
+            tv_toutiao_content.setText(dataBeanList.get(currentIndex).getTitle());
+            heartinterval();
+        }
+    }
+
+    @Override
+    public void getDataFail() {
+        showToast("请求失败");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.despose();
+    }
 }
