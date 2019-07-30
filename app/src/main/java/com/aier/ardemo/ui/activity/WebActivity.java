@@ -1,12 +1,10 @@
 package com.aier.ardemo.ui.activity;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.webkit.ConsoleMessage;
@@ -21,15 +19,15 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.weight.NativeInterface;
 import com.aier.ardemo.weight.SafeWebView;
-
 import butterknife.BindView;
-import butterknife.OnClick;
+
 
 
 public class WebActivity extends BaseActivity {
@@ -39,8 +37,14 @@ public class WebActivity extends BaseActivity {
     LinearLayout main;
     @BindView(R.id.web_view)
     SafeWebView mWebView;
-//    @BindView(R.id.tv_title)
-//    TextView tv_title;
+
+
+    @BindView(R.id.web_title)
+    TextView tv_title;
+    @BindView(R.id.web_toolbar)
+    Toolbar mWebToolbar;
+    @BindView(R.id.web_progressBar)
+    ProgressBar mWebProgressBar;
     private String codedContent;
     private String title;
     private int  type = 1;
@@ -49,17 +53,16 @@ public class WebActivity extends BaseActivity {
         title = getIntent().getStringExtra("title");
         codedContent = getIntent().getStringExtra("codedContent");
         type = getIntent().getIntExtra("type", 1);
-
+        mWebToolbar.setNavigationOnClickListener(v -> finish());
         //4.2 开启辅助功能崩溃
         mWebView.disableAccessibility(getApplicationContext());
         initWebSettings();
         initListener();
        // initinject();
-//           if(title.length()>15){
-//               tv_title.setTextSize(14f);
-//           }else {
-//               tv_title.setText(title);
-//           }
+           if(title.length()>15){
+               tv_title.setTextSize(14f);
+           }
+           tv_title.setText(title);
 
            if(type==2){
                mWebView.loadUrl("https:"+codedContent);
@@ -90,7 +93,6 @@ public class WebActivity extends BaseActivity {
 //                break;
 //        }
 //    }
-
 
     private void initinject() {
         mWebView.addJavascriptInterface(new NativeInterface(this), "AndroidNative");
@@ -194,6 +196,7 @@ public class WebActivity extends BaseActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            mWebProgressBar.setVisibility(View.GONE);
         }
 
         /**
@@ -260,7 +263,10 @@ public class WebActivity extends BaseActivity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+            mWebProgressBar.setVisibility(View.VISIBLE);
+            mWebProgressBar.setProgress(newProgress);
         }
+
 
         /**
          * Js 中调用 alert() 函数，产生的对话框

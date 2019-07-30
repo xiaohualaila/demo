@@ -37,7 +37,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/bt_submit"
         android:layout_marginRight="10dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/blue"
         android:textSize="18sp"
         android:text="￥1205"/>
     <TextView

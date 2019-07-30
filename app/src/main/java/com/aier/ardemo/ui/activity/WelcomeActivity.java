@@ -96,8 +96,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     }
 
-
-
     private void isShowGuidance(){
         boolean  isOne = SharedPreferencesUtil.getBoolean(WelcomeActivity.this, "isOne", true);
         if(isOne){

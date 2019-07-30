@@ -2,6 +2,7 @@ package com.aier.ardemo.network;
 
 import com.aier.ardemo.network.request.Request;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -32,8 +33,11 @@ public class NetWorkManager {
      * 初始化必要对象和参数
      */
     public void init() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         // 初始化okhttp
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
                 .build();
 
         // 初始化Retrofit
@@ -41,7 +45,7 @@ public class NetWorkManager {
                 .baseUrl(Request.HOST)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-              //  .client(client)
+                .client(client)
                 .build();
     }
 

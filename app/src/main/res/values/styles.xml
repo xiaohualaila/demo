@@ -2,11 +2,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <!--Appbar背景色-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <!--状态栏颜色-->
+        <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/blue</item>
     </style>
     <declare-styleable name="BannerView">
         <!-- 是否支持循环, 默认 true -->

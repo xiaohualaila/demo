@@ -58,7 +58,7 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
         if (before_state != mAccount) {
             if (mAccount == 1) {
 
-                iv_home_text.setTextColor(getResources().getColor(R.color.colorPrimary));
+                iv_home_text.setTextColor(getResources().getColor(R.color.blue));
                 Drawable drawable_home_= getResources().getDrawable(R.drawable.home_);
                 drawable_home_.setBounds(0,0,drawable_home_.getMinimumWidth(),drawable_home_.getMinimumHeight());
                 iv_home_text.setCompoundDrawables(null,drawable_home_,null,null);
@@ -76,7 +76,7 @@ public class BottomView extends LinearLayout implements View.OnClickListener{
                 drawable_home.setBounds(0,0,drawable_home.getMinimumWidth(),drawable_home.getMinimumHeight());
 
                 iv_home_text.setCompoundDrawables(null,drawable_home,null,null);
-                iv_my_text.setTextColor(getResources().getColor(R.color.colorPrimary));
+                iv_my_text.setTextColor(getResources().getColor(R.color.blue));
                 Drawable drawable_my_ = getResources().getDrawable(R.drawable.my_);
                 drawable_my_.setBounds(0,0,drawable_my_.getMinimumWidth(),drawable_my_.getMinimumHeight());
                 iv_my_text.setCompoundDrawables(null,drawable_my_,null,null);

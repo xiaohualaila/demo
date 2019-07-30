@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:text="忘记密码?"
                 android:textSize="14sp"
-                android:textColor="@color/alipay"
+                android:textColor="@color/blue"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"/>
 
