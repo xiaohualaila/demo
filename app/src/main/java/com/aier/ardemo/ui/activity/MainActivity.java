@@ -20,16 +20,17 @@ import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.fragment.FirstFragment;
 import com.aier.ardemo.ui.fragment.MyFragment;
+import com.aier.ardemo.utils.AndroidWorkaround;
 import com.aier.ardemo.utils.CheckAppInstalledUtil;
 import com.aier.ardemo.utils.NetUtil;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
+import com.aier.ardemo.utils.StatusBarUtil;
+import com.aier.ardemo.utils.ToastyUtil;
 import com.aier.ardemo.weight.BottomView;
 import com.baidu.ar.bean.DuMixARConfig;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements BottomView.BottomCallBack {
@@ -43,28 +44,23 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     private Fragment myFragment;
 
     @Override
+    protected void beforeInit() {
+        super.beforeInit();
+        StatusBarUtil.INSTANCE.setTranslucent(this);
+    }
+
+    @Override
     protected void initViews() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 全透明状态栏
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4 全透明状态栏
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
         fm = getSupportFragmentManager();
         firstFragment = new FirstFragment();
         myFragment = new MyFragment();
         switchContent(firstFragment);
         bottomView.setBottomCallBack(this);
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int screenWidth = dm.widthPixels;
-        int screenHeight = dm.heightPixels;
-        Log.i("sss"," screenWidth"+screenWidth);
-        Log.i("sss"," screenHeight"+screenHeight);
+        // 底部导航栏适配
+        if (AndroidWorkaround.Companion.checkDeviceHasNavigationBar(this)) {
+            AndroidWorkaround.Companion.assistActivity(findViewById(android.R.id.content));
+        }
     }
 
     @Override
@@ -83,7 +79,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             person.setUsername("小虎");
             person.setAddress("杭州");
             person.setAddress("男");
-//            person.setHeadimg("person");
             GloData.setPersons(person);
         }
     }
@@ -117,11 +112,9 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
              Log.i("sss","  已下载");
          }else {
              Log.i("sss","  未下载");
-             toastLong("未下载VR app");
+             ToastyUtil.INSTANCE.showError("未下载VR app");
          }
-
     }
-
 
     public void goToWebActivity(String url,String title){
         WebActivity.startToWebAc(this,title,url,3);
@@ -137,7 +130,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
                 switchContent(myFragment);
                 break;
             case 3:
-             //   switchContent(arListFragment);
                 if(NetUtil.isConnected(mContext)){
                     startActiviys(YubaiActivity.class);
                 }else {
@@ -149,8 +141,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
     /**
      * 动态添加fragment，不会重复创建fragment
-     *
-     * @param to 将要加载的fragment
      */
     public void switchContent(Fragment to) {
         if (mCurrentFrag != to) {
@@ -173,10 +163,8 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-               // toastLong("没有扫描到结果！");
             } else {
                 WebActivity.startToWebAc(this,"南康智能家具产业联盟防伪系统",result.getContents(),1);
-
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

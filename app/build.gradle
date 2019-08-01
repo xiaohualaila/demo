@@ -1,7 +1,7 @@
-/*
- * Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
- */
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 def dbflow_version = "4.2.1"
 android {
     compileSdkVersion 27
@@ -79,5 +79,5 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     implementation 'com.google.code.gson:gson:2.8.5'
-
+    implementation 'com.github.GrenderG:Toasty:1.1.3'
 }

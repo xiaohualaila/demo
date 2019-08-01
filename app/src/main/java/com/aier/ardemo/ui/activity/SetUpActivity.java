@@ -1,13 +1,12 @@
 package com.aier.ardemo.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.utils.DeviceidUtil;
+import com.aier.ardemo.utils.PackageUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,8 +41,7 @@ public class SetUpActivity  extends BaseActivity {
                 finish();
                 break;
             case R.id.version:
-                String versionName = DeviceidUtil.getAppVersionName(this);
-                toastLong("当前版本"+versionName+"已是最新版本");
+                toastLong("当前版本"+ PackageUtil.INSTANCE.getVersionName());
                 break;
         }
     }

@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Toast;
+
+import com.aier.ardemo.utils.StatusBarUtil;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -30,12 +33,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        beforeInit();
         setContentView(getLayout());
         mContext = this;
         mUnbinder=ButterKnife.bind(this);
 
         initDate();
         initViews();
+    }
+
+    protected void beforeInit(){
+
     }
 
 
