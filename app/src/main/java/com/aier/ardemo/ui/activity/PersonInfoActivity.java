@@ -48,6 +48,17 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
     private Uri outputUri;//裁剪万照片保存地址
     private String imagePath;//打开相册选择照片的路径
     private boolean isClickCamera;//是否是拍照裁剪
+
+    @Override
+    protected void initDate() {
+        person = GloData.getPerson();
+        if(TextUtils.isEmpty(person.getUsername())){
+            et_name.setText("");
+        }else {
+            et_name.setText(person.getUsername());
+        }
+    }
+
     @Override
     protected void initViews() {
         tv_title.setText("个人信息");
@@ -62,15 +73,7 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    @Override
-    protected void initDate(Bundle savedInstanceState) {
-       person = GloData.getPerson();
-      if(TextUtils.isEmpty(person.getUsername())){
-          et_name.setText("");
-      }else {
-          et_name.setText(person.getUsername());
-      }
-    }
+
 
     @Override
     protected int getLayout() {

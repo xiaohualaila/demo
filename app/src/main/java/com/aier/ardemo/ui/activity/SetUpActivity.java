@@ -16,10 +16,6 @@ public class SetUpActivity  extends BaseActivity {
 
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @Override
-    protected void initDate(Bundle savedInstanceState) {
-
-    }
 
     @Override
     protected void initViews() {

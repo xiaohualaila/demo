@@ -6,9 +6,18 @@ package com.aier.ardemo.ui.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.aier.ardemo.adapter.ArListAdapter;
+import com.aier.ardemo.adapter.ProduceAdapter;
+import com.aier.ardemo.bean.ArBean;
+import com.aier.ardemo.bean.Produces;
+import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.aier.ardemo.ui.activity.ShoppingActivity;
+import com.aier.ardemo.ui.contract.ArContract;
+import com.aier.ardemo.ui.model.ArModel;
+import com.aier.ardemo.ui.presenter.ArPresenter;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
@@ -23,10 +32,9 @@ import com.aier.ardemo.draw.GLConfigChooser;
 import com.aier.ardemo.module.MsgType;
 import com.aier.ardemo.ui.Prompt;
 import com.aier.ardemo.arview.ARControllerManager;
-import com.baidu.ar.recg.CornerPoint;
-import com.baidu.ar.recg.ImgRecognitionClient;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -36,19 +44,21 @@ import android.graphics.SurfaceTexture;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-/**
- * AR Fragment
- * Created by xiegaoxi on 2017/11/21.
- */
-public class ARFragment extends Fragment {
+public class ARFragment extends Fragment implements ArContract.View {
 
     private static final String TAG = "ARFragment";
 
@@ -57,16 +67,10 @@ public class ARFragment extends Fragment {
      */
     private FrameLayout mFragmentContainer;
 
-    /**
-     * Ar RootView
-     */
     private View mRootView;
-
-    /**
-     * AR View
-     */
     private GLSurfaceView mArGLSurfaceView;
-
+    private RecyclerView mRecyclerView;
+    private TextView tv_order;
     /**
      * Prompt View 提示层View
      */
@@ -85,7 +89,7 @@ public class ARFragment extends Fragment {
     /**
      * 需要手动申请的权限
      */
-    private static final String[] ALL_PERMISSIONS = new String[] {
+    private static final String[] ALL_PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO};
@@ -103,14 +107,6 @@ public class ARFragment extends Fragment {
      */
     private DuMixTarget mDuMixTarget;
 
-    /**
-     * 本地识图 云端识图扫描
-     */
-    private ImgRecognitionClient mImgRecognitionClient;
-
-    private int mCameraPriWidth = 1280;
-    private int mCameraPriHeight = 720;
-
     // 接收 参数
     private String mArKey;
     private int mArTpye;
@@ -118,6 +114,14 @@ public class ARFragment extends Fragment {
     private ARActivity arActivity;
 
     private String current_produce;
+    private int index = 1;
+
+    private ArPresenter presenter;
+    ArListAdapter mAdapter;
+    List<ArBean> list = new ArrayList();
+
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -158,6 +162,14 @@ public class ARFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mFragmentContainer;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        presenter = new ArPresenter(new ArModel(), this, SchedulerProvider.getInstance());
+        getDataOrder();
+        initRecycView();
     }
 
     @Override
@@ -218,6 +230,7 @@ public class ARFragment extends Fragment {
             mARController.release();
             mARController = null;
         }
+        presenter.despose();
     }
 
     @Override
@@ -274,6 +287,13 @@ public class ARFragment extends Fragment {
         mPromptUi = mRootView.findViewById(R.id.bdar_prompt_view);
         mPromptUi.setPromptCallback(promptCallback);
         mFragmentContainer.addView(mRootView);
+
+        mRecyclerView = mRootView.findViewById(R.id.rv);
+        tv_order = mRootView.findViewById(R.id.tv_order);
+        tv_order.setOnClickListener(v -> {
+            ShoppingActivity.starShoppingAc(arActivity,current_produce);
+            arActivity.finish();
+        });
     }
 
     /**
@@ -306,14 +326,6 @@ public class ARFragment extends Fragment {
             if (mARController != null) {
                 mARController.onCameraPreviewFrame(data, width, height);
             }
-            if (mImgRecognitionClient != null) {
-                byte[] rotatedData = rotateImage(data, mCameraPriWidth, mCameraPriHeight);
-                CornerPoint[] cornerPoints = mImgRecognitionClient.extractCornerPoints
-                        (rotatedData, mCameraPriHeight, mCameraPriWidth);
-                if (mPromptUi != null) {
-                    mPromptUi.setCornerPoint(cornerPoints);
-                }
-            }
         });
 
         setARRead();
@@ -325,10 +337,11 @@ public class ARFragment extends Fragment {
             public void onCameraDrawerCreated(SurfaceTexture surfaceTexture, int width, int height) {
                 mDuMixSource = new DuMixSource(surfaceTexture, width, height);
                 if (TextUtils.isEmpty(mArFile)) {
-                    mDuMixSource.setArKey(mArKey);
+                    //  mDuMixSource.setArKey(mArKey);
+                    mDuMixSource.setArKey("000000");
                     mDuMixSource.setArType(mArTpye);
                 }
-                mPromptUi.setDuMixSource(mDuMixSource);
+                //   mPromptUi.setDuMixSource(mDuMixSource);
 
             }
 
@@ -393,51 +406,15 @@ public class ARFragment extends Fragment {
 
         @Override
         public void onSwitchModel(int num) {
-         //   arActivity.showDialog();
-
-            /**
-             * 此处可以切换模型
-             */
-            if (mARController != null) {
-                if(num ==1){
-                    mARController.switchCase("10302537", 5);//切换黑胡桃
-                    current_produce = "10302537";
-                }else if(num ==2){
-                    mARController.switchCase("10302518", 5);//切换模型白腊木
-                    current_produce = "10302518";
-                }else if(num ==3){
-                    mARController.switchCase("10302527", 5);//切换模型 红橡木
-                    current_produce = "10302527";
-                }else if(num ==4){//儿童
-                    mARController.switchCase("10302599", 5);//切换模型 红橡木
-                    current_produce = "10302599";
-                }else if(num ==5){//青年
-                    mARController.switchCase("10302598", 5);//切换模型 红橡木
-                    current_produce = "10302598";
-                }else if(num ==6){//中年
-                    mARController.switchCase("10302597", 5);//切换模型 红橡木
-                    current_produce = "10302597";
-                }else if(num ==7){//老年
-                    mARController.switchCase("10302581", 5);//切换模型 红橡木
-                    current_produce = "10302581";
-                }
-
-
-                else if(num ==10){
-                    Intent intent =new Intent(arActivity,ShoppingActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ar_key", current_produce);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    arActivity.finish();
-
-                }else {
-                    Toast.makeText(arActivity, " 功能正在开发当中 ",Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-
+               if (num == 11) {
+                    if (index == 1) {
+                        mRecyclerView.setVisibility(View.VISIBLE);
+                        index = 2;
+                    } else if (index == 2) {
+                        mRecyclerView.setVisibility(View.GONE);
+                        index = 1;
+                    }
+               }
         }
 
         @Override
@@ -462,30 +439,30 @@ public class ARFragment extends Fragment {
         }
     };
 
-    /**
-     * 图片旋转90 度
-     *
-     * @param data
-     * @param width
-     * @param height
-     *
-     * @return
-     */
-    private byte[] rotateImage(byte[] data, int width, int height) {
-        byte[] rotatedData = null;
-        try {
-            if (null == rotatedData || rotatedData.length != data.length) {
-                rotatedData = new byte[data.length];
-            }
-            for (int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    rotatedData[x * height + height - y - 1] = data[x + y * width];
+    private void initRecycView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(arActivity, LinearLayoutManager.HORIZONTAL, false));
+        mAdapter = new ArListAdapter(list);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(position -> {
+            if (mARController != null) {
+                ArBean ar = list.get(position);
+                if (current_produce != ar.getArKey()) {
+                    mARController.switchCase(ar.getArKey(), 5);
+                    current_produce = ar.getArKey();
+                    mPromptUi.setLoadVisible();
+                    tv_order.setVisibility(View.VISIBLE);
                 }
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        return rotatedData;
+        });
+    }
+
+
+    private void getDataOrder() {
+        list.add(new ArBean("10302581", "红橡木"));
+        list.add(new ArBean("10302537", "黑胡桃"));
+        list.add(new ArBean("10302518", "白腊木"));
+        list.add(new ArBean("10307873", "婴儿车"));
     }
 
 }

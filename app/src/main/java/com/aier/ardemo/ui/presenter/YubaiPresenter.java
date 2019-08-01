@@ -4,7 +4,7 @@ import com.aier.ardemo.bean.YUBAIBean;
 import com.aier.ardemo.network.URLConstant;
 import com.aier.ardemo.network.request.Request;
 import com.aier.ardemo.network.schedulers.BaseSchedulerProvider;
-import com.aier.ardemo.ui.contract.BaiduVoiceContract;
+import com.aier.ardemo.ui.contract.YubaiContract;
 import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,16 +12,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BaiduVoicePresenter implements BaiduVoiceContract.Persenter{
+public class YubaiPresenter implements YubaiContract.Persenter{
 
-    private BaiduVoiceContract.View view;
+    private YubaiContract.View view;
 
     private BaseSchedulerProvider schedulerProvider;
 
     private CompositeDisposable mDisposable;
 
-    public BaiduVoicePresenter(BaiduVoiceContract.View view,
-                               BaseSchedulerProvider schedulerProvider) {
+    public YubaiPresenter(YubaiContract.View view,
+                          BaseSchedulerProvider schedulerProvider) {
         this.view = view;
         this.schedulerProvider = schedulerProvider;
         mDisposable = new CompositeDisposable();

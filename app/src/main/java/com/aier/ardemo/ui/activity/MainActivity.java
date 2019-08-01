@@ -39,7 +39,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
     private Fragment mCurrentFrag;
     private FragmentManager fm;
-    private Fragment weatherFragment;
+    private Fragment firstFragment;
     private Fragment myFragment;
 
     @Override
@@ -55,9 +55,9 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
         fm = getSupportFragmentManager();
-        weatherFragment = new FirstFragment();
+        firstFragment = new FirstFragment();
         myFragment = new MyFragment();
-        switchContent(weatherFragment);
+        switchContent(firstFragment);
         bottomView.setBottomCallBack(this);
 
         DisplayMetrics dm = getResources().getDisplayMetrics();
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     }
 
     @Override
-    protected void initDate(Bundle savedInstanceState) {
+    protected void initDate() {
         DuMixARConfig.setAppId("16021623"); // 设置App Id
         DuMixARConfig.setAPIKey("ZI0SDxDIWvtMnHvs2scKXC2x"); // 设置API Key
         DuMixARConfig.setSecretKey("ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk");    // 设置Secret Key
@@ -106,9 +106,6 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     }
 
     public void goToVRVideoActivity(){
-//        Intent intent = new Intent(this, VRActivity.class);
-//        startActivity(intent);
-
        boolean isInStall = CheckAppInstalledUtil.isInstalled(mContext,"com.panoeye.peplayer");
          if(isInStall){
              Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -127,25 +124,22 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
 
     public void goToWebActivity(String url,String title){
-        Intent intent1 = new Intent(this, WebActivity.class);
-        intent1.putExtra("codedContent", url);
-        intent1.putExtra("title", title);
-        intent1.putExtra("type", 3);
-        startActivity(intent1);
+        WebActivity.startToWebAc(this,title,url,3);
     }
 
     @Override
     public void setTabCallBack(int num) {
         switch (num){
             case 1:
-                switchContent(weatherFragment);
+                switchContent(firstFragment);
                 break;
             case 2:
                 switchContent(myFragment);
                 break;
             case 3:
+             //   switchContent(arListFragment);
                 if(NetUtil.isConnected(mContext)){
-                    startActiviys(BaiduVoiceActivity.class);
+                    startActiviys(YubaiActivity.class);
                 }else {
                     toastLong("网路无法连接请检查网路！");
                 }
@@ -181,12 +175,8 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
             if(result.getContents() == null) {
                // toastLong("没有扫描到结果！");
             } else {
-                Intent intent = new Intent(this, WebActivity.class);
-                intent.putExtra("title", "南康智能家具产业联盟防伪系统");
-                intent.putExtra("codedContent",result.getContents());
-                intent.putExtra("type", 1);
-                startActivity(intent);
-                Log.i("sss",result.getContents());
+                WebActivity.startToWebAc(this,"南康智能家具产业联盟防伪系统",result.getContents(),1);
+
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

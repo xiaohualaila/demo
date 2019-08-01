@@ -34,12 +34,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         mContext = this;
         mUnbinder=ButterKnife.bind(this);
 
-        initDate(savedInstanceState);
+        initDate();
         initViews();
     }
 
 
-    protected abstract void initDate(Bundle savedInstanceState);
+    /**
+     * 初始化数据，调用位置在 initViews 之前
+     */
+    protected void initDate() {
+    }
+
 
     protected abstract void initViews();
 

@@ -13,11 +13,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.aier.ardemo.R;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
-
 import butterknife.OnClick;
 
 public class ScanActivity extends AppCompatActivity {
@@ -25,8 +23,6 @@ public class ScanActivity extends AppCompatActivity {
     private ImageButton buttonLed;
     private DecoratedBarcodeView barcodeScannerView;
     private boolean bTorch = false;
-
-
 
     private TextView tv_title,tv_nfc;
     private ImageView iv_back;
@@ -57,16 +53,13 @@ public class ScanActivity extends AppCompatActivity {
         });
 
         /*开关闪光灯*/
-        buttonLed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(bTorch){
-                    barcodeScannerView.setTorchOff();
-                } else {
-                    barcodeScannerView.setTorchOn();
-                }
-
+        buttonLed.setOnClickListener(v -> {
+            if(bTorch){
+                barcodeScannerView.setTorchOff();
+            } else {
+                barcodeScannerView.setTorchOn();
             }
+
         });
 
         capture = new CaptureManager(this, barcodeScannerView);
@@ -79,21 +72,13 @@ public class ScanActivity extends AppCompatActivity {
         mPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()), 0);
         tv_title =findViewById(R.id.tv_title);
         tv_title.setText("扫描二维码");
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        iv_back.setOnClickListener(v -> finish());
+        tv_nfc.setOnClickListener(v -> {
+            if (!ifNFCUse()) {
+                return;
+            }else {
+                startActivity(new Intent(ScanActivity.this, NfcActivity.class));
                 finish();
-            }
-        });
-        tv_nfc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!ifNFCUse()) {
-                    return;
-                }else {
-                    startActivity(new Intent(ScanActivity.this, NfcActivity.class));
-                    finish();
-                }
             }
         });
     }

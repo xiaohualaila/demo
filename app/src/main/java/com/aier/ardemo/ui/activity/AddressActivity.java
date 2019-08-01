@@ -2,7 +2,6 @@ package com.aier.ardemo.ui.activity;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -22,18 +20,16 @@ public class AddressActivity extends BaseActivity {
     EditText et_add;
     @Override
     protected void initViews() {
-        tv_title.setText("收货地址");
-    }
-
-    @Override
-    protected void initDate(Bundle savedInstanceState) {
         String addr =SharedPreferencesUtil.getString(this,"addr","");
         if(TextUtils.isEmpty(addr)){
             et_add.setText("江西省赣州市南康区家具小镇");
         }else {
             et_add.setText(addr);
         }
+        tv_title.setText("收货地址");
     }
+
+
 
     @Override
     protected int getLayout() {

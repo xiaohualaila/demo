@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/bdar_id_fragment_container"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-
-    <android.opengl.GLSurfaceView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bdar_id_fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.opengl.GLSurfaceView
             android:id="@+id/bdar_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    <com.aier.ardemo.ui.Prompt
+        <com.aier.ardemo.ui.Prompt
             android:id="@+id/bdar_prompt_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-    </com.aier.ardemo.ui.Prompt>
-</FrameLayout>
+        </com.aier.ardemo.ui.Prompt>
+
+    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_order"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/rv"
+        android:layout_marginBottom="120dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/ac_bottom_vtn"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="订 购"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
+

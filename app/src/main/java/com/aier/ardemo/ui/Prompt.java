@@ -1,25 +1,17 @@
-/*
- * Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
- */
+
 package com.aier.ardemo.ui;
 
 import java.util.HashMap;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.aier.ardemo.callback.PromptCallback;
-import com.aier.ardemo.dialog.DialogSelectFragment;
 import com.aier.ardemo.module.Module;
 import com.aier.ardemo.module.PaddleController;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.aier.ardemo.arview.LoadingView;
 import com.aier.ardemo.arview.PointsView;
-import com.aier.ardemo.weight.ArBottomBtn;
-import com.aier.ardemo.weight.TabLayoutView;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixCallback;
-import com.baidu.ar.DuMixSource;
 import com.baidu.ar.base.MsgField;
 import com.baidu.ar.base.RequestController;
 import com.baidu.ar.bean.ARResource;
@@ -31,11 +23,8 @@ import com.baidu.ar.speech.SpeechStatus;
 import com.baidu.ar.speech.listener.SpeechRecogListener;
 import com.baidu.ar.util.Res;
 import com.baidu.ar.util.UiThreadUtil;
-
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,13 +38,13 @@ import android.widget.Toast;
  * Created by xiegaoxi on 2018/5/10.
  */
 
-public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback, TabLayoutView.TabCallBack ,ArBottomBtn.ARBottomCallBack{
+public class Prompt extends RelativeLayout implements View.OnClickListener, DuMixCallback {
 
     public static final String TAG = "PromptView";
     /**
      * 返回按钮
      */
-    private ImageView mIconBack;
+    private ImageView mIconBack,iv_dian;
 
     private LoadingView lv_loading;
     /**
@@ -73,7 +62,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      */
     private TextView mDumixCallbackTips;
 
-    private ArBottomBtn arBottomBtn;
 
     /**
      * 本地识图云端识图返回的arKey
@@ -83,7 +71,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      * 本地识图云端识图返回的arType
      */
     private int arType;
-
 
     /**
      * 依赖外部Module
@@ -95,8 +82,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      */
     private ARController mARController;
 
-//    private RelativeLayout mPluginContainer;
-
     /**
      * 云点
      */
@@ -107,13 +92,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     // paddle 管理器
     private PaddleController paddleController;
 
-    // 记录当前key&type
-    private DuMixSource mDuMixSource;
-
     private Context mContext;
-    private TabLayoutView tabLayoutView;
-    private ImageView iv_tian,iv_xian,iv_jian,iv_dian;
-    private boolean isVisi = false;
 
     /**
      * 构造函数
@@ -155,35 +134,17 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         mContext  = context;
         mARController = ARControllerManager.getInstance(mContext).getArController();
         LayoutInflater.from(mContext).inflate(R.layout.bdar_layout_prompt, this);
-        // button
         mIconBack = findViewById(R.id.bdar_titlebar_back);
         mIconBack.setOnClickListener(this);
         mDumixCallbackTips = findViewById(R.id.bdar_titlebar_tips);
         mPointsView = findViewById(R.id.bdar_gui_point_view);
-//        mPluginContainer = findViewById(R.id.bdar_id_plugin_container);
-        tabLayoutView = findViewById(R.id.tab_view);
-        tabLayoutView.setBottomCallBack(this);
         iv_dian = findViewById(R.id.iv_dian);
         iv_dian.setOnClickListener(this);
 
         mDuMixCallback = this;
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
-//        mModule.setPluginContainer(mPluginContainer);
         lv_loading = findViewById(R.id.lv_loading);
-        lv_loading.setMsg("正在加载");
-        arBottomBtn = findViewById(R.id.ar_bottom_btn);
-        arBottomBtn.setARBottomCallBack(this);
-
-        iv_tian = findViewById(R.id.iv_tian);
-        iv_xian = findViewById(R.id.iv_xian);
-        iv_jian = findViewById(R.id.iv_jian);
-        iv_tian.setOnClickListener(this);
-        iv_xian.setOnClickListener(this);
-        iv_jian.setOnClickListener(this);
-        UiThreadUtil.runOnUiThread(() -> {
-            lv_loading.setVisibility(VISIBLE);
-        });
     }
 
     public DuMixCallback getDuMixCallback() {
@@ -202,28 +163,8 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                     mPromptCallback.onBackPressed();
                 }
                 break;
-            case R.id.iv_tian:
-              //  mPromptCallback.onSwitchModel(11);
-                showToast();
-                break;
-            case R.id.iv_xian:
-                showToast();
-                break;
-            case R.id.iv_jian:
-                showToast();
-                break;
             case R.id.iv_dian:
-                if(!isVisi){
-                    iv_tian.setVisibility(VISIBLE);
-                    iv_xian.setVisibility(VISIBLE);
-                    iv_jian.setVisibility(VISIBLE);
-                    isVisi =true;
-                }else {
-                    iv_tian.setVisibility(GONE);
-                    iv_xian.setVisibility(GONE);
-                    iv_jian.setVisibility(GONE);
-                    isVisi =false;
-                }
+                mPromptCallback.onSwitchModel(11);
                 break;
         }
     }
@@ -243,8 +184,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         switch (state) {
             case MsgField.MSG_AUTH_FAIL:
                 UiThreadUtil.runOnUiThread(() -> {
-                    Toast.makeText(mContext, getContext().getText(R.string.auth_fail), Toast.LENGTH_SHORT)
-                            .show();
+                    Toast.makeText(mContext, getContext().getText(R.string.auth_fail), Toast.LENGTH_SHORT).show();
                     if (mPromptCallback != null) {
                         mPromptCallback.onBackPressed();
                     }
@@ -383,8 +323,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
 
             case MsgField.IMSG_TRACKED_TARGET_BITMAP_RES:
                 break;
-
-
 
             case MsgField.MSG_ID_TRACK_MSG_ID_TRACK_LOST:
                 break;
@@ -526,14 +464,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         }
     };
 
-    public void setCornerPoint(final CornerPoint[] cornerPoints) {
-        UiThreadUtil.runOnUiThread(() -> {
-            mPointsView.setNrCornerAndCornersData(cornerPoints, mScaleWidth, mScaleHeight);
-            mPointsView.invalidate();
-        });
-    }
-
-
     public void setPointViewVisible(final boolean visible) {
         UiThreadUtil.runOnUiThread(() -> {
             mPointsView.clear();
@@ -541,17 +471,10 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         });
     }
 
-    public void setDuMixSource(DuMixSource duMixSource) {
-        mDuMixSource = duMixSource;
-    }
-
-
-    @Override
-    public void setCallBack(int num) {
+    public void setLoadVisible() {
         UiThreadUtil.runOnUiThread(() -> {
         lv_loading.setVisibility(VISIBLE);
         });
-        mPromptCallback.onSwitchModel(num);
     }
 }
 

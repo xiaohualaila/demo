@@ -27,11 +27,6 @@ public class PaySuccessActivity extends BaseActivity {
     }
 
     @Override
-    protected void initDate(Bundle savedInstanceState) {
-
-    }
-
-    @Override
     protected int getLayout() {
         return R.layout.activity_pay;
     }

@@ -3,7 +3,6 @@ package com.aier.ardemo.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +42,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
     private OrderPresenter presenter;
 
     @Override
-    protected void initDate(Bundle savedInstanceState) {
+    protected void initDate() {
         presenter = new OrderPresenter(new OrderModel(),this, SchedulerProvider.getInstance());
         person = GloData.getPerson();
         Bundle bundle = getIntent().getExtras();
@@ -56,16 +55,17 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
             pro_id = bundle.getString("pro_id", "");
             pro_num = bundle.getInt("pro_num");
         }
+
+    }
+
+    @Override
+    protected void initViews() {
         String address = SharedPreferencesUtil.getString(this, "addr", "");
         if (!TextUtils.isEmpty(address)) {
             addr.setText(address);
         } else {
             addr.setText("");
         }
-    }
-
-    @Override
-    protected void initViews() {
         if (!TextUtils.isEmpty(person.getUsername())) {
             name.setText(person.getUsername());
         } else {

@@ -24,8 +24,8 @@ import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.bean.YUBAIBean;
 import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
-import com.aier.ardemo.ui.contract.BaiduVoiceContract;
-import com.aier.ardemo.ui.presenter.BaiduVoicePresenter;
+import com.aier.ardemo.ui.contract.YubaiContract;
+import com.aier.ardemo.ui.presenter.YubaiPresenter;
 import com.baidu.speech.EventListener;
 import com.baidu.speech.EventManager;
 import com.baidu.speech.EventManagerFactory;
@@ -45,9 +45,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class BaiduVoiceActivity extends BaseActivity implements EventListener ,ChatAdapter.ClickImage, BaiduVoiceContract.View {
+public class YubaiActivity extends BaseActivity implements EventListener ,ChatAdapter.ClickImage, YubaiContract.View {
 
-    private static final String TAG = "BaiduVoiceActivity";
+    private static final String TAG = "YubaiActivity";
 
     @BindView(R.id.btnStartRecord)
     TextView btnStartRecord;
@@ -76,10 +76,10 @@ public class BaiduVoiceActivity extends BaseActivity implements EventListener ,C
     protected String secretKey = "ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk";//secretKey
     private SpeechSynthesizer synthesizer;//语音合成对象
     private MediaPlayer mediaPlayer;
-    private BaiduVoicePresenter presenter;
+    private YubaiPresenter presenter;
     @Override
-    protected void initDate(Bundle savedInstanceState) {
-        presenter = new BaiduVoicePresenter(this, SchedulerProvider.getInstance());
+    protected void initDate() {
+        presenter = new YubaiPresenter(this, SchedulerProvider.getInstance());
         tv_title.setText("智能语音助手");
         person = GloData.getPerson();
         list = getData();

@@ -55,7 +55,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     TextView numProBar;
     String path;
     @Override
-    protected void initDate(Bundle savedInstanceState) {
+    protected void initDate() {
         Timer time = new Timer();
         TimerTask tk = new TimerTask() {
             @Override

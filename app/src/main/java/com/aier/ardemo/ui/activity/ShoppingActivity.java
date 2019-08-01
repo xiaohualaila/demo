@@ -1,5 +1,6 @@
 package com.aier.ardemo.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -39,7 +40,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     private int pro_num;
 
     @Override
-    protected void initDate(Bundle savedInstanceState) {
+    protected void initDate() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
@@ -130,5 +131,13 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
         pro_num = num;
         Log.i("sss","amount" + amount + "num" +num);
         tv_sum.setText("￥"+amount);
+    }
+
+    public static final void starShoppingAc(Context context,String ar_key){
+        Intent intent = new Intent(context, ShoppingActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("ar_key", ar_key);
+        intent.putExtras(bundle);
+        context.startActivity(intent);
     }
 }

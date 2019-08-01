@@ -1,7 +1,6 @@
 package com.aier.ardemo.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import com.aier.ardemo.R;
@@ -49,7 +48,7 @@ public class ImageActivity extends BaseActivity {
     }
 
     @Override
-    protected void initDate(Bundle savedInstanceState) {
+    protected void initDate() {
         Intent intent = getIntent();
         urlString =intent.getStringExtra("photoUrl");
     }

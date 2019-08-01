@@ -1,6 +1,5 @@
 package com.aier.ardemo.ui.activity;
 
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -20,11 +19,6 @@ public class GuidanceActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
-
-    }
-
-    @Override
-    protected void initDate(Bundle savedInstanceState) {
         viewpager.setAdapter(new SamplePagerAdapter());
         indicator.setViewPager(viewpager);
 
@@ -39,6 +33,7 @@ public class GuidanceActivity extends BaseActivity {
             }
         };
     }
+
 
     @Override
     protected int getLayout() {
