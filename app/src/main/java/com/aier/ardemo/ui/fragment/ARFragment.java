@@ -121,8 +121,6 @@ public class ARFragment extends Fragment implements ArContract.View {
     List<ArBean> list = new ArrayList();
 
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -291,7 +289,7 @@ public class ARFragment extends Fragment implements ArContract.View {
         mRecyclerView = mRootView.findViewById(R.id.rv);
         tv_order = mRootView.findViewById(R.id.tv_order);
         tv_order.setOnClickListener(v -> {
-            ShoppingActivity.starShoppingAc(arActivity,current_produce);
+            ShoppingActivity.starShoppingAc(arActivity, current_produce);
             arActivity.finish();
         });
     }
@@ -406,15 +404,15 @@ public class ARFragment extends Fragment implements ArContract.View {
 
         @Override
         public void onSwitchModel(int num) {
-               if (num == 11) {
-                    if (index == 1) {
-                        mRecyclerView.setVisibility(View.VISIBLE);
-                        index = 2;
-                    } else if (index == 2) {
-                        mRecyclerView.setVisibility(View.GONE);
-                        index = 1;
-                    }
-               }
+            if (num == 11) {
+                if (index == 1) {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    index = 2;
+                } else if (index == 2) {
+                    mRecyclerView.setVisibility(View.GONE);
+                    index = 1;
+                }
+            }
         }
 
         @Override
