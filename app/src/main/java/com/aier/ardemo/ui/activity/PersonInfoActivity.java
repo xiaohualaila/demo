@@ -244,18 +244,20 @@ public class PersonInfoActivity extends BaseActivity implements View.OnClickList
      */
     private void cropPhoto(Uri uri) {
          // 创建File对象，用于存储裁剪后的图片，避免更改原图
-         File file = new File(path, "crop_image.jpg");
+         File filePath  = new File(path);
          try {
-             if (file.exists()) {
-                 file.delete();
-             }else {
-                 file.mkdirs();
+             if (!filePath .exists()) {
+                 filePath.mkdirs();
              }
-            file.createNewFile();
+             File file = new File(path , "crop_image.jpg");
+             if(!file.exists()){
+                 file.createNewFile();
+             }
+             outputUri = Uri.fromFile(file);
          } catch (IOException e) {
              e.printStackTrace();
          }
-     outputUri = Uri.fromFile(file);
+
      Intent intent = new Intent("com.android.camera.action.CROP");
      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
          intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
