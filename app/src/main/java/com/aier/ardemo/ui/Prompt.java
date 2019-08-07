@@ -164,7 +164,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 }
                 break;
             case R.id.iv_dian:
-                mPromptCallback.onSwitchModel(11);
+                mPromptCallback.onShowArRecyclerView();
                 break;
         }
     }

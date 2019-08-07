@@ -2,7 +2,6 @@ package com.aier.ardemo.bean;
 
 
 public class ArBean {
-
     private String arKey;
     private String arName;
     private String arProduceType;//产品类型是椅子还是婴儿车

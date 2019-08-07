@@ -1,9 +1,10 @@
 package com.aier.ardemo.ui.contract;
-import com.aier.ardemo.bean.ResultBean;
-import com.aier.ardemo.network.response.Response;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 
 /**
@@ -13,15 +14,16 @@ import okhttp3.RequestBody;
 public class ArContract {
 
     public interface Persenter {
-
+         void getArListData();
     }
 
     public interface View {
-
+        void backArList(List list);
+        void backDataFail(String error);
     }
 
     public interface Model {
-         Observable<Response<ResultBean>> getArListData(RequestBody body);
+         Observable<ResponseBody> getArListData(RequestBody body);
     }
 
 }

@@ -1,22 +1,25 @@
 package com.aier.ardemo.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.ArBean;
-
+import com.aier.ardemo.utils.ImageUtils;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder> {
     private List<ArBean> list;
+    private Context mContext;
 
-    public ArListAdapter(List<ArBean> list) {
-        this.list = list;
+    public ArListAdapter(Context context,List<ArBean> list) {
+        this.list = list == null ? new ArrayList<>():list;
+        this.mContext = context;
     }
     private OnItemClickListener onItemClickListener;
 
@@ -34,13 +37,27 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ArListAdapter.ViewHolder holder, int position) {
         ArBean arModel = list.get(position);
-        holder.item_img.setImageResource(R.drawable.tian_pic);
-        holder.item_title.setText(arModel.getArName());
-        holder.itemView.setOnClickListener(v -> {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(position);
-            }
-        });
+        String img_url =arModel.getUrl();
+        if(arModel.getArKey().equals("")){
+//            if(!img_url.isEmpty()){
+//                ImageUtils.image(mContext,img_url,holder.item_img);
+//            }
+            holder.item_img.setImageResource(R.drawable.tian_pic);
+        }else {
+            holder.item_img.setImageResource(R.drawable.tian_pic);
+            holder.item_title.setText(arModel.getArName());
+            holder.itemView.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(list.get(position).getArKey());
+                }
+            });
+        }
+    }
+
+    public void setListData(List<ArBean> mData){
+        list.clear();
+        this.list = mData;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -61,7 +78,7 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
 
     //回调接口
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(String position);
     }
 
 }

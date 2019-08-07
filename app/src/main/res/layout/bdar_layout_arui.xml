@@ -39,10 +39,10 @@
         android:text="订 购"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
-        android:background="@color/white"
+        android:background="@drawable/ar_list_bg"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="300dp"/>
 </RelativeLayout>
 

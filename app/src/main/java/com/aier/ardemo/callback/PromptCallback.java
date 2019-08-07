@@ -20,7 +20,7 @@ public interface PromptCallback {
 
     void onStartOrderAc();
 
-    void onSwitchModel(int num);
+    void onShowArRecyclerView();
     /**
      * 退出ar
      */

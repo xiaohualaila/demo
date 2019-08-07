@@ -38,4 +38,7 @@ public interface Request {
     Observable<Response<OrderResultBean>> getDataForBody(@Body RequestBody body);//首页文章列表
 
 
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("nkcleartext")
+    Observable<ResponseBody> getArListData(@Body RequestBody body);//ar模型列表
 }

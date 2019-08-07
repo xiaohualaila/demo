@@ -1,16 +1,9 @@
-/*
- * Copyright (C) 2018 Baidu, Inc. All Rights Reserved.
- */
-package com.aier.ardemo.ui.fragment;
 
+package com.aier.ardemo.ui.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import com.aier.ardemo.adapter.ArListAdapter;
-import com.aier.ardemo.adapter.ProduceAdapter;
-import com.aier.ardemo.bean.ArBean;
-import com.aier.ardemo.bean.Produces;
 import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
@@ -18,6 +11,7 @@ import com.aier.ardemo.ui.activity.ShoppingActivity;
 import com.aier.ardemo.ui.contract.ArContract;
 import com.aier.ardemo.ui.model.ArModel;
 import com.aier.ardemo.ui.presenter.ArPresenter;
+import com.aier.ardemo.utils.ToastyUtil;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
@@ -34,7 +28,6 @@ import com.aier.ardemo.ui.Prompt;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -47,16 +40,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ARFragment extends Fragment implements ArContract.View {
 
@@ -112,14 +103,9 @@ public class ARFragment extends Fragment implements ArContract.View {
     private int mArTpye;
     private String mArFile;
     private ARActivity arActivity;
-
-    private String current_produce;
-    private int index = 1;
-
+    private String current_produce ="";
     private ArPresenter presenter;
     ArListAdapter mAdapter;
-    List<ArBean> list = new ArrayList();
-
 
     @Override
     public void onAttach(Context context) {
@@ -165,9 +151,9 @@ public class ARFragment extends Fragment implements ArContract.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        presenter = new ArPresenter(new ArModel(), this, SchedulerProvider.getInstance());
-        getDataOrder();
         initRecycView();
+        presenter = new ArPresenter(new ArModel(), this, SchedulerProvider.getInstance());
+        presenter.getArListData();
     }
 
     @Override
@@ -283,6 +269,7 @@ public class ARFragment extends Fragment implements ArContract.View {
         mArGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
         mPromptUi = mRootView.findViewById(R.id.bdar_prompt_view);
+        mPromptUi.setOnClickListener(v -> mRecyclerView.setVisibility(View.GONE));
         mPromptUi.setPromptCallback(promptCallback);
         mFragmentContainer.addView(mRootView);
 
@@ -304,7 +291,6 @@ public class ARFragment extends Fragment implements ArContract.View {
                 if (mARController == null) {
                     showArView();
                 }
-
             }
         });
     }
@@ -325,7 +311,6 @@ public class ARFragment extends Fragment implements ArContract.View {
                 mARController.onCameraPreviewFrame(data, width, height);
             }
         });
-
         setARRead();
     }
 
@@ -358,7 +343,6 @@ public class ARFragment extends Fragment implements ArContract.View {
 
                 if (mARController != null) {
                     mARController.setup(mDuMixSource, mDuMixTarget, mPromptUi.getDuMixCallback());
-                    // todo update 需要封装此函数
                     mARController.resume();
                 }
             }
@@ -403,16 +387,8 @@ public class ARFragment extends Fragment implements ArContract.View {
         }
 
         @Override
-        public void onSwitchModel(int num) {
-            if (num == 11) {
-                if (index == 1) {
-                    mRecyclerView.setVisibility(View.VISIBLE);
-                    index = 2;
-                } else if (index == 2) {
-                    mRecyclerView.setVisibility(View.GONE);
-                    index = 1;
-                }
-            }
+        public void onShowArRecyclerView() {
+            mRecyclerView.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -438,29 +414,31 @@ public class ARFragment extends Fragment implements ArContract.View {
     };
 
     private void initRecycView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(arActivity, LinearLayoutManager.HORIZONTAL, false));
-        mAdapter = new ArListAdapter(list);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false));
+        mAdapter = new ArListAdapter(arActivity,null);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(position -> {
+        mAdapter.setOnItemClickListener(arKey -> {
             if (mARController != null) {
-                ArBean ar = list.get(position);
-                if (current_produce != ar.getArKey()) {
-                    mARController.switchCase(ar.getArKey(), 5);
-                    current_produce = ar.getArKey();
+                if (current_produce != arKey) {
+                    mARController.switchCase(arKey, 5);
+                    current_produce = arKey;
                     mPromptUi.setLoadVisible();
                     tv_order.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
                 }
             }
         });
     }
 
 
-    private void getDataOrder() {
-        list.add(new ArBean("10302581", "红橡木"));
-        list.add(new ArBean("10302537", "黑胡桃"));
-        list.add(new ArBean("10302518", "白腊木"));
-        list.add(new ArBean("10307873", "婴儿车"));
+    @Override
+    public void backArList(List mData) {
+        mAdapter.setListData(mData);
     }
 
+    @Override
+    public void backDataFail(String error) {
+        ToastyUtil.INSTANCE.showError(error);
+    }
 }

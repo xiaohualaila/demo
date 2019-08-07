@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/dp10">
+    android:orientation="vertical">
 
     <com.aier.ardemo.weight.CircleImageView
         android:id="@+id/item_img"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/tian_pic" />
 
@@ -19,6 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:gravity="center" />
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/tab_bg"
+        android:layout_height="1dp"/>
 </LinearLayout>

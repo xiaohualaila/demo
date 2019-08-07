@@ -8,10 +8,6 @@ import io.reactivex.Observable;
 import okhttp3.RequestBody;
 
 
-/**
- * Created by Zaifeng on 2018/3/1.
- */
-
 public class FirstModel implements FirstContract.Model {
 
 
