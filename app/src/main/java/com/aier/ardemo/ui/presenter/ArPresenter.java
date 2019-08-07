@@ -78,16 +78,16 @@ public class ArPresenter implements ArContract.Persenter {
 //        }
 
         List list = new ArrayList();
-        list.add(new ArBean("10302581", "红橡木"));
-        list.add(new ArBean("10302537", "黑胡桃"));
-        list.add(new ArBean("10302518", "白腊木"));
-        list.add(new ArBean("10307873", "婴儿车"));
+        list.add(new ArBean("10302581", "红橡木",""));
+        list.add(new ArBean("10302537", "黑胡桃",""));
+        list.add(new ArBean("10302518", "白腊木",""));
+        list.add(new ArBean("10307873", "婴儿车",""));
 
-        list.add(new ArBean("", ""));
-        list.add(new ArBean("", ""));
-        list.add(new ArBean("", ""));
-        list.add(new ArBean("", ""));
-        list.add(new ArBean("", ""));
+        list.add(new ArBean("", "",""));
+        list.add(new ArBean("", "",""));
+        list.add(new ArBean("", "",""));
+        list.add(new ArBean("", "",""));
+        list.add(new ArBean("", "",""));
 
 
         view.backArList(list);

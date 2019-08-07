@@ -7,9 +7,10 @@ public class ArBean {
     private String arProduceType;//产品类型是椅子还是婴儿车
     private String url;
 
-    public ArBean(String arKey,String arName) {
+    public ArBean(String arKey,String arName,String url) {
         this.arKey = arKey;
         this.arName = arName;
+        this.url = url;
     }
 
     public ArBean(String arKey, String arName, String arProduceType, String url) {

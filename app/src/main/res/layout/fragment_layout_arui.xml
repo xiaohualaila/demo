@@ -37,12 +37,20 @@
         android:gravity="center"
         android:visibility="gone"
         android:text="订 购"/>
+    <ImageView
+        android:id="@+id/show_recycview"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/btn_ar_list"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
-        android:background="@drawable/ar_list_bg"
+        android:background="@color/ar_list_bg"
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+        android:layout_height="340dp"/>
 </RelativeLayout>
 

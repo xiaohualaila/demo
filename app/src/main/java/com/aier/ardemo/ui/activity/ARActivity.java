@@ -7,19 +7,19 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import com.aier.ardemo.dialog.DialogSelectFragment;
 import com.aier.ardemo.ui.fragment.ARFragment;
 import com.aier.ardemo.R;
+import com.aier.ardemo.utils.AndroidWorkaround;
+import com.aier.ardemo.utils.StatusBarUtil;
 
 public class ARActivity extends FragmentActivity {
 
     private ARFragment mARFragment;
 
-    private DialogSelectFragment dialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        StatusBarUtil.INSTANCE.setTranslucent(this);
         setContentView(R.layout.activity_ar);
 
         if (findViewById(R.id.bdar_id_fragment_container) != null) {
@@ -32,24 +32,11 @@ public class ARActivity extends FragmentActivity {
             fragmentTransaction.replace(R.id.bdar_id_fragment_container, mARFragment);
             fragmentTransaction.commitAllowingStateLoss();
         }
-
-
+        // 底部导航栏适配
+        if (AndroidWorkaround.Companion.checkDeviceHasNavigationBar(this)) {
+            AndroidWorkaround.Companion.assistActivity(findViewById(android.R.id.content));
+        }
     }
-
-    private int type = 1;
-    private int age = 1;
-    public void showDialog(){
-        dialog = DialogSelectFragment.getInstance(type,age);
-        dialog.show(getSupportFragmentManager(), new DialogSelectFragment.OnDialogButtonClickListener() {
-            @Override
-            public void buttonClick(int type, int age) {
-                type = type;
-                age = age;
-                dialog.dismiss();
-            }
-        });
-    }
-
 
     @Override
     public void onBackPressed() {

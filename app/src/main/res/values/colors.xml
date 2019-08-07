@@ -50,6 +50,6 @@
 
     <color name="bg">#eeeff3</color>
     <color name="divider">#e8e8e8</color>
-
+    <color name="ar_list_bg">#30ffffff</color>
     <color name="blue">#2F98E9</color>
 </resources>

@@ -18,7 +18,6 @@ import com.baidu.ar.bean.ARResource;
 import com.baidu.ar.bean.BrowserBean;
 import com.baidu.ar.bean.TrackRes;
 import com.aier.ardemo.R;
-import com.baidu.ar.recg.CornerPoint;
 import com.baidu.ar.speech.SpeechStatus;
 import com.baidu.ar.speech.listener.SpeechRecogListener;
 import com.baidu.ar.util.Res;
@@ -44,7 +43,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     /**
      * 返回按钮
      */
-    private ImageView mIconBack,iv_dian;
+    private ImageView mIconBack;
 
     private LoadingView lv_loading;
     /**
@@ -133,14 +132,11 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private void init(Context context) {
         mContext  = context;
         mARController = ARControllerManager.getInstance(mContext).getArController();
-        LayoutInflater.from(mContext).inflate(R.layout.bdar_layout_prompt, this);
+        LayoutInflater.from(mContext).inflate(R.layout.layout_prompt, this);
         mIconBack = findViewById(R.id.bdar_titlebar_back);
         mIconBack.setOnClickListener(this);
         mDumixCallbackTips = findViewById(R.id.bdar_titlebar_tips);
         mPointsView = findViewById(R.id.bdar_gui_point_view);
-        iv_dian = findViewById(R.id.iv_dian);
-        iv_dian.setOnClickListener(this);
-
         mDuMixCallback = this;
         mModule = new Module(mContext, mARController);
         mModule.setSpeechRecogListener(speechRecogListener);
@@ -162,9 +158,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 if (mPromptCallback != null) {
                     mPromptCallback.onBackPressed();
                 }
-                break;
-            case R.id.iv_dian:
-                mPromptCallback.onShowArRecyclerView();
                 break;
         }
     }
@@ -447,9 +440,6 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
      */
     private void showToast(final String s) {
         UiThreadUtil.runOnUiThread(() -> mDumixCallbackTips.setText(s));
-    }
-    private void showToast() {
-        UiThreadUtil.runOnUiThread(() -> Toast.makeText(mContext,"功能正在开发当中", Toast.LENGTH_SHORT).show());
     }
 
     SpeechRecogListener speechRecogListener = new SpeechRecogListener() {

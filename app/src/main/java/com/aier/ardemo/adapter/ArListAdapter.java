@@ -38,20 +38,22 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
     public void onBindViewHolder(ArListAdapter.ViewHolder holder, int position) {
         ArBean arModel = list.get(position);
         String img_url =arModel.getUrl();
-        if(arModel.getArKey().equals("")){
-//            if(!img_url.isEmpty()){
-//                ImageUtils.image(mContext,img_url,holder.item_img);
-//            }
-            holder.item_img.setImageResource(R.drawable.tian_pic);
-        }else {
-            holder.item_img.setImageResource(R.drawable.tian_pic);
+
+            if(!img_url.isEmpty()){
+               // ImageUtils.image(mContext,img_url,holder.item_img);
+                holder.item_img.setImageResource(R.drawable.tian_pic);
+            }else {
+                holder.item_img.setImageResource(R.drawable.no_ar);
+            }
+
+
             holder.item_title.setText(arModel.getArName());
             holder.itemView.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(list.get(position).getArKey());
                 }
             });
-        }
+
     }
 
     public void setListData(List<ArBean> mData){

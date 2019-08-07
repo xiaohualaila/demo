@@ -20,7 +20,6 @@ public interface PromptCallback {
 
     void onStartOrderAc();
 
-    void onShowArRecyclerView();
     /**
      * 退出ar
      */

@@ -1,8 +1,10 @@
 
 package com.aier.ardemo.ui.fragment;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import com.aier.ardemo.adapter.ArListAdapter;
 import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.ARActivity;
@@ -28,6 +30,7 @@ import com.aier.ardemo.ui.Prompt;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +50,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ARFragment extends Fragment implements ArContract.View {
@@ -62,6 +66,7 @@ public class ARFragment extends Fragment implements ArContract.View {
     private GLSurfaceView mArGLSurfaceView;
     private RecyclerView mRecyclerView;
     private TextView tv_order;
+    private ImageView show_recycview;
     /**
      * Prompt View 提示层View
      */
@@ -103,7 +108,7 @@ public class ARFragment extends Fragment implements ArContract.View {
     private int mArTpye;
     private String mArFile;
     private ARActivity arActivity;
-    private String current_produce ="";
+    private String current_produce = "";
     private ArPresenter presenter;
     ArListAdapter mAdapter;
 
@@ -256,7 +261,7 @@ public class ARFragment extends Fragment implements ArContract.View {
 
     private void setupViews() {
 
-        mRootView = getActivity().getLayoutInflater().inflate(R.layout.bdar_layout_arui, null);
+        mRootView = getActivity().getLayoutInflater().inflate(R.layout.fragment_layout_arui, null);
 
         mArGLSurfaceView = mRootView.findViewById(R.id.bdar_view);
         mArGLSurfaceView.setEGLContextClientVersion(2);
@@ -269,7 +274,6 @@ public class ARFragment extends Fragment implements ArContract.View {
         mArGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
 
         mPromptUi = mRootView.findViewById(R.id.bdar_prompt_view);
-        mPromptUi.setOnClickListener(v -> mRecyclerView.setVisibility(View.GONE));
         mPromptUi.setPromptCallback(promptCallback);
         mFragmentContainer.addView(mRootView);
 
@@ -278,6 +282,13 @@ public class ARFragment extends Fragment implements ArContract.View {
         tv_order.setOnClickListener(v -> {
             ShoppingActivity.starShoppingAc(arActivity, current_produce);
             arActivity.finish();
+        });
+
+        show_recycview = mRootView.findViewById(R.id.show_recycview);
+        show_recycview.setOnClickListener(v -> {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            show_recycview.setVisibility(View.GONE);
+
         });
     }
 
@@ -386,10 +397,6 @@ public class ARFragment extends Fragment implements ArContract.View {
             startActivity(new Intent(arActivity, OrderInfoActivity.class));
         }
 
-        @Override
-        public void onShowArRecyclerView() {
-            mRecyclerView.setVisibility(View.VISIBLE);
-        }
 
         @Override
         public void onBackPressed() {
@@ -415,17 +422,18 @@ public class ARFragment extends Fragment implements ArContract.View {
 
     private void initRecycView() {
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false));
-        mAdapter = new ArListAdapter(arActivity,null);
+        mAdapter = new ArListAdapter(arActivity, null);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(arKey -> {
-            if (mARController != null) {
+            tv_order.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            show_recycview.setVisibility(View.VISIBLE);
+            if (mARController != null && !TextUtils.isEmpty(arKey)) {
                 if (current_produce != arKey) {
                     mARController.switchCase(arKey, 5);
                     current_produce = arKey;
                     mPromptUi.setLoadVisible();
-                    tv_order.setVisibility(View.VISIBLE);
-                    mRecyclerView.setVisibility(View.GONE);
                 }
             }
         });
