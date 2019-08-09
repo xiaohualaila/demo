@@ -7,20 +7,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.aier.ardemo.R;
-import com.aier.ardemo.bean.ArBean;
+import com.aier.ardemo.bean.ArListBean;
 import com.aier.ardemo.utils.ImageUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder> {
-    private List<ArBean> list;
+    private List<ArListBean.DataBean> list;
     private Context mContext;
 
-    public ArListAdapter(Context context,List<ArBean> list) {
-        this.list = list == null ? new ArrayList<>():list;
+    public ArListAdapter(Context context, List<ArListBean.DataBean> list) {
+        this.list = list == null ? new ArrayList<>() : list;
         this.mContext = context;
     }
+
     private OnItemClickListener onItemClickListener;
 
     //setter方法
@@ -31,32 +34,33 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
     @Override
     public ArListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ar_list_item, parent, false);
-        return  new ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ArListAdapter.ViewHolder holder, int position) {
-        ArBean arModel = list.get(position);
-        String img_url =arModel.getUrl();
+        ArListBean.DataBean arModel = list.get(position);
+        String img_url = arModel.getIcon();
+        String ar_name = arModel.getTitle();
+        if(img_url == null||img_url.isEmpty()){
+            holder.item_img.setImageResource(R.drawable.no_ar);
+        }else {
+            ImageUtils.imageCircle(mContext, img_url, holder.item_img);
+        }
 
-            if(!img_url.isEmpty()){
-               // ImageUtils.image(mContext,img_url,holder.item_img);
-                holder.item_img.setImageResource(R.drawable.tian_pic);
-            }else {
-                holder.item_img.setImageResource(R.drawable.no_ar);
+        if(ar_name!=null){
+            holder.item_title.setText(ar_name);
+        }
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(list.get(position).getArkey());
             }
-
-
-            holder.item_title.setText(arModel.getArName());
-            holder.itemView.setOnClickListener(v -> {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(list.get(position).getArKey());
-                }
-            });
+        });
 
     }
 
-    public void setListData(List<ArBean> mData){
+    public void setListData(List<ArListBean.DataBean> mData) {
         list.clear();
         this.list = mData;
         notifyDataSetChanged();
@@ -71,6 +75,7 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView item_img;
         TextView item_title;
+
         ViewHolder(View itemView) {
             super(itemView);
             item_img = itemView.findViewById(R.id.item_img);

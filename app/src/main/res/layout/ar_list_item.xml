@@ -5,12 +5,12 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.aier.ardemo.weight.CircleImageView
+    <ImageView
         android:id="@+id/item_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="15dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp" />
 
     <TextView
         android:id="@+id/item_title"
@@ -19,8 +19,9 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="5dp"
         android:gravity="center" />
+
     <View
         android:layout_width="match_parent"
-        android:background="@color/gray_2"
-        android:layout_height="0.5dp"/>
+        android:layout_height="0.5dp"
+        android:background="@color/gray_2" />
 </LinearLayout>

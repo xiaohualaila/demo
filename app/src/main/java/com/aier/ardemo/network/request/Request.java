@@ -1,5 +1,6 @@
 package com.aier.ardemo.network.request;
 
+import com.aier.ardemo.bean.ArListBean;
 import com.aier.ardemo.bean.OrderResultBean;
 import com.aier.ardemo.bean.ResultBean;
 import com.aier.ardemo.bean.YUBAIBean;
@@ -40,5 +41,5 @@ public interface Request {
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")
-    Observable<ResponseBody> getArListData(@Body RequestBody body);//ar模型列表
+    Observable<Response<ArListBean>> getArListData(@Body RequestBody body);//ar模型列表
 }

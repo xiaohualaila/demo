@@ -1,5 +1,8 @@
 package com.aier.ardemo.ui.contract;
 
+import com.aier.ardemo.bean.ArListBean;
+import com.aier.ardemo.network.response.Response;
+
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -23,7 +26,7 @@ public class ArContract {
     }
 
     public interface Model {
-         Observable<ResponseBody> getArListData(RequestBody body);
+         Observable<Response<ArListBean>> getArListData(RequestBody body);
     }
 
 }

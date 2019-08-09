@@ -66,7 +66,7 @@ public class ARFragment extends Fragment implements ArContract.View {
     private GLSurfaceView mArGLSurfaceView;
     private RecyclerView mRecyclerView;
     private TextView tv_order;
-    private ImageView show_recycview;
+    private ImageView btn_show_recycview;
     /**
      * Prompt View 提示层View
      */
@@ -284,11 +284,11 @@ public class ARFragment extends Fragment implements ArContract.View {
             arActivity.finish();
         });
 
-        show_recycview = mRootView.findViewById(R.id.show_recycview);
-        show_recycview.setOnClickListener(v -> {
+        btn_show_recycview = mRootView.findViewById(R.id.btn_show_recycview);
+        btn_show_recycview.setOnClickListener(v -> {
             mRecyclerView.setVisibility(View.VISIBLE);
-            show_recycview.setVisibility(View.GONE);
-
+            btn_show_recycview.setVisibility(View.GONE);
+            tv_order.setVisibility(View.GONE);
         });
     }
 
@@ -428,7 +428,7 @@ public class ARFragment extends Fragment implements ArContract.View {
         mAdapter.setOnItemClickListener(arKey -> {
             tv_order.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
-            show_recycview.setVisibility(View.VISIBLE);
+            btn_show_recycview.setVisibility(View.VISIBLE);
             if (mARController != null && !TextUtils.isEmpty(arKey)) {
                 if (current_produce != arKey) {
                     mARController.switchCase(arKey, 5);

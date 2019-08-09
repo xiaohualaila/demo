@@ -38,7 +38,7 @@
         android:visibility="gone"
         android:text="订 购"/>
     <ImageView
-        android:id="@+id/show_recycview"
+        android:id="@+id/btn_show_recycview"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
@@ -51,6 +51,6 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="340dp"/>
+        android:layout_height="wrap_content"/>
 </RelativeLayout>
 
