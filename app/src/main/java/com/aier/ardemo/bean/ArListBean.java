@@ -46,6 +46,15 @@ public class ArListBean {
             private String arkey;
             private String updatetime;
 
+            public DataBean() {
+            }
+
+            public DataBean(String title, String icon, String arkey) {
+                this.title = title;
+                this.icon = icon;
+                this.arkey = arkey;
+            }
+
             public int getGid() {
                 return gid;
             }

@@ -10,8 +10,10 @@ import com.aier.ardemo.module.PaddleController;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.aier.ardemo.arview.LoadingView;
 import com.aier.ardemo.arview.PointsView;
+import com.aier.ardemo.utils.ToastyUtil;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixCallback;
+import com.baidu.ar.DuMixSource;
 import com.baidu.ar.base.MsgField;
 import com.baidu.ar.base.RequestController;
 import com.baidu.ar.bean.ARResource;
@@ -92,6 +94,10 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
     private PaddleController paddleController;
 
     private Context mContext;
+
+    // 记录当前key&type
+    private DuMixSource mDuMixSource;
+    private boolean isFirst = true;
 
     /**
      * 构造函数
@@ -199,7 +205,18 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                     lv_loading.setVisibility(GONE);
                 });
                 break;
+            case MsgField.MSG_ON_QUERY_RESOURCE_ERROR_SERVER:
+//                  showToast("网络不给力，请稍后重试");
+                if(isFirst){
+                    isFirst =false;
+                }else {
+                    ToastyUtil.INSTANCE.showError("模型加载失败！");
+                    UiThreadUtil.runOnUiThread(() -> {
+                        lv_loading.setVisibility(GONE);
+                    });
+                }
 
+                break;
             // 解压zip失败
             case MsgField.MSG_ON_PARSE_RESOURCE_UNZIP_ERROR:
                 showToast(Res.getString("bdar_error_unzip"));
@@ -465,6 +482,10 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
         UiThreadUtil.runOnUiThread(() -> {
         lv_loading.setVisibility(VISIBLE);
         });
+    }
+
+    public void setDuMixSource(DuMixSource duMixSource) {
+        mDuMixSource = duMixSource;
     }
 }
 

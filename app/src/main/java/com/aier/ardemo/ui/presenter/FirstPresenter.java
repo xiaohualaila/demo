@@ -62,7 +62,7 @@ public class FirstPresenter implements FirstContract.Persenter{
                         String city = bean.getIpcity();
                         String result = bean.getResult();
                         String wendu = result.substring(result.lastIndexOf("℃")-2,result.lastIndexOf("℃")+1);
-                        Log.i("sss","+++"+wendu);
+                      //  Log.i("sss","+++"+wendu);
                         view.getWeatherDataSuccess(city,wendu);
                     }
                 } catch (Exception e) {
@@ -92,7 +92,7 @@ public class FirstPresenter implements FirstContract.Persenter{
                     .compose(ResponseTransformer.handleResult())
                     .compose(schedulerProvider.applySchedulers())
                     .subscribe(response -> {
-                        Log.i("sss","------> " + response.toString());
+                     //   Log.i("sss","------> " + response.toString());
                         // 处理数据 直接获取到List<JavaBean> carBeans
                         view.getWenzhangDataSuccess(response);
                     }, throwable -> {

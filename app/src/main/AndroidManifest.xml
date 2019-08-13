@@ -106,9 +106,6 @@
         <meta-data
             android:name="com.baidu.speech.SECRET_KEY"
             android:value="e72ebb6d43387fc7f85205ca7e6706e2"/>
-
-
-
     </application>
 
 </manifest>

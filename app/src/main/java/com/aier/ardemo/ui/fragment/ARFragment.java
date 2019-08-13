@@ -46,6 +46,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -335,8 +336,7 @@ public class ARFragment extends Fragment implements ArContract.View {
                     mDuMixSource.setArKey("000000");
                     mDuMixSource.setArType(mArTpye);
                 }
-                //   mPromptUi.setDuMixSource(mDuMixSource);
-
+                  mPromptUi.setDuMixSource(mDuMixSource);
             }
 
             @Override
@@ -430,8 +430,9 @@ public class ARFragment extends Fragment implements ArContract.View {
             mRecyclerView.setVisibility(View.GONE);
             btn_show_recycview.setVisibility(View.VISIBLE);
             if (mARController != null && !TextUtils.isEmpty(arKey)) {
-                if (current_produce != arKey) {
-                    mARController.switchCase(arKey, 5);
+                 String key = arKey.trim();
+                if (current_produce != key) {
+                    mARController.switchCase(key, 5);
                     current_produce = arKey;
                     mPromptUi.setLoadVisible();
                 }
