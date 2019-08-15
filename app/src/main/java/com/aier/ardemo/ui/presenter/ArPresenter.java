@@ -1,6 +1,7 @@
 package com.aier.ardemo.ui.presenter;
 
-import com.aier.ardemo.bean.ArListBean;
+
+import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.network.response.ResponseTransformer;
 import com.aier.ardemo.network.schedulers.BaseSchedulerProvider;
 import com.aier.ardemo.ui.contract.ArContract;
@@ -51,11 +52,11 @@ public class ArPresenter implements ArContract.Persenter {
                     .subscribe(response -> {
                         //       Log.i("ccc","------> " + response.string());
                         if (response.isSuccess()) {
-                            List ls = response.getData();
+                            List<DataBean> ls = response.getData();
                             if (ls.size() < 9) {
                                 int n = 9 - ls.size();
                                 for (int i = 0; i < n; i++) {
-                                    ls.add(new ArListBean.DataBean());
+                                    ls.add(new DataBean());
                                 }
                             }
                             view.backArList(ls);

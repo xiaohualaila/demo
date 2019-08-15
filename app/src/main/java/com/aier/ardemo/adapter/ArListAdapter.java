@@ -7,19 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
-import com.aier.ardemo.bean.ArListBean;
+import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.utils.ImageUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder> {
-    private List<ArListBean.DataBean> list;
+    private List<DataBean> list;
     private Context mContext;
 
-    public ArListAdapter(Context context, List<ArListBean.DataBean> list) {
+    public ArListAdapter(Context context, List<DataBean> list) {
         this.list = list == null ? new ArrayList<>() : list;
         this.mContext = context;
     }
@@ -39,7 +37,7 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ArListAdapter.ViewHolder holder, int position) {
-        ArListBean.DataBean arModel = list.get(position);
+        DataBean arModel = list.get(position);
         String img_url = arModel.getIcon();
         String ar_name = arModel.getTitle();
         if(img_url == null||img_url.isEmpty()){
@@ -54,13 +52,12 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(list.get(position).getArkey());
+                onItemClickListener.onItemClick(list.get(position));
             }
         });
-
     }
 
-    public void setListData(List<ArListBean.DataBean> mData) {
+    public void setListData(List<DataBean> mData) {
         list.clear();
         this.list = mData;
         notifyDataSetChanged();
@@ -85,7 +82,7 @@ public class ArListAdapter extends RecyclerView.Adapter<ArListAdapter.ViewHolder
 
     //回调接口
     public interface OnItemClickListener {
-        void onItemClick(String position);
+        void onItemClick(DataBean ar);
     }
 
 }

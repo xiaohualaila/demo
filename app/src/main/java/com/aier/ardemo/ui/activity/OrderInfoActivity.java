@@ -34,8 +34,9 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
     ImageView rb_zhifubao;
     @BindView(R.id.addr)
     TextView addr;
-    private String produce_name, style, material, pro_id;
-    private int total, price, pro_num;
+    private String produce_name, style, material;
+    private double total, price;
+    private int pro_num,pro_id;
     private Person person;
 
     private boolean isWeixinPay = true;
@@ -47,12 +48,12 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
         person = GloData.getPerson();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            total = bundle.getInt("total");
-            price = bundle.getInt("price");
+            total = bundle.getDouble("total");
+            price = bundle.getDouble("price");
             produce_name = bundle.getString("name", "");
             style = bundle.getString("style", "");
-            material = bundle.getString("material", "");
-            pro_id = bundle.getString("pro_id", "");
+            material = bundle.getString("desp", "");
+            pro_id = bundle.getInt("pro_id",0);
             pro_num = bundle.getInt("pro_num");
         }
 

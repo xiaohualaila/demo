@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.aier.ardemo.adapter.ArListAdapter;
+import com.aier.ardemo.bean.ArListBean;
+import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
@@ -52,9 +54,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ARFragment extends Fragment implements ArContract.View {
+public class ARFragment extends Fragment implements ArContract.View , View.OnClickListener {
 
     private static final String TAG = "ARFragment";
 
@@ -67,7 +70,8 @@ public class ARFragment extends Fragment implements ArContract.View {
     private GLSurfaceView mArGLSurfaceView;
     private RecyclerView mRecyclerView;
     private TextView tv_order;
-    private ImageView btn_show_recycview;
+    private ImageView btn_show_bottom_view;
+    private LinearLayout ll_bottom;
     /**
      * Prompt View 提示层View
      */
@@ -112,7 +116,8 @@ public class ARFragment extends Fragment implements ArContract.View {
     private String current_produce = "";
     private ArPresenter presenter;
     ArListAdapter mAdapter;
-
+    private boolean isChooseAr = false;
+    private DataBean arModel;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -280,17 +285,33 @@ public class ARFragment extends Fragment implements ArContract.View {
 
         mRecyclerView = mRootView.findViewById(R.id.rv);
         tv_order = mRootView.findViewById(R.id.tv_order);
-        tv_order.setOnClickListener(v -> {
-            ShoppingActivity.starShoppingAc(arActivity, current_produce);
-            arActivity.finish();
-        });
+        tv_order.setOnClickListener(this);
+        btn_show_bottom_view = mRootView.findViewById(R.id.btn_show_bottom_view);
+        btn_show_bottom_view.setOnClickListener(this);
+        ll_bottom =mRootView.findViewById(R.id.ll_bottom);
+        ll_bottom.setOnClickListener(this);
+    }
 
-        btn_show_recycview = mRootView.findViewById(R.id.btn_show_recycview);
-        btn_show_recycview.setOnClickListener(v -> {
-            mRecyclerView.setVisibility(View.VISIBLE);
-            btn_show_recycview.setVisibility(View.GONE);
-            tv_order.setVisibility(View.GONE);
-        });
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.ll_bottom:
+                ll_bottom.setVisibility(View.GONE);
+                btn_show_bottom_view.setVisibility(View.VISIBLE);
+                if(isChooseAr){
+                    tv_order.setVisibility(View.VISIBLE);
+                }
+                break;
+            case R.id.btn_show_bottom_view:
+                ll_bottom.setVisibility(View.VISIBLE);
+                btn_show_bottom_view.setVisibility(View.GONE);
+                tv_order.setVisibility(View.GONE);
+                break;
+            case  R.id.tv_order:
+                ShoppingActivity.starShoppingAc(arActivity, arModel);
+                arActivity.finish();
+                break;
+        }
     }
 
     /**
@@ -425,17 +446,20 @@ public class ARFragment extends Fragment implements ArContract.View {
         mAdapter = new ArListAdapter(arActivity, null);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(arKey -> {
-            tv_order.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.GONE);
-            btn_show_recycview.setVisibility(View.VISIBLE);
-            if (mARController != null && !TextUtils.isEmpty(arKey)) {
-                 String key = arKey.trim();
-                if (current_produce != key) {
+        mAdapter.setOnItemClickListener(ar -> {
+
+            if (mARController != null && !TextUtils.isEmpty(ar.getArkey())) {
+                arModel = ar;
+                String key = ar.getArkey().trim();
+                if (!current_produce.equals(key) ) {
                     mARController.switchCase(key, 5);
-                    current_produce = arKey;
+                    current_produce = key;
                     mPromptUi.setLoadVisible();
                 }
+                tv_order.setVisibility(View.VISIBLE);
+                ll_bottom.setVisibility(View.GONE);
+                btn_show_bottom_view.setVisibility(View.VISIBLE);
+                isChooseAr = true;
             }
         });
     }
@@ -450,4 +474,6 @@ public class ARFragment extends Fragment implements ArContract.View {
     public void backDataFail(String error) {
         ToastyUtil.INSTANCE.showError(error);
     }
+
+
 }

@@ -10,14 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.aier.ardemo.Config;
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ShoppingAdapter;
-import com.aier.ardemo.bean.Goods;
+import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.ui.base.BaseActivity;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
@@ -34,31 +30,19 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     @BindView(R.id.iv_choose)
     ImageView iv_choose;
 
-    private List<Goods> list;
+    private List<DataBean> list;
     private boolean isBuy = true;
-    private int myAmount;
+    private double myAmount;
     private int pro_num;
 
     @Override
     protected void initDate() {
+        list = new ArrayList<>();
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            String ar_key = bundle.getString(Config.AR_KEY);
-            list = new ArrayList();
-            if(ar_key.equals("10302537")){//切换黑胡桃
-                list.add(new Goods("10302537","椅座","中年款","黑胡桃木","黑胡桃木",1800,1,true));
-                list.add(new Goods("10302537","椅背","中年款","黑胡桃木","黑胡桃木",1000,3,true));
-                list.add(new Goods("10302537","扶手","中年款","黑胡桃木","黑胡桃木",1000,2,true));
-            }else if(ar_key.equals("10302518")){
-                list.add(new Goods("10302518","椅座","中年款","白腊木","白腊木",500,1,true));
-                list.add(new Goods("10302518","椅背","中年款","白腊木","白腊木",300,3,true));
-                list.add(new Goods("10302518","木扶手","中年款","白腊木","白腊木",200,2,true));
-            }else {
-                list.add(new Goods("10302527","椅座","中年款","红橡木","红橡木",1100,1,true));
-                list.add(new Goods("10302527","椅背","中年款","红橡木","红橡木",1000,3,true));
-                list.add(new Goods("10302527","扶手","中年款","红橡木","红橡木",900,2,true));
-            }
+            DataBean ar_model = (DataBean) bundle.getSerializable("ar_model");
+            list.add(ar_model);
         }
     }
 
@@ -70,7 +54,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
         //设置RecyclerView管理器
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         //初始化适配器
-        mAdapter = new ShoppingAdapter(list);
+        mAdapter = new ShoppingAdapter(list,this);
         mAdapter.setBackTotalAmountClick(this);
         //设置添加或删除item时的动画，这里使用默认动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -103,20 +87,20 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                 }
                 break;
             case R.id.bt_submit:
-                if(myAmount==0){
+                if(pro_num==0){
                     toastShort("没有要提交的订单！");
                       return;
                 }
 
-                Goods goods = list.get(0);
+                DataBean goods = list.get(0);
                 Intent intent = new Intent(ShoppingActivity.this, OrderInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putInt("total", myAmount);
-                bundle.putInt("price", goods.getPrice());
-                bundle.putString("name", goods.getName());
-                bundle.putString("style", goods.getStyle());
-                bundle.putString("material", goods.getMaterial());
-                bundle.putString("pro_id", goods.getPro_id());
+                bundle.putDouble("total", myAmount);
+                bundle.putDouble("price", goods.getPrice());
+                bundle.putString("name", goods.getTitle());
+                bundle.putString("style", "");
+                bundle.putString("desp", goods.getDesp());
+                bundle.putInt("pro_id", goods.getGid());
                 bundle.putInt("pro_num", pro_num);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -126,17 +110,17 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     }
 
     @Override
-    public void onTotalAmount(int amount,int num) {
+    public void onTotalAmount(double amount,int num) {
         myAmount = amount;
         pro_num = num;
         Log.i("sss","amount" + amount + "num" +num);
         tv_sum.setText("￥"+amount);
     }
 
-    public static final void starShoppingAc(Context context,String ar_key){
+    public static final void starShoppingAc(Context context, DataBean bean){
         Intent intent = new Intent(context, ShoppingActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("ar_key", ar_key);
+        bundle.putSerializable("ar_model",bean);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

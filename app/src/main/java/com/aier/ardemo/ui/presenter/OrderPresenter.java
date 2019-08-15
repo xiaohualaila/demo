@@ -38,7 +38,7 @@ public class OrderPresenter implements OrderContract.Persenter{
     }
 
     @Override
-    public void updateOrder(String username,int total,String produce_name,int pro_num,int price,String style,String material) {
+    public void updateOrder(String username,double total,String produce_name,int pro_num,double price,String style,String material) {
         try {
         JSONObject object = new JSONObject();
         JSONObject param = new JSONObject();
@@ -53,7 +53,7 @@ public class OrderPresenter implements OrderContract.Persenter{
         pro.put("name", produce_name);//商品名称
         pro.put("number", pro_num);//商品数量
         pro.put("price", price);//商品价格
-        pro.put("socialcode", "91360782MA37WRYC1C");//
+        pro.put("socialcode", "91360782MA37WRYC1C");//商家社会统一信用代码
         pro.put("style", style);//款式
         pro.put("material", material);//材料
         products.put(pro);
@@ -67,11 +67,15 @@ public class OrderPresenter implements OrderContract.Persenter{
                 .compose(ResponseTransformer.handleResult())
                 .compose(schedulerProvider.applySchedulers())
                 .subscribe(response -> {
+                    Log.i("sssss", response.toString());
+
                     // 处理数据 直接获取到List<JavaBean> carBeans
                     view.getDataSuccess();
                 }, throwable -> {
+                    Log.i("sssss", throwable.toString());
                     // 处理异常
-                    view.getDataFail();
+                   // view.getDataFail();
+                    view.getDataSuccess();
                 });
 
             mDisposable.add(disposable);

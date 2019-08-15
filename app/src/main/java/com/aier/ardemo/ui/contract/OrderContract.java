@@ -10,7 +10,7 @@ import okhttp3.ResponseBody;
 public class OrderContract {
 
     public interface Persenter {
-        void updateOrder(String username,int total,String produce_name,int pro_num,int price,String style,String material);
+        void updateOrder(String username,double total,String produce_name,int pro_num,double price,String style,String material);
 
     }
 

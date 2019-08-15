@@ -7,7 +7,6 @@ package com.aier.ardemo;
  * AR Config 配置参数
  */
 public class Config {
-
     /**
      * ar key
      */
@@ -22,4 +21,6 @@ public class Config {
      * ar case本地文件
      */
     public static final String AR_FILE = "ar_file";
+
+
 }
