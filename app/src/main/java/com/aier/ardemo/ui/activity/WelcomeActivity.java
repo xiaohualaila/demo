@@ -25,6 +25,7 @@ import com.aier.ardemo.network.URLConstant;
 import com.aier.ardemo.network.request.Request;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
+import com.aier.ardemo.utils.StatusBarUtil;
 import com.aier.ardemo.weight.AppDownload;
 import org.json.JSONObject;
 import java.io.File;
@@ -54,6 +55,12 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     SeekBar seek;
     TextView numProBar;
     String path;
+
+    @Override
+    protected void beforeInit() {
+        super.beforeInit();
+        StatusBarUtil.INSTANCE.setTranslucent(this);
+    }
     @Override
     protected void initDate() {
         Timer time = new Timer();
@@ -67,16 +74,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     @Override
     protected void initViews() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0 全透明状态栏
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4 全透明状态栏
-            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-        }
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
         int width = metric.widthPixels;  // 屏幕宽度（像素）

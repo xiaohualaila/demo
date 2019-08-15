@@ -49,7 +49,6 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     @Override
     protected void initViews() {
         tv_title.setText("购物车");
-
         mRecyclerView = findViewById(R.id.recyclerView);
         //设置RecyclerView管理器
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

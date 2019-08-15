@@ -34,7 +34,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
     ImageView rb_zhifubao;
     @BindView(R.id.addr)
     TextView addr;
-    private String produce_name, style, material;
+    private String pro_name, style, material;
     private double total, price;
     private int pro_num,pro_id;
     private Person person;
@@ -50,7 +50,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
         if (bundle != null) {
             total = bundle.getDouble("total");
             price = bundle.getDouble("price");
-            produce_name = bundle.getString("name", "");
+            pro_name = bundle.getString("name", "");
             style = bundle.getString("style", "");
             material = bundle.getString("desp", "");
             pro_id = bundle.getInt("pro_id",0);
@@ -121,7 +121,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
                     public void onPassFinish(String passContent) {
                         dialog.dismiss();
                         //6位输入完成,回调
-                        presenter.updateOrder(person.getUsername(),total,produce_name,pro_num,price,style,material);
+                        presenter.updateOrder(person.getUsername(),total,pro_name,pro_num,price,style,material);
                     }
 
                     @Override
