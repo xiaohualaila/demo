@@ -4,38 +4,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.opengl.GLSurfaceView
             android:id="@+id/bdar_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <com.aier.ardemo.ui.Prompt
             android:id="@+id/bdar_prompt_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.aier.ardemo.ui.Prompt>
+            android:layout_height="match_parent"></com.aier.ardemo.ui.Prompt>
 
     </FrameLayout>
+
     <TextView
         android:id="@+id/tv_order"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="120dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/ac_bottom_vtn"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:textColor="@color/white"
+        android:background="@drawable/shopping_btn"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="订 购"/>
+        android:text="立即购买"
+        android:textColor="@color/white" />
+
+    <com.aier.ardemo.weight.AddShoppingBtn
+        android:id="@+id/shopping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="30dp" />
+
     <ImageView
         android:id="@+id/btn_show_bottom_view"
         android:layout_width="60dp"
@@ -43,29 +50,33 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/btn_ar_list"/>
+        android:src="@drawable/btn_ar_list" />
+
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/ar_list_bg"
-        android:visibility="gone"
         android:orientation="vertical"
-        android:layout_alignParentBottom="true">
-       <ImageView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_margin="10dp"
-           android:layout_gravity="center"
-           android:src="@drawable/sliding_down"/>
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/sliding_down" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line"/>
+            android:background="@color/line" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="280dp"/>
+            android:layout_height="280dp" />
     </LinearLayout>
 
 </RelativeLayout>

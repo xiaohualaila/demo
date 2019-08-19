@@ -20,6 +20,7 @@ public class DataBean implements Serializable {
     private String updatetime;
     private double price;
     private String desp;
+    private int num;
     private boolean isBuy =true;
     public DataBean() {
     }
@@ -100,5 +101,13 @@ public class DataBean implements Serializable {
 
     public void setBuy(boolean buy) {
         isBuy = buy;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 }

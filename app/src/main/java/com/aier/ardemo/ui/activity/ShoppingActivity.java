@@ -10,12 +10,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ShoppingAdapter;
 import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.utils.SharedPreferencesUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -29,7 +35,8 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     TextView tv_sum;
     @BindView(R.id.iv_choose)
     ImageView iv_choose;
-
+    @BindView(R.id.tv_shopping_num)
+    TextView tv_shopping_num;
     private List<DataBean> list;
     private boolean isBuy = true;
     private double myAmount;
@@ -37,13 +44,17 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
 
     @Override
     protected void initDate() {
-        list = new ArrayList<>();
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            DataBean ar_model = (DataBean) bundle.getSerializable("ar_model");
-            list.add(ar_model);
+
+        String armodels = SharedPreferencesUtil.getString(this, "shoppingData", "shoppings", "");
+         pro_num = SharedPreferencesUtil.getInt(this, "shoppingData", "shopping_num", 0);
+        if (!armodels.isEmpty()) {
+            Gson gson = new Gson();
+            list = gson.fromJson(armodels, new TypeToken<List<DataBean>>() {
+            }.getType());
+        } else {
+            list = new ArrayList<>();
         }
+        tv_shopping_num.setText( "共"+pro_num+"件宝贝");
     }
 
     @Override
@@ -53,7 +64,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
         //设置RecyclerView管理器
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         //初始化适配器
-        mAdapter = new ShoppingAdapter(list,this);
+        mAdapter = new ShoppingAdapter(list, this);
         mAdapter.setBackTotalAmountClick(this);
         //设置添加或删除item时的动画，这里使用默认动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -67,7 +78,7 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
         return R.layout.activity_shop;
     }
 
-    @OnClick({R.id.iv_back,R.id.iv_choose,R.id.bt_submit})
+    @OnClick({R.id.iv_back, R.id.iv_choose, R.id.bt_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -75,20 +86,20 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                 break;
             case R.id.iv_choose:
                 isBuy = !isBuy;
-                for(int i = 0;i<list.size();i++){
+                for (int i = 0; i < list.size(); i++) {
                     list.get(i).setBuy(isBuy);
                 }
                 mAdapter.notifyDataSetChanged();
-                if(isBuy){
+                if (isBuy) {
                     iv_choose.setImageResource(R.drawable.success_pic);
-                }else {
+                } else {
                     iv_choose.setImageResource(R.drawable.not_buy);
                 }
                 break;
             case R.id.bt_submit:
-                if(pro_num==0){
+                if (pro_num == 0) {
                     toastShort("没有要提交的订单！");
-                      return;
+                    return;
                 }
 
                 DataBean goods = list.get(0);
@@ -109,18 +120,20 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
     }
 
     @Override
-    public void onTotalAmount(double amount,int num) {
-        myAmount = amount;
-        pro_num = num;
-        Log.i("sss","amount" + amount + "num" +num);
-        tv_sum.setText("￥"+amount);
+    public void onTotalAmount(double amount,int shopping_num) {
+        myAmount = amount;//总金额
+        pro_num = shopping_num;//总数量
+        Log.i("sss", "amount" + amount + "num" + shopping_num);
+        tv_sum.setText("￥" + amount);
+        tv_shopping_num.setText( "共"+shopping_num+"件宝贝");
+        SharedPreferencesUtil.putInt(mContext, "shoppingData", "shopping_num", shopping_num);
     }
 
-    public static final void starShoppingAc(Context context, DataBean bean){
+    public static final void starShoppingAc(Context context, DataBean bean) {
         Intent intent = new Intent(context, ShoppingActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("ar_model",bean);
-        intent.putExtras(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("ar_model",bean);
+//        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 }

@@ -63,7 +63,7 @@ public class ArPresenter implements ArContract.Persenter {
                         }
                     }, throwable -> {
                         // 处理异常
-                        view.backDataFail(throwable.getMessage());
+                        view.backDataFail("网络请求失败！");
                     });
 
             mDisposable.add(disposable);

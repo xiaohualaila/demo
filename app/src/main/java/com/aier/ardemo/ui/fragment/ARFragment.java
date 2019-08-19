@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.aier.ardemo.adapter.ArListAdapter;
-import com.aier.ardemo.bean.ArListBean;
 import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.ARActivity;
@@ -15,7 +14,9 @@ import com.aier.ardemo.ui.activity.ShoppingActivity;
 import com.aier.ardemo.ui.contract.ArContract;
 import com.aier.ardemo.ui.model.ArModel;
 import com.aier.ardemo.ui.presenter.ArPresenter;
+import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.utils.ToastyUtil;
+import com.aier.ardemo.weight.AddShoppingBtn;
 import com.baidu.ar.ARController;
 import com.baidu.ar.DuMixSource;
 import com.baidu.ar.DuMixTarget;
@@ -32,6 +33,8 @@ import com.aier.ardemo.ui.Prompt;
 import com.aier.ardemo.arview.ARControllerManager;
 import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.Manifest;
 import android.content.Context;
@@ -48,7 +51,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ARFragment extends Fragment implements ArContract.View , View.OnClickListener {
+public class ARFragment extends Fragment implements ArContract.View, View.OnClickListener, AddShoppingBtn.AddShoppingCallBack {
 
     private static final String TAG = "ARFragment";
 
@@ -72,6 +74,7 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
     private TextView tv_order;
     private ImageView btn_show_bottom_view;
     private LinearLayout ll_bottom;
+    private AddShoppingBtn shoppingBtn;
     /**
      * Prompt View 提示层View
      */
@@ -118,6 +121,8 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
     ArListAdapter mAdapter;
     private boolean isChooseAr = false;
     private DataBean arModel;
+    private int shopping_num =0;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -266,9 +271,7 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
     }
 
     private void setupViews() {
-
         mRootView = getActivity().getLayoutInflater().inflate(R.layout.fragment_layout_arui, null);
-
         mArGLSurfaceView = mRootView.findViewById(R.id.bdar_view);
         mArGLSurfaceView.setEGLContextClientVersion(2);
         mARRenderer = new ARRenderer(isScreenOrientationLandscape(mRootView.getContext()));
@@ -288,26 +291,33 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
         tv_order.setOnClickListener(this);
         btn_show_bottom_view = mRootView.findViewById(R.id.btn_show_bottom_view);
         btn_show_bottom_view.setOnClickListener(this);
-        ll_bottom =mRootView.findViewById(R.id.ll_bottom);
+        ll_bottom = mRootView.findViewById(R.id.ll_bottom);
         ll_bottom.setOnClickListener(this);
+        shoppingBtn = mRootView.findViewById(R.id.shopping);
+        shoppingBtn.setCallBack(this);
+        shopping_num = SharedPreferencesUtil.getInt(arActivity, "shoppingData", "shopping_num", 0);
+        shoppingBtn.setNumber(shopping_num);
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_bottom:
                 ll_bottom.setVisibility(View.GONE);
                 btn_show_bottom_view.setVisibility(View.VISIBLE);
-                if(isChooseAr){
+                shoppingBtn.setVisibility(View.VISIBLE);
+             //   if (isChooseAr) {
                     tv_order.setVisibility(View.VISIBLE);
-                }
+            //    }
                 break;
             case R.id.btn_show_bottom_view:
                 ll_bottom.setVisibility(View.VISIBLE);
                 btn_show_bottom_view.setVisibility(View.GONE);
                 tv_order.setVisibility(View.GONE);
+                shoppingBtn.setVisibility(View.GONE);
                 break;
-            case  R.id.tv_order:
+            case R.id.tv_order:
                 ShoppingActivity.starShoppingAc(arActivity, arModel);
                 arActivity.finish();
                 break;
@@ -357,7 +367,7 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
                     mDuMixSource.setArKey("000000");
                     mDuMixSource.setArType(mArTpye);
                 }
-                  mPromptUi.setDuMixSource(mDuMixSource);
+                mPromptUi.setDuMixSource(mDuMixSource);
             }
 
             @Override
@@ -418,7 +428,6 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
             startActivity(new Intent(arActivity, OrderInfoActivity.class));
         }
 
-
         @Override
         public void onBackPressed() {
             getActivity().onBackPressed();
@@ -451,7 +460,7 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
             if (mARController != null && !TextUtils.isEmpty(ar.getArkey())) {
                 arModel = ar;
                 String key = ar.getArkey().trim();
-                if (!current_produce.equals(key) ) {
+                if (!current_produce.equals(key)) {
                     mARController.switchCase(key, 5);
                     current_produce = key;
                     mPromptUi.setLoadVisible();
@@ -459,11 +468,13 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
                 tv_order.setVisibility(View.VISIBLE);
                 ll_bottom.setVisibility(View.GONE);
                 btn_show_bottom_view.setVisibility(View.VISIBLE);
-                isChooseAr = true;
+                shoppingBtn.setVisibility(View.VISIBLE);
+            //    isChooseAr = true;
+            } else {
+                ToastyUtil.INSTANCE.showError("ar key 不能为空！");
             }
         });
     }
-
 
     @Override
     public void backArList(List mData) {
@@ -475,5 +486,40 @@ public class ARFragment extends Fragment implements ArContract.View , View.OnCli
         ToastyUtil.INSTANCE.showError(error);
     }
 
-
+    @Override
+    public void setCallBack() {
+        if (arModel == null) {
+            ToastyUtil.INSTANCE.showInfo("请选择要添加的商品！");
+            return;
+        }
+        boolean isAdd = false;
+        List<DataBean> arModels;
+        String armodels = SharedPreferencesUtil.getString(arActivity, "shoppingData", "shoppings", "");
+        if (armodels.isEmpty()) {
+            arModels = new ArrayList<>();
+            arModel.setNum(1);
+            arModels.add(arModel);
+            shopping_num = 1;
+            SharedPreferencesUtil.putString(arActivity, "shoppingData", "shoppings", new Gson().toJson(arModels));
+            SharedPreferencesUtil.putInt(arActivity, "shoppingData", "shopping_num", shopping_num);
+        } else {
+            Gson gson = new Gson();
+            arModels = gson.fromJson(armodels, new TypeToken<List<DataBean>>() {}.getType());
+            for (DataBean bean : arModels) {
+                if (arModel.getArkey().equals(bean.getArkey())) {
+                    int num = bean.getNum();
+                    bean.setNum(num + 1);
+                    isAdd = true;
+                }
+            }
+            if (!isAdd) {
+                arModel.setNum(1);
+                arModels.add(arModel);
+            }
+            shopping_num += 1;
+        }
+        shoppingBtn.setNumber(shopping_num);
+        SharedPreferencesUtil.putString(arActivity, "shoppingData", "shoppings", new Gson().toJson(arModels));
+        SharedPreferencesUtil.putInt(arActivity, "shoppingData", "shopping_num", shopping_num);
+    }
 }

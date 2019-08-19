@@ -38,8 +38,7 @@
         android:layout_toLeftOf="@+id/bt_submit"
         android:layout_marginRight="10dp"
         android:textColor="@color/blue"
-        android:textSize="18sp"
-        android:text="￥1205"/>
+        android:textSize="18sp" />
     <TextView
         android:id="@+id/bt_submit"
         android:layout_width="80dp"
