@@ -21,18 +21,6 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_order"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="120dp"
-        android:background="@drawable/shopping_btn"
-        android:gravity="center"
-        android:text="立即购买"
-        android:textColor="@color/white" />
 
     <com.aier.ardemo.weight.AddShoppingBtn
         android:id="@+id/shopping"
@@ -41,15 +29,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="10dp" />
 
     <ImageView
         android:id="@+id/btn_show_bottom_view"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/dp20"
         android:src="@drawable/btn_ar_list" />
 
     <LinearLayout

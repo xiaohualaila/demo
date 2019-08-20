@@ -22,5 +22,14 @@ public class Config {
      */
     public static final String AR_FILE = "ar_file";
 
+    /**
+     * 百度AR配置
+     */
+    // 设置App Id
+    public static final String APP_ID = "16021623";
+    // 设置API Key
+    public static final String API_KEY = "ZI0SDxDIWvtMnHvs2scKXC2x";
+    // 设置Secret Key
+    public static final String SECRET_KEY = "ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk";
 
 }

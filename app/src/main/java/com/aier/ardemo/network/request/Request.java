@@ -1,13 +1,12 @@
 package com.aier.ardemo.network.request;
 
 import com.aier.ardemo.bean.ArListBean;
-import com.aier.ardemo.bean.OrderResultBean;
+import com.aier.ardemo.bean.CommonResult;
 import com.aier.ardemo.bean.ResultBean;
 import com.aier.ardemo.bean.YUBAIBean;
 import com.aier.ardemo.network.response.Response;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -37,7 +36,7 @@ public interface Request {
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")
-    Observable<Response<OrderResultBean>> getDataForBody(@Body RequestBody body);//首页文章列表
+    Observable<Response<CommonResult>> getDataForBody(@Body RequestBody body);//首页文章列表
 
 
     @Headers({"Content-Type: application/json","Accept: application/json"})

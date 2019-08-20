@@ -15,6 +15,7 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ShoppingAdapter;
 import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.ui.fragment.ARFragment;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +27,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.BackTotalAmountClick {
+    private static String TAG ="ShoppingActivity";
     @BindView(R.id.tv_title)
     TextView tv_title;
     @BindView(R.id.recyclerView)
@@ -101,19 +103,15 @@ public class ShoppingActivity extends BaseActivity implements ShoppingAdapter.Ba
                     toastShort("没有要提交的订单！");
                     return;
                 }
-
-                DataBean goods = list.get(0);
+                Log.i(TAG,new Gson().toJson(list));
                 Intent intent = new Intent(ShoppingActivity.this, OrderInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putDouble("total", myAmount);
-                bundle.putDouble("price", goods.getPrice());
-                bundle.putString("name", goods.getTitle());
-                bundle.putString("style", "");
-                bundle.putString("desp", goods.getDesp());
-                bundle.putInt("pro_id", goods.getGid());
+                bundle.putDouble("total_price", myAmount);
                 bundle.putInt("pro_num", pro_num);
+                bundle.putString("produces", new Gson().toJson(list));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                ARFragment.closeActivity();
                 finish();
                 break;
         }

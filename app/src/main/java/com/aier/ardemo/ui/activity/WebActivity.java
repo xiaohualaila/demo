@@ -94,7 +94,7 @@ public class WebActivity extends BaseActivity {
     }
 
 
-    public static final void  startToWebAc(Context context,String title,String content,int type){
+    public static final void  startActivity(Context context,String title,String content,int type){
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("codedContent",content);

@@ -4,10 +4,15 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.aier.ardemo.Config;
 import com.aier.ardemo.R;
 import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
@@ -28,6 +33,8 @@ import com.google.zxing.integration.android.IntentResult;
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements BottomView.BottomCallBack {
+    @BindView(R.id.main)
+    ConstraintLayout main;
     @BindView(R.id.bottom_view)
     BottomView bottomView;
     private static String TAG ="MainActivity";
@@ -59,9 +66,9 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
 
     @Override
     protected void initDate() {
-        DuMixARConfig.setAppId("16021623"); // 设置App Id
-        DuMixARConfig.setAPIKey("ZI0SDxDIWvtMnHvs2scKXC2x"); // 设置API Key
-        DuMixARConfig.setSecretKey("ncNvjMB2QpFm6eaU9UGjkNxnk4oPxlIk");    // 设置Secret Key
+        DuMixARConfig.setAppId(Config.APP_ID);
+        DuMixARConfig.setAPIKey(Config.API_KEY);
+        DuMixARConfig.setSecretKey(Config.SECRET_KEY);
         String userData = SharedPreferencesUtil.getString(this, "usersData", "usersData", "");
         if (!TextUtils.isEmpty(userData)) {
             Gson gson = new Gson();
@@ -111,7 +118,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
     }
 
     public void goToWebActivity(String url,String title){
-        WebActivity.startToWebAc(this,title,url,3);
+        WebActivity.startActivity(this,title,url,3);
     }
 
     @Override
@@ -127,7 +134,7 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
                 if(NetUtil.isConnected(mContext)){
                     startActiviys(YubaiActivity.class);
                 }else {
-                    toastLong("网路无法连接请检查网路！");
+                    toastLong(getResources().getString(R.string.network_not_connect));
                 }
                 break;
         }
@@ -158,10 +165,21 @@ public class MainActivity extends BaseActivity implements BottomView.BottomCallB
         if(result != null) {
             if(result.getContents() == null) {
             } else {
-                WebActivity.startToWebAc(this,"南康智能家具产业联盟防伪系统",result.getContents(),1);
+                WebActivity.startActivity(this,"南康智能家具产业联盟防伪系统",result.getContents(),1);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private Long mExitTime = 0L;
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - mExitTime>2000){
+            Snackbar.make(main,"再按一次退出程序哦~", Toast.LENGTH_SHORT).show();
+            mExitTime = System.currentTimeMillis();
+        } else{
+            finish();
         }
     }
 

@@ -210,7 +210,7 @@ public class Prompt extends RelativeLayout implements View.OnClickListener, DuMi
                 if(isFirst){
                     isFirst =false;
                 }else {
-                    ToastyUtil.INSTANCE.showError("模型加载失败！");
+                //    ToastyUtil.INSTANCE.showError("模型加载失败！");
                     UiThreadUtil.runOnUiThread(() -> {
                         lv_loading.setVisibility(GONE);
                     });

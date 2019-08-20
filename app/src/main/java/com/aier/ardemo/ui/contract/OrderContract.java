@@ -1,16 +1,14 @@
 package com.aier.ardemo.ui.contract;
-import com.aier.ardemo.bean.OrderResultBean;
-import com.aier.ardemo.bean.ResultBean;
+import com.aier.ardemo.bean.CommonResult;
 import com.aier.ardemo.network.response.Response;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 public class OrderContract {
 
     public interface Persenter {
-        void updateOrder(String username,double total,String produce_name,int pro_num,double price,String style,String material);
+        void updateOrder(String username,double total,int pro_num,String produces);
 
     }
 
@@ -20,7 +18,7 @@ public class OrderContract {
     }
 
     public interface Model {
-         Observable<Response<OrderResultBean>> updateOrder(RequestBody body);
+         Observable<Response<CommonResult>> updateOrder(RequestBody body);
     }
 
 }

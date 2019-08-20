@@ -71,7 +71,6 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     private View mRootView;
     private GLSurfaceView mArGLSurfaceView;
     private RecyclerView mRecyclerView;
-    private TextView tv_order;
     private ImageView btn_show_bottom_view;
     private LinearLayout ll_bottom;
     private AddShoppingBtn shoppingBtn;
@@ -115,11 +114,10 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     private String mArKey;
     private int mArTpye;
     private String mArFile;
-    private ARActivity arActivity;
+    private static ARActivity arActivity;
     private String current_produce = "";
     private ArPresenter presenter;
     ArListAdapter mAdapter;
-    private boolean isChooseAr = false;
     private DataBean arModel;
     private int shopping_num =0;
 
@@ -186,6 +184,8 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
         if (mPromptUi != null) {
             mPromptUi.resume();
         }
+        shopping_num = SharedPreferencesUtil.getInt(arActivity, "shoppingData", "shopping_num", 0);
+        shoppingBtn.setNumber(shopping_num);
     }
 
     private boolean hasNecessaryPermission() {
@@ -287,17 +287,13 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
         mFragmentContainer.addView(mRootView);
 
         mRecyclerView = mRootView.findViewById(R.id.rv);
-        tv_order = mRootView.findViewById(R.id.tv_order);
-        tv_order.setOnClickListener(this);
+
         btn_show_bottom_view = mRootView.findViewById(R.id.btn_show_bottom_view);
         btn_show_bottom_view.setOnClickListener(this);
         ll_bottom = mRootView.findViewById(R.id.ll_bottom);
         ll_bottom.setOnClickListener(this);
         shoppingBtn = mRootView.findViewById(R.id.shopping);
         shoppingBtn.setCallBack(this);
-        shopping_num = SharedPreferencesUtil.getInt(arActivity, "shoppingData", "shopping_num", 0);
-        shoppingBtn.setNumber(shopping_num);
-
     }
 
     @Override
@@ -307,19 +303,11 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
                 ll_bottom.setVisibility(View.GONE);
                 btn_show_bottom_view.setVisibility(View.VISIBLE);
                 shoppingBtn.setVisibility(View.VISIBLE);
-             //   if (isChooseAr) {
-                    tv_order.setVisibility(View.VISIBLE);
-            //    }
                 break;
             case R.id.btn_show_bottom_view:
                 ll_bottom.setVisibility(View.VISIBLE);
                 btn_show_bottom_view.setVisibility(View.GONE);
-                tv_order.setVisibility(View.GONE);
                 shoppingBtn.setVisibility(View.GONE);
-                break;
-            case R.id.tv_order:
-                ShoppingActivity.starShoppingAc(arActivity, arModel);
-                arActivity.finish();
                 break;
         }
     }
@@ -465,11 +453,10 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
                     current_produce = key;
                     mPromptUi.setLoadVisible();
                 }
-                tv_order.setVisibility(View.VISIBLE);
+
                 ll_bottom.setVisibility(View.GONE);
                 btn_show_bottom_view.setVisibility(View.VISIBLE);
                 shoppingBtn.setVisibility(View.VISIBLE);
-            //    isChooseAr = true;
             } else {
                 ToastyUtil.INSTANCE.showError("ar key 不能为空！");
             }
@@ -521,5 +508,19 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
         shoppingBtn.setNumber(shopping_num);
         SharedPreferencesUtil.putString(arActivity, "shoppingData", "shoppings", new Gson().toJson(arModels));
         SharedPreferencesUtil.putInt(arActivity, "shoppingData", "shopping_num", shopping_num);
+    }
+
+    @Override
+    public void setToBuyCallBack() {
+        if(shopping_num==0){
+            ToastyUtil.INSTANCE.showInfo("请先加入购物车");
+            return;
+        }
+        ShoppingActivity.starShoppingAc(arActivity, arModel);
+                //arActivity.finish();
+    }
+
+    public static void closeActivity(){
+        arActivity.finish();
     }
 }

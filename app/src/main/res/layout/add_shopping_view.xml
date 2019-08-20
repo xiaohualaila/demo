@@ -3,39 +3,55 @@
     android:id="@+id/ll_shopping"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/add_shopping_btn"
+
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_width="50dp"
-        android:layout_height="50dp">
+        android:layout_width="@dimen/dp50"
+        android:layout_height="40dp"
+        android:background="@drawable/add_shopping_btn"
+       >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:scaleType="center"
             android:src="@drawable/shop_car" />
 
         <TextView
             android:id="@+id/shpping_num"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/dot_view"
-            android:gravity="center"
-            android:minWidth="20dp"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:minWidth="15dp"
+            android:textSize="10sp"
             android:textColor="@color/white" />
     </RelativeLayout>
 
 
     <TextView
-        android:id="@+id/add_shopping"
+        android:id="@+id/add_shopp_car"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:background="#D77142"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="   加入购物车   "
+        android:textSize="12sp"
+        android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/tv_buy"
+        android:gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="加入购物车"
-        android:textColor="@color/gray_1" />
-
+        android:layout_height="match_parent"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:background="@drawable/shopping_btn"
+        android:text="   立即购买 "/>
 </LinearLayout>

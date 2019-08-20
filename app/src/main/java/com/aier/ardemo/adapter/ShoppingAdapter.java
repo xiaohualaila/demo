@@ -52,7 +52,6 @@ public class ShoppingAdapter extends RecyclerView.Adapter<ShoppingAdapter.ViewHo
         }
         ImageUtils.image(mContext, goods.getIcon(), holder.iv_goods_img);
 
-      //  shopping_num =shopping_num + goods.getNum();
         holder.tv_name.setText(goods.getTitle());
         holder.tv_desp.setText(goods.getDesp());
         holder.tv_amount.setText("￥" + goods.getPrice());

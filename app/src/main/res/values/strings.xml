@@ -5,4 +5,5 @@
     <string name="viewfinderview_status_text2">即可自动扫描</string>
     <string name="msg_camera_framework_bug">Sorry, the Android camera encountered a problem. You may need to restart the device.</string>
     <string name="button_ok">OK</string>
+    <string name="network_not_connect">网路无法连接请检查网路！</string>
 </resources>

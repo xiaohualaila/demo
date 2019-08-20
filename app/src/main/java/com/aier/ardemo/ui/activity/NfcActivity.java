@@ -70,7 +70,7 @@ public class NfcActivity  extends BaseNfcActivity {
                     NdefRecord record = msgs[0].getRecords()[0];
                     Log.i("sss","ssss textRecord  "+ new String(record.getPayload()));
                     String textRecord = new String(record.getPayload()).trim();
-                    WebActivity.startToWebAc(this,"芯片溯源",textRecord,2);
+                    WebActivity.startActivity(this,"芯片溯源",textRecord,2);
                     finish();
 
                 }

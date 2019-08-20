@@ -17,6 +17,8 @@ import com.aier.ardemo.ui.contract.OrderContract;
 import com.aier.ardemo.ui.model.OrderModel;
 import com.aier.ardemo.ui.presenter.OrderPresenter;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
+import com.google.gson.Gson;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -34,9 +36,9 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
     ImageView rb_zhifubao;
     @BindView(R.id.addr)
     TextView addr;
-    private String pro_name, style, material;
-    private double total, price;
-    private int pro_num,pro_id;
+    private String produces;
+    private double total_price;
+    private int pro_num;
     private Person person;
 
     private boolean isWeixinPay = true;
@@ -48,15 +50,10 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
         person = GloData.getPerson();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            total = bundle.getDouble("total");
-            price = bundle.getDouble("price");
-            pro_name = bundle.getString("name", "");
-            style = bundle.getString("style", "");
-            material = bundle.getString("desp", "");
-            pro_id = bundle.getInt("pro_id",0);
-            pro_num = bundle.getInt("pro_num");
+            total_price = bundle.getDouble("total_price");
+            pro_num= bundle.getInt("pro_num");
+            produces = bundle.getString("produces");
         }
-
     }
 
     @Override
@@ -74,7 +71,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
             person.setUsername("南康家居");
         }
         tv_title.setText("订单信息");
-        tv_total.setText("金额：" + total);
+        tv_total.setText("金额：" + total_price);
     }
 
     @Override
@@ -121,7 +118,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
                     public void onPassFinish(String passContent) {
                         dialog.dismiss();
                         //6位输入完成,回调
-                        presenter.updateOrder(person.getUsername(),total,pro_name,pro_num,price,style,material);
+                        presenter.updateOrder(person.getUsername(),total_price,pro_num,produces);
                     }
 
                     @Override
@@ -148,6 +145,8 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
 
     @Override
     public void getDataSuccess() {
+        SharedPreferencesUtil.putString(mContext, "shoppingData", "shoppings","");
+        SharedPreferencesUtil.putInt(mContext, "shoppingData", "shopping_num", 0);
         startActiviys(PaySuccessActivity.class);
         finish();
     }

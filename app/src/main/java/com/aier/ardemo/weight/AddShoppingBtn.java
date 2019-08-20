@@ -14,8 +14,8 @@ import com.aier.ardemo.R;
 public class AddShoppingBtn extends LinearLayout implements View.OnClickListener {
 
     private AddShoppingCallBack callBack;
-    private TextView shpping_num;
-    private LinearLayout ll_shopping;
+    private TextView shpping_num,tv_buy,add_shopping;
+
 
     public void setCallBack(AddShoppingCallBack callBack) {
         this.callBack = callBack;
@@ -28,11 +28,13 @@ public class AddShoppingBtn extends LinearLayout implements View.OnClickListener
     public AddShoppingBtn(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         View view = LayoutInflater.from(context).inflate(R.layout.add_shopping_view, this);
-
-        ll_shopping = view.findViewById(R.id.ll_shopping);
+        add_shopping= view.findViewById(R.id.add_shopp_car);
+        tv_buy = view.findViewById(R.id.tv_buy);
         shpping_num = view.findViewById(R.id.shpping_num);
-        ll_shopping.setOnClickListener(this);
-        shpping_num.setOnClickListener(this);
+        add_shopping.setOnClickListener(this);
+        tv_buy.setOnClickListener(this);
+
+
     }
 
     /**
@@ -45,13 +47,17 @@ public class AddShoppingBtn extends LinearLayout implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_shopping:
+            case R.id.add_shopp_car:
                 callBack.setCallBack();
+                break;
+            case R.id.tv_buy:
+                callBack.setToBuyCallBack();
                 break;
         }
     }
 
     public interface AddShoppingCallBack {
         void setCallBack();
+        void setToBuyCallBack();
     }
 }
