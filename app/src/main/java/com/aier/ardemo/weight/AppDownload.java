@@ -26,7 +26,7 @@ public class AppDownload {
         DownloadManager.Request request = new DownloadManager.Request( Uri.parse( url ) );
         //指定下载路径和下载文件名
 
-        request.setDestinationInExternalPublicDir( "/zhsq/",  "智慧社区.apk" );
+        request.setDestinationInExternalPublicDir( "/nkjj/",  "南康家居.apk" );
        //获取下载管理器
         downloadManager = (DownloadManager) context.getSystemService( Context.DOWNLOAD_SERVICE );
        //将下载任务加入下载队列，否则不会进行下载

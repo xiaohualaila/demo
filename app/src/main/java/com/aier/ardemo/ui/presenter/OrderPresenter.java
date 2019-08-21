@@ -6,7 +6,6 @@ import com.aier.ardemo.network.response.ResponseTransformer;
 import com.aier.ardemo.network.schedulers.BaseSchedulerProvider;
 import com.aier.ardemo.ui.contract.OrderContract;
 import com.aier.ardemo.ui.model.OrderModel;
-import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;

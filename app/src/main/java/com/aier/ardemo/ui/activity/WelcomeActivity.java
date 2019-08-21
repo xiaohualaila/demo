@@ -3,10 +3,8 @@ package com.aier.ardemo.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -14,35 +12,29 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
+import com.aier.ardemo.bean.VersionResult;
 import com.aier.ardemo.dialog.Apk_dialog;
-import com.aier.ardemo.network.URLConstant;
-import com.aier.ardemo.network.request.Request;
+import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
+import com.aier.ardemo.ui.contract.WelContract;
+import com.aier.ardemo.ui.model.WelcomeModel;
+import com.aier.ardemo.ui.presenter.WelPresenter;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.utils.StatusBarUtil;
 import com.aier.ardemo.weight.AppDownload;
-import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WelcomeActivity extends BaseActivity implements AppDownload.Callback{
+public class WelcomeActivity extends BaseActivity implements AppDownload.Callback, WelContract.View {
     private static String TAG ="WelcomeActivity";
     private static final String[] ALL_PERMISSIONS = new String[] {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -56,6 +48,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     TextView numProBar;
     String path;
 
+    private WelPresenter presenter;
     @Override
     protected void beforeInit() {
         super.beforeInit();
@@ -63,6 +56,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     }
     @Override
     protected void initDate() {
+        presenter = new WelPresenter(new WelcomeModel(),this, SchedulerProvider.getInstance());
         Timer time = new Timer();
         TimerTask tk = new TimerTask() {
             @Override
@@ -112,12 +106,10 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             if (!hasNecessaryPermission()) {
                 ActivityCompat.requestPermissions(this,ALL_PERMISSIONS, 1123);
             }else {
-                isShowGuidance();
-                //checkAppVersion();
+                presenter.checkAppVersion();
             }
         }else {
-               isShowGuidance();
-              //  checkAppVersion();
+                presenter.checkAppVersion();
         }
     }
 
@@ -138,8 +130,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             case 1123: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
-                     isShowGuidance();
-                     //  checkAppVersion();
+                       presenter.checkAppVersion();
                 } else {
                     Log.i(TAG,"权限申请失败！");
                     showMissingPermissionDialog();
@@ -150,57 +141,30 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     }
 
 
-    private void checkAppVersion() {
-        try {
-//            JSONObject obj =new JSONObject();
-//            JSONObject obj1 =new JSONObject();
-//            obj.put("method","NKCLOUDAPI_GETLASTAPP");
-//            obj.put("params",obj1);
-//            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),obj.toString());
-//            Retrofit retrofit = new Retrofit.Builder()
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .baseUrl(URLConstant.BASE_URL_LOCAL)
-//                    .build();
-//            Request service = retrofit.create(Request.class);
-//            Call<ResponseBody> call = service.getDataForBody(body);
-//            call.enqueue(new Callback<ResponseBody>() {
-//                @Override
-//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                    // 已经转换为想要的类型了
-//                    try {
-//                        String str = response.body().string();
-//                        Log.i(TAG,"返回数据 " + str);
-//                        isShowGuidance();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                    t.printStackTrace();
-//                    isShowGuidance();
-//                    Log.i(TAG,"  errorMsg" + t.getMessage());
-//                }
-//            });
-
-        }catch (Exception e){
-            e.getMessage();
-        }
-
-    }
-
-
     private void updataApp(String url) {
-         path = Environment.getExternalStorageDirectory()+"/nkjj/" + "南康家居防伪.apk" ;
+        path = Environment.getExternalStorageDirectory()+"/nkjj/" + "南康家居.apk" ;
+//        File filePath = new File(path);
+//        if(!filePath.exists()){
+//            filePath.mkdirs();
+//        }
+//        File file = new File(path,"南康智能家居.apk");
+//        if(!file.exists()){
+//            try {
+//                file.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        File file = new File(path);
+        if(file.exists()){
+            file.delete();
+        }
         apk_dialog = new Apk_dialog( WelcomeActivity.this );
         if (apk_dialog != null && apk_dialog.isShowing()) {
             return;
         }
-        File file = new File(path);
-        if(file != null){
-            file.delete();
-        }
+
         AppDownload appDownload = new AppDownload();
         appDownload.setProgressInterface(WelcomeActivity.this);
         appDownload.downApk(url, WelcomeActivity.this);
@@ -243,6 +207,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             runOnUiThread(() -> {
                 apk_dialog.dismiss();
                 install(path);
+                Log.i("sss","install ==============");
             });
 
         }else {
@@ -274,5 +239,22 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         }
         intent.setDataAndType( apkUri, "application/vnd.android.package-archive" );
         startActivity( intent );
+    }
+
+    @Override
+    public void updateVer(String url) {
+         Log.i("sss",url);
+        updataApp(url);
+    }
+
+    @Override
+    public void toActivity() {
+        isShowGuidance();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.despose();
     }
 }

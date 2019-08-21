@@ -62,7 +62,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
         if (!TextUtils.isEmpty(address)) {
             addr.setText(address);
         } else {
-            addr.setText("");
+            addr.setText("江西省赣州市南康区家具小镇");
         }
         if (!TextUtils.isEmpty(person.getUsername())) {
             name.setText(person.getUsername());
