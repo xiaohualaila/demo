@@ -2,6 +2,7 @@
 <resources>
     <paths>
         <external-path path="" name="camera_photos" />
+        <external-path path="nkjj" name="app_down" />
     </paths>
 </resources>
 
