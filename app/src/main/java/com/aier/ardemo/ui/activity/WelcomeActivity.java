@@ -207,7 +207,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
             runOnUiThread(() -> {
                 apk_dialog.dismiss();
                 install(path);
-                Log.i("sss","install ==============");
             });
 
         }else {
@@ -243,7 +242,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     @Override
     public void updateVer(String url) {
-         Log.i("sss",url);
         updataApp(url);
     }
 

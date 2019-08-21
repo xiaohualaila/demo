@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:toos="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/apk/res-auto"
     android:background="@color/my_bg"
     android:orientation="vertical">
     <include layout="@layout/title_layout"/>
@@ -12,6 +14,7 @@
         android:padding="5dp"
         android:gravity="start"
         android:layout_margin="10dp"
+        toos:text="赣州市南康区家具小镇"
         android:background="@drawable/border"/>
     <TextView
         android:id="@+id/tv_determine"
@@ -23,5 +26,6 @@
         android:layout_marginLeft="@dimen/dp20"
         android:layout_marginRight="@dimen/dp20"
         android:layout_marginTop="200dp"
+        android:elevation="4dp"
         android:text="确  定"/>
 </LinearLayout>

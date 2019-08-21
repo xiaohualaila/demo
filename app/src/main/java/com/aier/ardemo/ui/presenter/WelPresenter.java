@@ -48,11 +48,10 @@ public class WelPresenter implements WelContract.Persenter{
                     .compose(ResponseTransformer.handleResult())
                     .compose(schedulerProvider.applySchedulers())
                     .subscribe(response -> {
-                        Log.i("sssss", response.toString());
+                //        Log.i("sssss", response.toString());
                         if(response.isSuccess()){
                            VersionResult.DataBean bean = response.getData();
                             String ver =PackageUtil.INSTANCE.getVersionName();
-                            Log.i("sssss", "ver " +ver);
                            if(!bean.getVersion().equals(ver)){
                                view.updateVer(bean.getUrl());
                            }else {

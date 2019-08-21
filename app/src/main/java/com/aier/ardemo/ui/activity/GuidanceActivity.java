@@ -7,6 +7,8 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.SamplePagerAdapter;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.arview.CircleIndicator;
+import com.aier.ardemo.utils.StatusBarUtil;
+
 import butterknife.BindView;
 
 public class GuidanceActivity extends BaseActivity {
@@ -16,7 +18,9 @@ public class GuidanceActivity extends BaseActivity {
     @BindView(R.id.indicator)
     CircleIndicator indicator;
 
-
+    protected void beforeInit(){
+        StatusBarUtil.INSTANCE.setTranslucent(this);
+    }
     @Override
     protected void initViews() {
         viewpager.setAdapter(new SamplePagerAdapter());
