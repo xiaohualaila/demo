@@ -143,19 +143,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
 
     private void updataApp(String url) {
         path = Environment.getExternalStorageDirectory()+"/nkjj/" + "南康家居.apk" ;
-//        File filePath = new File(path);
-//        if(!filePath.exists()){
-//            filePath.mkdirs();
-//        }
-//        File file = new File(path,"南康智能家居.apk");
-//        if(!file.exists()){
-//            try {
-//                file.createNewFile();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-
         File file = new File(path);
         if(file.exists()){
             file.delete();

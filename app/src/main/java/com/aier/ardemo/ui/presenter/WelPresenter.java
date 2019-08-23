@@ -42,6 +42,7 @@ public class WelPresenter implements WelContract.Persenter{
             JSONObject obj =new JSONObject();
             JSONObject obj1 =new JSONObject();
             obj.put("method","NKCLOUDAPI_GETLASTAPP");
+            obj1.put("appname","南康家居防伪");
             obj.put("params",obj1);
             RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), obj.toString());
             Disposable disposable = model.checkAppVersion(body)

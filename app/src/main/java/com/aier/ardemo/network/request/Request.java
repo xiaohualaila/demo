@@ -25,7 +25,7 @@ import retrofit2.http.Query;
 public interface Request {
 
     String HOST = "https://cloud.zq12369.com/nodeapi/";
-   // String HOST = "https://192.168.0.5:3000/nodeapi/";
+
     String YUYIN_URL = "https://api.zq-ai.com/zqcloudapi/v1.0/";//羽白语音
 
     @GET("query")
