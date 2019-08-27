@@ -16,19 +16,14 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
-import com.aier.ardemo.bean.VersionResult;
 import com.aier.ardemo.dialog.Apk_dialog;
-import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.contract.WelContract;
-import com.aier.ardemo.ui.model.WelcomeModel;
 import com.aier.ardemo.ui.presenter.WelPresenter;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.utils.StatusBarUtil;
 import com.aier.ardemo.weight.AppDownload;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -56,7 +51,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     }
     @Override
     protected void initDate() {
-        presenter = new WelPresenter(new WelcomeModel(),this, SchedulerProvider.getInstance());
+        presenter = new WelPresenter(this);
         Timer time = new Timer();
         TimerTask tk = new TimerTask() {
             @Override
@@ -240,6 +235,6 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.despose();
+        presenter.dispose();
     }
 }

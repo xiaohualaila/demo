@@ -3,7 +3,6 @@ package com.aier.ardemo.ui.activity;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
-
 import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.ChatAdapter;
 import com.aier.ardemo.arview.LoadingView;
@@ -22,7 +20,6 @@ import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.DBbean.GroupChatDB;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.bean.YUBAIBean;
-import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.contract.YubaiContract;
 import com.aier.ardemo.ui.presenter.YubaiPresenter;
@@ -79,7 +76,7 @@ public class YubaiActivity extends BaseActivity implements EventListener ,ChatAd
     private YubaiPresenter presenter;
     @Override
     protected void initDate() {
-        presenter = new YubaiPresenter(this, SchedulerProvider.getInstance());
+        presenter = new YubaiPresenter(this);
         tv_title.setText("智能语音助手");
         person = GloData.getPerson();
         list = getData();
@@ -223,7 +220,7 @@ public class YubaiActivity extends BaseActivity implements EventListener ,ChatAd
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        presenter.despose();
+        presenter.dispose();
     }
 
     private void parseAsrPartialJsonData(String data) {

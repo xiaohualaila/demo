@@ -1,48 +1,35 @@
 package com.aier.ardemo.ui.presenter;
 
 import android.util.Log;
+import com.aier.ardemo.bean.CommonResult;
 import com.aier.ardemo.bean.DataBean;
-import com.aier.ardemo.network.response.ResponseTransformer;
-import com.aier.ardemo.network.schedulers.BaseSchedulerProvider;
+import com.aier.ardemo.network.ApiManager;
+import com.aier.ardemo.network.response.Response;
 import com.aier.ardemo.ui.contract.OrderContract;
-import com.aier.ardemo.ui.model.OrderModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.List;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
-public class OrderPresenter implements OrderContract.Persenter{
-
-    private OrderModel model;
+public class OrderPresenter extends BasePresenter implements OrderContract.Persenter{
 
     private OrderContract.View view;
 
-    private BaseSchedulerProvider schedulerProvider;
-
-    private CompositeDisposable mDisposable;
-
-    public OrderPresenter(OrderModel model,
-                          OrderContract.View view,
-                          BaseSchedulerProvider schedulerProvider) {
-        this.model = model;
+    public OrderPresenter(OrderContract.View view) {
         this.view = view;
-        this.schedulerProvider = schedulerProvider;
-        mDisposable = new CompositeDisposable();
-
-    }
-
-    public void despose(){
-        mDisposable.dispose();
     }
 
     @Override
     public void updateOrder(String username,double total,int pro_num,String produces) {
+
         try {
             JSONObject object = new JSONObject();
             object.put("method", "NKCLOUDAPI_UPDATEORDER");
@@ -66,28 +53,41 @@ public class OrderPresenter implements OrderContract.Persenter{
                     products.put(pro);
                 }
             }
-        param.put("products", products);
-        object.put("params", param);
-        Log.i("xxxx object", object.toString());
+            param.put("products", products);
+            object.put("params", param);
+            Log.i("xxxx object", object.toString());
 
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), object.toString());
-        Disposable disposable = model.updateOrder(body)
-                .compose(ResponseTransformer.handleResult())
-                .compose(schedulerProvider.applySchedulers())
-                .subscribe(response -> {
-                    Log.i("sssss", response.toString());
-                    if(response.isSuccess()){
-                        view.getDataSuccess();
-                    }
-                }, throwable -> {
-                    Log.i("sssss", throwable.toString());
-                    // 处理异常
-                    view.getDataFail();
-                });
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), object.toString());
+            ApiManager.getInstence().getCommonService()
+                    .getDataForBody(body)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response<CommonResult>>() {
+                        @Override
+                        public void onError(Throwable e) {
+                            view.getDataFail();
+                        }
 
-            mDisposable.add(disposable);
-       } catch (JSONException e) {
+                        @Override
+                        public void onComplete() {
+                        }
+
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            addDisposable(d);
+                        }
+
+                        @Override
+                        public void onNext(Response<CommonResult> response) {
+//                               Log.i("sssss", response.toString());
+                            if(response.isSuccess()){
+                                view.getDataSuccess();
+                            }
+                        }
+                    });
+
+        } catch (JSONException e) {
             e.printStackTrace();
-       }
+        }
     }
 }

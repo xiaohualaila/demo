@@ -11,14 +11,10 @@ import com.aier.ardemo.bean.GloData;
 import com.aier.ardemo.bean.Person;
 import com.aier.ardemo.dialog.PayPassDialog;
 import com.aier.ardemo.dialog.PayPassView;
-import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.contract.OrderContract;
-import com.aier.ardemo.ui.model.OrderModel;
 import com.aier.ardemo.ui.presenter.OrderPresenter;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
-import com.google.gson.Gson;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -46,7 +42,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
 
     @Override
     protected void initDate() {
-        presenter = new OrderPresenter(new OrderModel(),this, SchedulerProvider.getInstance());
+        presenter = new OrderPresenter(this);
         person = GloData.getPerson();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -159,6 +155,6 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.despose();
+        presenter.dispose();
     }
 }

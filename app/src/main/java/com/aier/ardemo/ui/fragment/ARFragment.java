@@ -4,15 +4,12 @@ package com.aier.ardemo.ui.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import com.aier.ardemo.adapter.ArListAdapter;
 import com.aier.ardemo.bean.DataBean;
-import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
 import com.aier.ardemo.ui.activity.ShoppingActivity;
 import com.aier.ardemo.ui.contract.ArContract;
-import com.aier.ardemo.ui.model.ArModel;
 import com.aier.ardemo.ui.presenter.ArPresenter;
 import com.aier.ardemo.utils.SharedPreferencesUtil;
 import com.aier.ardemo.utils.ToastyUtil;
@@ -57,7 +54,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class ARFragment extends Fragment implements ArContract.View, View.OnClickListener, AddShoppingBtn.AddShoppingCallBack {
 
@@ -166,7 +162,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initRecycView();
-        presenter = new ArPresenter(new ArModel(), this, SchedulerProvider.getInstance());
+        presenter = new ArPresenter(this);
         presenter.getArListData();
     }
 
@@ -230,7 +226,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
             mARController.release();
             mARController = null;
         }
-        presenter.despose();
+        presenter.dispose();
     }
 
     @Override

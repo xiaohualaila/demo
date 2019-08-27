@@ -12,12 +12,10 @@ import com.aier.ardemo.adapter.CourierAdapter;
 import com.aier.ardemo.adapter.ProduceAdapter;
 import com.aier.ardemo.bean.Produces;
 import com.aier.ardemo.bean.ResultBean;
-import com.aier.ardemo.network.schedulers.SchedulerProvider;
 import com.aier.ardemo.ui.activity.MainActivity;
 import com.aier.ardemo.ui.activity.ScanActivity;
 import com.aier.ardemo.ui.base.BaseFragment;
 import com.aier.ardemo.ui.contract.FirstContract;
-import com.aier.ardemo.ui.model.FirstModel;
 import com.aier.ardemo.ui.presenter.FirstPresenter;
 import com.aier.ardemo.utils.NetUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -63,7 +61,7 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     @Override
     protected void init() {
         ac = (MainActivity) getActivity();
-        presenter = new FirstPresenter(new FirstModel(), this, SchedulerProvider.getInstance());
+        presenter = new FirstPresenter( this);
         initData();
     }
 
@@ -191,10 +189,6 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
                    courierAdapter.notifyDataSetChanged();
                    break;
                case 2:
-                   list.clear();
-                   getTab3Data();
-                   courierAdapter.notifyDataSetChanged();
-                   break;
                case 3:
                    list.clear();
                    getTab3Data();
@@ -240,6 +234,6 @@ public class FirstFragment extends BaseFragment implements TabLayout.OnTabSelect
     @Override
     public void onDestroy() {
         super.onDestroy();
-        presenter.despose();
+        presenter.dispose();
     }
 }

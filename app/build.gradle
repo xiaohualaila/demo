@@ -72,6 +72,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-annotations:28.0.0'
     implementation project(':camera')
     implementation project(':tts')
     implementation project(':speech')
@@ -80,10 +81,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:support-annotations:28.0.0'
 
-    //butterknife不是必须
-    implementation 'com.jakewharton:butterknife:7.0.1'
     //开源日志库
     implementation 'com.orhanobut:logger:1.15'
     //导入Gson 库
