@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.aier.ardemo.R;
 
@@ -23,22 +22,15 @@ import com.aier.ardemo.R;
  */
 
 public class DialogFragment extends android.support.v4.app.DialogFragment {
-    private static final String TITLE = "title";
-    private static final String DESCRIPTION = "description";
-    private String title;
-    private String description;
-    private OnDialogButtonClickListener buttonClickListner;
+
+    private OnDialogClickListener buttonClickListner;
     //实现回调功能
-    public interface OnDialogButtonClickListener {
+    public interface OnDialogClickListener {
          void cancelButtonClick();
 
     }
     public static DialogFragment getInstance() {
-//        Bundle bundle = new Bundle();
-//        bundle.putString(TITLE, title);
-//        bundle.putString(DESCRIPTION, description);
         DialogFragment versionDialogFragment = new DialogFragment();
-//        versionDialogFragment.setArguments(bundle);
         return versionDialogFragment;
     }
 
@@ -52,10 +44,11 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
             windowManager.getDefaultDisplay().getMetrics(dm);
             Window win = getDialog().getWindow();
             if (win != null) {
-                win.setLayout((dm.widthPixels * 1), ViewGroup.LayoutParams.WRAP_CONTENT);
+             //   win.setLayout((dm.widthPixels * 1), ViewGroup.LayoutParams.WRAP_CONTENT);
+                win.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 win.setBackgroundDrawableResource(android.R.color.transparent);
                 WindowManager.LayoutParams params = win.getAttributes();
-                params.gravity = Gravity.BOTTOM;
+                params.gravity = Gravity.CENTER;
                 win.setAttributes(params);
             }
         }
@@ -65,12 +58,9 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Bundle bundle = getArguments();
-//        title = bundle.getString(TITLE);
-//        description = bundle.getString(DESCRIPTION);
     }
 
-    public void show(FragmentManager fragmentManager,OnDialogButtonClickListener buttonClickListner) {
+    public void show(FragmentManager fragmentManager,OnDialogClickListener buttonClickListner) {
         this.buttonClickListner = buttonClickListner;
         show(fragmentManager, "VersionDialogFragment");
     }
@@ -82,17 +72,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.dialog_voice, null);
         TextView btn = view.findViewById(R.id.btn);
-        ImageView tv_colse= view.findViewById(R.id.tv_colse);
-
-
-        tv_colse.setOnClickListener(v -> buttonClickListner.cancelButtonClick());
-
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        btn.setOnClickListener(v -> buttonClickListner.cancelButtonClick());
         builder.setView(view);
         return builder.create();
     }

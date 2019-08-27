@@ -5,15 +5,10 @@ import com.aier.ardemo.bean.ArListBean;
 import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.network.ApiManager;
 import com.aier.ardemo.network.response.Response;
-import com.aier.ardemo.network.schedulers.BaseSchedulerProvider;
 import com.aier.ardemo.ui.contract.ArContract;
-import com.aier.ardemo.ui.model.ArModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
-
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

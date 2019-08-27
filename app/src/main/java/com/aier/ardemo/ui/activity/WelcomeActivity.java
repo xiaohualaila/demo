@@ -7,16 +7,19 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import com.aier.ardemo.BuildConfig;
 import com.aier.ardemo.R;
 import com.aier.ardemo.dialog.Apk_dialog;
+import com.aier.ardemo.dialog.DialogFragment;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.ui.contract.WelContract;
 import com.aier.ardemo.ui.presenter.WelPresenter;
@@ -122,7 +125,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case 1123: {
+            case 1123:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Log.i(TAG,"权限申请成功！");
                        presenter.checkAppVersion();
@@ -131,10 +134,18 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
                     showMissingPermissionDialog();
                 }
                 return;
-            }
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 10086:
+                installProcess();
+                return;
+        }
+    }
 
     private void updataApp(String url) {
         path = Environment.getExternalStorageDirectory()+"/nkjj/" + "南康家居.apk" ;
@@ -188,7 +199,7 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         if (progress >= 100) {
             runOnUiThread(() -> {
                 apk_dialog.dismiss();
-                install(path);
+                installProcess();
             });
 
         }else {
@@ -199,13 +210,38 @@ public class WelcomeActivity extends BaseActivity implements AppDownload.Callbac
         }
     }
 
+    //安装应用的流程
+    private void installProcess() {
+        boolean haveInstallPermission;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //先获取是否有安装未知来源应用的权限
+            haveInstallPermission = getPackageManager().canRequestPackageInstalls();
+            if (!haveInstallPermission) {//没有权限
+                DialogFragment.getInstance().show(getSupportFragmentManager(), () -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startInstallPermissionSettingActivity();
+                    }
+                });
+                return;
+            }
+        }
+        //有权限，开始安装应用程序
+        installApk();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startInstallPermissionSettingActivity() {
+        Uri packageURI = Uri.parse("package:" + getPackageName());
+        //注意这个是8.0新API
+        Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+        startActivityForResult(intent, 10086);
+    }
+
     /**
      * 开启安装过程
-     * @param fileName
      */
-    private void install(String fileName) {
-
-        File file = new File(fileName);
+    private void installApk() {
+        File file = new File(path);
         Intent intent = new Intent();
         intent.setAction( Intent.ACTION_VIEW );
         intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
