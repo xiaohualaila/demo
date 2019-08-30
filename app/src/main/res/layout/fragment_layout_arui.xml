@@ -17,7 +17,7 @@
         <com.aier.ardemo.ui.Prompt
             android:id="@+id/bdar_prompt_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.aier.ardemo.ui.Prompt>
+            android:layout_height="match_parent"/>
 
     </FrameLayout>
 
@@ -66,6 +66,19 @@
             android:layout_width="match_parent"
             android:layout_height="280dp" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/child_list"
+        android:layout_width="100dp"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="@dimen/dp60"
+        android:layout_marginLeft="@dimen/dp60"
+        android:visibility="gone"
+        android:background="@drawable/child_list"
+        android:padding="10dp"
+        />
 
 </RelativeLayout>
 

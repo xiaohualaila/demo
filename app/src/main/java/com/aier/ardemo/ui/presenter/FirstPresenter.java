@@ -1,5 +1,7 @@
 package com.aier.ardemo.ui.presenter;
 
+import android.util.Log;
+
 import com.aier.ardemo.bean.ResultBean;
 import com.aier.ardemo.bean.YUBAIBean;
 import com.aier.ardemo.network.ApiManager;
@@ -69,6 +71,7 @@ public class FirstPresenter extends BasePresenter implements FirstContract.Perse
             JSONObject obj1 = new JSONObject();
             object.put("method", "NKCLOUDAPI_GETARTICLIST");
             object.put("params", obj1);
+            //Log.i("sss",object.toString());
             RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), object.toString());
             ApiManager.getInstence().getCommonService()
                     .getWenzhangDataForBody(body)

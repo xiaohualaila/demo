@@ -8,6 +8,7 @@ import com.aier.ardemo.bean.VersionResult;
 import com.aier.ardemo.network.response.Response;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -24,7 +25,6 @@ public interface CommonApi {
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")
     Observable<Response<ArListBean>> getArListData(@Body RequestBody body);//ar模型列表
-
 
     @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("nkcleartext")

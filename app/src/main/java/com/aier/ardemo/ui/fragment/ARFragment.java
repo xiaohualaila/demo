@@ -4,7 +4,9 @@ package com.aier.ardemo.ui.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import com.aier.ardemo.adapter.ArListAdapter;
+import com.aier.ardemo.adapter.ChildAdapter;
 import com.aier.ardemo.bean.DataBean;
 import com.aier.ardemo.ui.activity.ARActivity;
 import com.aier.ardemo.ui.activity.OrderInfoActivity;
@@ -54,8 +56,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
-public class ARFragment extends Fragment implements ArContract.View, View.OnClickListener, AddShoppingBtn.AddShoppingCallBack {
+public class ARFragment extends Fragment implements ArContract.View, View.OnClickListener,
+        AddShoppingBtn.AddShoppingCallBack {
 
     private static final String TAG = "ARFragment";
 
@@ -70,6 +74,8 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     private ImageView btn_show_bottom_view;
     private LinearLayout ll_bottom;
     private AddShoppingBtn shoppingBtn;
+    private ListView mChildListView;
+    private ChildAdapter childAdapter;
     /**
      * Prompt View 提示层View
      */
@@ -115,7 +121,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     private ArPresenter presenter;
     ArListAdapter mAdapter;
     private DataBean arModel;
-    private int shopping_num =0;
+    private int shopping_num = 0;
 
     @Override
     public void onAttach(Context context) {
@@ -163,7 +169,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
         super.onActivityCreated(savedInstanceState);
         initRecycView();
         presenter = new ArPresenter(this);
-        presenter.getArListData();
+        presenter.getArListData(false, "");
     }
 
     @Override
@@ -281,27 +287,31 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
         mPromptUi = mRootView.findViewById(R.id.bdar_prompt_view);
         mPromptUi.setPromptCallback(promptCallback);
         mFragmentContainer.addView(mRootView);
-
         mRecyclerView = mRootView.findViewById(R.id.rv);
-
         btn_show_bottom_view = mRootView.findViewById(R.id.btn_show_bottom_view);
         btn_show_bottom_view.setOnClickListener(this);
         ll_bottom = mRootView.findViewById(R.id.ll_bottom);
         ll_bottom.setOnClickListener(this);
         shoppingBtn = mRootView.findViewById(R.id.shopping);
         shoppingBtn.setCallBack(this);
+        mChildListView = mRootView.findViewById(R.id.child_list);
+        childAdapter = new ChildAdapter(arActivity);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_bottom:
-                ll_bottom.setVisibility(View.GONE);
+                ll_bottom.setVisibility(View.GONE);//隐藏下面列表
+                mChildListView.setVisibility(View.VISIBLE);
                 btn_show_bottom_view.setVisibility(View.VISIBLE);
                 shoppingBtn.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.btn_show_bottom_view:
-                ll_bottom.setVisibility(View.VISIBLE);
+                mChildListView.setVisibility(View.GONE);
+                ll_bottom.setVisibility(View.VISIBLE);//显示下面列表
                 btn_show_bottom_view.setVisibility(View.GONE);
                 shoppingBtn.setVisibility(View.GONE);
                 break;
@@ -453,6 +463,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
                 ll_bottom.setVisibility(View.GONE);
                 btn_show_bottom_view.setVisibility(View.VISIBLE);
                 shoppingBtn.setVisibility(View.VISIBLE);
+                presenter.getArListData(true, ar.getGid() + "");
             } else {
                 ToastyUtil.INSTANCE.showError("ar key 不能为空！");
             }
@@ -467,6 +478,28 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     @Override
     public void backDataFail(String error) {
         ToastyUtil.INSTANCE.showError(error);
+    }
+
+    @Override
+    public void backArChildList(List<DataBean> childList) {
+        if (childList.size() > 0) {
+            mChildListView.setVisibility(View.VISIBLE);
+            childAdapter.setList(childList);
+            mChildListView.setAdapter(childAdapter);
+            childAdapter.setMyOnItemClickListener(new ChildAdapter.MyOnItemClickListener() {
+                @Override
+                public void myOnClick(int position) {
+                    arModel = childList.get(position);
+                    String key = arModel.getArkey().trim();
+                    if (!current_produce.equals(key)) {
+                        mARController.switchCase(key, 5);
+                        current_produce = key;
+                        mPromptUi.setLoadVisible();
+                    }
+                }
+            });
+
+        }
     }
 
     @Override
@@ -487,7 +520,8 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
             SharedPreferencesUtil.putInt(arActivity, "shoppingData", "shopping_num", shopping_num);
         } else {
             Gson gson = new Gson();
-            arModels = gson.fromJson(armodels, new TypeToken<List<DataBean>>() {}.getType());
+            arModels = gson.fromJson(armodels, new TypeToken<List<DataBean>>() {
+            }.getType());
             for (DataBean bean : arModels) {
                 if (arModel.getArkey().equals(bean.getArkey())) {
                     int num = bean.getNum();
@@ -508,15 +542,17 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
 
     @Override
     public void setToBuyCallBack() {
-        if(shopping_num==0){
+        if (shopping_num == 0) {
             ToastyUtil.INSTANCE.showInfo("请先加入购物车");
             return;
         }
         ShoppingActivity.starShoppingAc(arActivity, arModel);
-                //arActivity.finish();
+        //arActivity.finish();
     }
 
-    public static void closeActivity(){
+    public static void closeActivity() {
         arActivity.finish();
     }
+
+
 }

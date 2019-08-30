@@ -13,6 +13,7 @@ public class DataBean implements Serializable {
      */
 
     private int gid;
+    private int pgid;
     private String title;
     private String icon;
     private int displayindex;
@@ -20,6 +21,7 @@ public class DataBean implements Serializable {
     private String updatetime;
     private double price;
     private String desp;
+    private String material;
     private int num;
     private boolean isBuy =true;
     public DataBean() {
@@ -109,5 +111,21 @@ public class DataBean implements Serializable {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public int getPgid() {
+        return pgid;
+    }
+
+    public void setPgid(int pgid) {
+        this.pgid = pgid;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
     }
 }
