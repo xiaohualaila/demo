@@ -7,6 +7,7 @@ import com.aier.ardemo.R;
 import com.aier.ardemo.adapter.SamplePagerAdapter;
 import com.aier.ardemo.ui.base.BaseActivity;
 import com.aier.ardemo.arview.CircleIndicator;
+import com.aier.ardemo.utils.AndroidWorkaround;
 import com.aier.ardemo.utils.StatusBarUtil;
 
 import butterknife.BindView;
@@ -36,6 +37,10 @@ public class GuidanceActivity extends BaseActivity {
                 }
             }
         };
+        // 底部导航栏适配
+        if (AndroidWorkaround.Companion.checkDeviceHasNavigationBar(this)) {
+            AndroidWorkaround.Companion.assistActivity(findViewById(android.R.id.content));
+        }
     }
 
 

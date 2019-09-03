@@ -70,15 +70,14 @@
     <ListView
         android:id="@+id/child_list"
         android:layout_width="100dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/dp60"
-        android:layout_marginLeft="@dimen/dp60"
+        android:layout_marginBottom="@dimen/dp70"
+        android:layout_marginLeft="10dp"
         android:visibility="gone"
         android:background="@drawable/child_list"
-        android:padding="10dp"
-        />
+        android:padding="10dp" />
 
 </RelativeLayout>
 

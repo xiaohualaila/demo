@@ -2,6 +2,7 @@ package com.aier.ardemo.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,7 +40,7 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
 
     private boolean isWeixinPay = true;
     private OrderPresenter presenter;
-
+    private static Handler handler = new Handler();
     @Override
     protected void initDate() {
         presenter = new OrderPresenter(this);
@@ -112,9 +113,12 @@ public class OrderInfoActivity extends BaseActivity implements OrderContract.Vie
                 .setPayClickListener(new PayPassView.OnPayClickListener() {
                     @Override
                     public void onPassFinish(String passContent) {
-                        dialog.dismiss();
-                        //6位输入完成,回调
-                        presenter.updateOrder(person.getUsername(),total_price,pro_num,produces);
+                        handler.postDelayed(() -> {
+                            dialog.dismiss();
+                            //6位输入完成,回调
+                            presenter.updateOrder(person.getUsername(),total_price,pro_num,produces);
+                        },500);
+
                     }
 
                     @Override
