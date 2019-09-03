@@ -4,6 +4,7 @@ package com.aier.ardemo.ui.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import com.aier.ardemo.adapter.ArListAdapter;
 import com.aier.ardemo.adapter.ChildAdapter;
 import com.aier.ardemo.bean.DataBean;
@@ -33,6 +34,7 @@ import com.baidu.ar.util.SystemInfoUtil;
 import com.baidu.ar.util.UiThreadUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -88,8 +90,8 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
      * AR相机管理
      */
     private ARCameraManager mARCameraManager;
-    
-    private boolean  isHaveChild = false ;
+
+    private boolean isHaveChild = false;
 
     /**
      * 需要手动申请的权限
@@ -305,7 +307,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
         switch (v.getId()) {
             case R.id.ll_bottom:
                 ll_bottom.setVisibility(View.GONE);//隐藏下面列表
-                if(isHaveChild){
+                if (isHaveChild) {
                     mChildListView.setVisibility(View.VISIBLE);
                 }
 
@@ -488,7 +490,7 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
     public void backArChildList(List<DataBean> childList) {
         if (childList.size() > 0) {
             mChildListView.setVisibility(View.VISIBLE);
-            isHaveChild = true ;
+            isHaveChild = true;
             childAdapter.setList(childList);
             mChildListView.setAdapter(childAdapter);
             mChildListView.setOnItemClickListener((parent, view, position, id) -> {
@@ -503,8 +505,9 @@ public class ARFragment extends Fragment implements ArContract.View, View.OnClic
                 }
                 childAdapter.changeSelected(position);
             });
-        }else {
-            isHaveChild = false ;
+            childAdapter.changeSelected(0);
+        } else {
+            isHaveChild = false;
         }
     }
 

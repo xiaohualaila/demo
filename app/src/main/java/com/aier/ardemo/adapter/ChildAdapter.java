@@ -14,7 +14,7 @@ import java.util.List;
 public class ChildAdapter extends BaseAdapter {
     List<DataBean> mList = new ArrayList();
     private Context mContext;
-    private int mSelect;   //选中项
+    private int mSelect = 0;   //选中项
 
 
     public ChildAdapter(Context context ) {
